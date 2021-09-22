@@ -1,0 +1,55 @@
+#For new portal here are the current assessments that are 100% ready to move "as is" to the new portal:
+
+1. All Business Continuity modules: BIA, BCP (new risk assessment), Playbooks, Tabletop Exercise, All other functionality related to BCP
+
+2. Facility Risk assessment
+
+3. All SFIA related stuff
+
+4. Cybersecurity Maturity assessment
+
+5. Cloud Maturity assessment
+
+6. IT Management survey
+-------------------------------------------------------------------------
+
+#The following assessments will be REVISED BEFORE we move to new site:
+
+1. IHC
+
+2. MTA
+
+3. DMM
+
+4. CSA
+-------------------------------------------------------------------------
+
+#The following assessments/surveys will NOT be moving:
+
+1. Risk (old risk assessments)
+
+2. ITCL
+
+-------------------------------------------------------------------------
+#The company needs to follow
+1. Country of Essex
+2. Hamilton Catholic School Board
+3. Town of Whitby,
+4. Town of Ajax,
+5. Middlesex Country
+
+#The Assessments based on this company
+    01. BCP 
+    02. BCP Register
+03. BIA
+    04. Cloud Readiness
+    05. Cybersecurity Maturity
+    06. Cybersecurity Maturity Register
+    07. DR Maturity
+    08. DR Maturity Register
+    09. Facility Risk
+    10. Facility Risk Register
+    11. It Management
+12. SFIA
+13. SFIA Register
+
