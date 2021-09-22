@@ -158,12 +158,14 @@ Route::get('sfia-missing-skills', [SfiaController::class, 'missingSkills'])->nam
 
 Route::resource('sfia', SfiaController::class);
 
-Route::resource('sifaTeam', SfiaTeamController::class);
-Route::resource('sifaRole', SfiaRoleController::class);
-Route::resource('sifaUser', SfiaUserController::class);
-Route::resource('teamRole', SfiaTeamRoleController::class);
-Route::resource('roleUser', SfiaRoleUserController::class);
+Route::resource('sfiaTeam', SfiaTeamController::class);
+Route::resource('sfiaRole', SfiaRoleController::class);
+Route::resource('sfiaTeamRole', SfiaTeamRoleController::class);
+Route::resource('sfiaUser', SfiaUserController::class);
+Route::resource('sfiaRoleUser', SfiaRoleUserController::class);
 
+Route::get('/find-sfia-role-by-team/{team_id}', [SfiaTeamRoleController::class, 'findRoleByTeam']);
+Route::get('/find-sfia-user-by-role/{role_id}', [SfiaRoleUserController::class, 'findUserByRole']);
 
 
 

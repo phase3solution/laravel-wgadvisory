@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Company;
 use App\Models\Sfia;
+use App\Models\SfiaRole;
+use App\Models\SfiaTeam;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -25,6 +27,8 @@ class SfiaController extends Controller
     public function assessment($id){
 
         $data['sfia'] = Sfia::with('company')->where('id',$id)->first();
+        $data['sfiaRoles'] = SfiaRole::where('status', 1)->where('company_id',$data['sfia']->company_id)->get();
+        $data['sfiaTeams'] = SfiaTeam::where('status', 1)->where('company_id',$data['sfia']->company_id)->get();
 
         return view('frontend.pages.sfia.assessment', $data);
     }

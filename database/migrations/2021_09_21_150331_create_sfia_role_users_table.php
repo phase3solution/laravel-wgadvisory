@@ -12,6 +12,7 @@ class CreateSfiaRoleUsersTable extends Migration
         Schema::create('sfia_role_users', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('company_id')->nullable();
+            $table->bigInteger('sfia_team_id')->nullable();
             $table->bigInteger('sfia_role_id')->nullable();
             $table->bigInteger('sfia_user_id')->nullable();
             $table->text('description')->nullable();

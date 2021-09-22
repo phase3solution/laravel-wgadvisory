@@ -35,7 +35,7 @@
                         <!--end::Actions-->
                         <img class="menu-icon-thum" src="{{ asset('frontend') }}/assets/media/icons/sfial.png" alt=""
                             style="background-color:#282828;border-radius:8px">
-                        <h5 class="font-weight-bold mt-2 mb-2 mr-5">SFIA Cloud Analysis</h5>
+                        <h5 class="font-weight-bold mt-2 mb-2 mr-5">{{$sfia->name}}</h5>
 
                         <!--end::Page Title-->
                     @endif
@@ -135,9 +135,23 @@
                 <div class="card mt-2">
                     <div class="card-body">
 
+
+
+                        {{-- USER ID --}}
+                        <div class="row">
+
+                            <div class="col-md-12">
+
+                                <h1 style="display: none" class="user_id">ID: <span class="userID">CSM001</span></h1>
+
+                            </div>
+
+                        </div>
+
                         <div class="row">
 
                             <div class="col-sm-6 col-lg-6 col-xxl-8">
+                              
                                 <div class="row">
 
                                     <div class="col-md-3">
@@ -145,35 +159,55 @@
                                                 src="{{ asset('frontend') }}/assets/img/sfia/sfia-logo.png" alt=""
                                                 srcset=""> </a>
                                     </div>
+
+
+                                    {{-- TEAM/GROUP --}}
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label for="team"><img src="{{ asset('frontend') }}/assets/img/sfia/team.png"
-                                                    alt="" srcset=""></label>
+                                            <label for="team"><img src="{{ asset('frontend') }}/assets/img/sfia/team.png" alt="" srcset=""></label>
                                             <select class="form-control" name="select_team" id="team">
                                                 <option value="">Select Team</option>
+                                                @if ($sfiaTeams)
+                                                    @foreach ($sfiaTeams as $sfiaTeam)
+                                                        <option value="{{$sfiaTeam->id}}">{{$sfiaTeam->name}}</option>
+                                                    @endforeach
+                                                @endif
                                             </select>
                                         </div>
-
                                     </div>
+
+
+                                    {{-- ASSIGN ROLE/NAME --}}
                                     <div class="col-md-3">
 
                                         <div class="form-group">
                                             <label for="name"><img src="{{ asset('frontend') }}/assets/img/sfia/name.png"
                                                     alt="" srcset=""></label>
-                                            <select class="form-control" name="select_team" id="name">
+                                            <select class="form-control" name="select_team" disabled id="name">
                                                 <option value="">Select Name</option>
                                             </select>
                                         </div>
 
 
                                     </div>
-                                    <div class="col-md-3">
+
+
+                                    {{-- ALL ROLE/TITLE --}}
+                                    <div style="display: none" class="col-md-3 allRoles">
 
                                         <div class="form-group">
                                             <label for="role"><img src="{{ asset('frontend') }}/assets/img/sfia/role.png"
                                                     alt="" srcset=""></label>
                                             <select class="form-control" name="select_team" id="role">
-                                                <option value="">Select Role</option>
+                                                <option value="">Role/Title</option>
+                                                @if ($sfiaRoles)
+
+                                                    @foreach ($sfiaRoles as $sfiaRole)
+                                                        <option value="{{$sfiaRole->id}}">{{$sfiaRole->name}}</option>
+                                                    @endforeach
+                                                    
+                                                @endif
+
                                             </select>
                                         </div>
 
@@ -181,7 +215,11 @@
                                     </div>
 
                                 </div>
-                                <div class="row">
+
+
+
+
+                                <div class="row descriptionRow" style="display: none">
 
                                     <div class="col-md-10">
                                         <div class="form-group">
@@ -214,37 +252,45 @@
 
                                 </div>
 
-                                        <div class="
-                                            row">
-                                        <div class="col-md-10">
+                                <div class="row" style="display: none">
 
-                                            <div class="row">
-                                                <div class="col-md-4">
-                                                    <label for="skill_fit"> <img
-                                                            src="{{ asset('frontend') }}/assets/img/sfia/skills_fit.png"
-                                                            alt="" srcset=""> </label>
-                                                    <p>72%</p>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <label for="technical_score"> <img
-                                                            src="{{ asset('frontend') }}/assets/img/sfia/technica_score.png"
-                                                            alt="" srcset=""> </label>
-                                                    <p>N/A</p>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <label for="start_edit"> <img
-                                                            src="{{ asset('frontend') }}/assets/img/sfia/start-red.png"
-                                                            alt="" srcset=""> </label>
-                                                </div>
 
+                                    <div class="col-md-10">
+
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <label for="skill_fit"> <img
+                                                        src="{{ asset('frontend') }}/assets/img/sfia/skills_fit.png"
+                                                        alt="" srcset=""> </label>
+                                                <p>72%</p>
                                             </div>
-
-                                        </div>
-                                        <div class="col-md-2">
+                                            <div class="col-md-4">
+                                                <label for="technical_score"> <img
+                                                        src="{{ asset('frontend') }}/assets/img/sfia/technica_score.png"
+                                                        alt="" srcset=""> </label>
+                                                <p>N/A</p>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label for="start_edit"> <img
+                                                        src="{{ asset('frontend') }}/assets/img/sfia/start-red.png"
+                                                        alt="" srcset=""> </label>
+                                            </div>
 
                                         </div>
 
                                     </div>
+
+                                    <div class="col-md-2">
+                                    </div>
+
+                                </div>
+
+
+
+
+
+
+
                                 </div>
 
 
@@ -400,130 +446,135 @@
                 </div>
             </div>
 
-            <div class="card mt-5">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-12">
 
-                            <div class="table-responsive">
-
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th>NO.</th>
-                                            <th>CATEGORY</th>
-                                            <th>SUB-CATEGORY</th>
-                                            <th>SKILL</th>
-                                            <th>CODE</th>
-                                            <th>RANK</th>
-                                            <th>TARGET</th>
-                                            <th>EVALUATION</th>
-                                            <th>ACTIONS</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>Delivery And Operation</td>
-                                            <td>Service Design</td>
-                                            <td>Availa</td>
-                                            <td>AVMT</td>
-                                            <td>Core</td>
-                                            <td>Level 4</td>
-                                            <td>Level 5</td>
-                                            <td>
-                                                <button type="button" class="btn btn-primary"> <i
-                                                        class="fa fa-info"></i> </button>
-                                                <button type="button" class="btn btn-danger"> <i
-                                                        class="fa fa-trash"></i> </button>
-
-                                            </td>
-                                        </tr>
-                                    </tbody>
-
-                                </table>
-
+            <div class="assessmentBody" style="display: none">
+                <div class="card mt-5">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12">
+    
+                                <div class="table-responsive">
+    
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>NO.</th>
+                                                <th>CATEGORY</th>
+                                                <th>SUB-CATEGORY</th>
+                                                <th>SKILL</th>
+                                                <th>CODE</th>
+                                                <th>RANK</th>
+                                                <th>TARGET</th>
+                                                <th>EVALUATION</th>
+                                                <th>ACTIONS</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>Delivery And Operation</td>
+                                                <td>Service Design</td>
+                                                <td>Availa</td>
+                                                <td>AVMT</td>
+                                                <td>Core</td>
+                                                <td>Level 4</td>
+                                                <td>Level 5</td>
+                                                <td>
+                                                    <button type="button" class="btn btn-primary"> <i
+                                                            class="fa fa-info"></i> </button>
+                                                    <button type="button" class="btn btn-danger"> <i
+                                                            class="fa fa-trash"></i> </button>
+    
+                                                </td>
+                                            </tr>
+                                        </tbody>
+    
+                                    </table>
+    
+                                </div>
+    
                             </div>
-
+    
                         </div>
-
+    
                     </div>
-
-                </div>
-                <div class="card-footer">
-                    <div class="row">
-                        <div class="col-md-12 text-right">
-                            <button type="button" class="btn btn-primary"><i class="fa fa-plus"></i> Add
-                                Skill</button>
-                            <button type="button" class="btn btn-success"><i class="fa fa-save"></i> Save</button>
-
+                    <div class="card-footer">
+                        <div class="row">
+                            <div class="col-md-12 text-right">
+                                <button type="button" class="btn btn-primary"><i class="fa fa-plus"></i> Add
+                                    Skill</button>
+                                <button type="button" class="btn btn-success"><i class="fa fa-save"></i> Save</button>
+    
+                            </div>
+    
                         </div>
-
+    
                     </div>
-
+    
                 </div>
-
+    
+                <div class="card mt-5">
+    
+                    <div class="card-body">
+                        <h1 class="card-title">Summary 1</h1>
+                        <div class="row">
+                            <div class="col-md-12">
+    
+                                <div class="form-group">
+                                    <textarea name="" class="form-control" rows="10"></textarea>
+    
+                                </div>
+    
+                            </div>
+    
+                        </div>
+    
+                    </div>
+                    <div class="card-footer">
+                        <div class="row">
+                            <div class="col-md-12 text-right">
+                                <button type="button" class="btn btn-success"><i class="fa fa-save"></i> Save</button>
+    
+                            </div>
+    
+                        </div>
+    
+                    </div>
+    
+                </div>
+    
+                <div class="card mt-5">
+    
+                    <div class="card-body">
+                        <h1 class="card-title">Summary 2</h1>
+                        <div class="row">
+                            <div class="col-md-12">
+    
+                                <div class="form-group">
+                                    <textarea name="" class="form-control" rows="10"></textarea>
+    
+                                </div>
+    
+                            </div>
+    
+                        </div>
+    
+                    </div>
+                    <div class="card-footer">
+                        <div class="row">
+                            <div class="col-md-12 text-right">
+                                <button type="button" class="btn btn-success"><i class="fa fa-save"></i> Save</button>
+    
+                            </div>
+    
+                        </div>
+    
+                    </div>
+    
+                </div>
             </div>
 
-            <div class="card mt-5">
-
-                <div class="card-body">
-                    <h1 class="card-title">Summary 1</h1>
-                    <div class="row">
-                        <div class="col-md-12">
-
-                            <div class="form-group">
-                                <textarea name="" class="form-control" rows="10"></textarea>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-                <div class="card-footer">
-                    <div class="row">
-                        <div class="col-md-12 text-right">
-                            <button type="button" class="btn btn-success"><i class="fa fa-save"></i> Save</button>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="card mt-5">
-
-                <div class="card-body">
-                    <h1 class="card-title">Summary 2</h1>
-                    <div class="row">
-                        <div class="col-md-12">
-
-                            <div class="form-group">
-                                <textarea name="" class="form-control" rows="10"></textarea>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-                <div class="card-footer">
-                    <div class="row">
-                        <div class="col-md-12 text-right">
-                            <button type="button" class="btn btn-success"><i class="fa fa-save"></i> Save</button>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
+           
 
 
 
@@ -738,6 +789,91 @@
 @endsection
 
 @section('script')
+
+<script>
+    $(document).ready(function(){
+
+        $("#team").on('change', function(e){
+            e.preventDefault();
+            var team_id = $(this).val();
+
+            if(team_id){
+
+
+                $.ajax({
+                    url : "{{url('/find-sfia-role-by-team')}}/"+team_id,
+                    type: "GET",
+                    success: function(response){
+                    
+                        $('#name').html(response);
+
+                        $('#name').prop('disabled', false);
+
+                    },
+                    error:function(err){
+                        console.err;
+                    }
+                    
+                })
+            }else{
+                $('#name').prop('disabled', true);
+            }
+
+        })
+
+        $('#name').on('change', function(e){
+            e.preventDefault();
+            var role_id = $(this).val();
+
+            if(role_id){
+
+                $.ajax({
+                    url : "{{url('/find-sfia-user-by-role')}}/"+role_id,
+                    type: "GET",
+                    success: function(response){
+
+                        if(response.status){
+
+                            $('.userID').html(response.userName);
+
+                            $('.user_id').show();
+                            $('.descriptionRow').show();
+                            $('.assessmentBody').show();
+
+
+
+
+                        }else{
+                            console.log(response);
+                        }
+                    
+                       
+
+                       
+                    },
+                    error:function(err){
+                        console.err;
+                    }
+                    
+                })
+
+            }else{
+
+                $('.user_id').hide();
+                $('.descriptionRow').hide();
+                $('.assessmentBody').hide();
+
+            }
+
+        })
+
+
+
+
+
+
+    })
+</script>
 
 
 @endsection
