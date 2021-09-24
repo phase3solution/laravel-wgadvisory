@@ -477,7 +477,7 @@
                                                             <div class="card-header" style="margin-bottom: 15px" role="tab" id="heading{{$key}}">
                                                                 <h5 class="mb-0">
                                                                 <a data-toggle="collapse" href="#collapse{{$key}}{{$sfiaSubcategory->id}}" aria-expanded="true" aria-controls="collapse{{$key}}">
-                                                                    Category: {{$sfiaSubcategory->name}}
+                                                                    Subcategory: {{$sfiaSubcategory->name}}
                                                                     <i class="material-icons">keyboard_arrow_down</i>
                                                                 </a>
                                                                 </h5>
@@ -542,7 +542,7 @@
                                                                                                     @if ($levels)
 
                                                                                                         @foreach ($levels as $i=>$item)
-                                                                                                            <input class="form-control" required name="levelU[{{$sfiaSkill->id}}][]" id="input-level"  type="text" placeholder="{{ __('Levels') }}" value="{{$item}}" />
+                                                                                                            <input class="form-control"  name="levelU[{{$sfiaSkill->id}}][]" id="input-level"  type="text" placeholder="{{ __('Levels') }}" value="{{$item}}" />
                                                                                                         @endforeach
 
                                                                                                     @else 

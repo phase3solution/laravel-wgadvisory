@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\SfiaRoleUser;
 use Illuminate\Http\Request;
 use App\Models\Company;
+use App\Models\SfiaCategory;
 use App\Models\SfiaRole;
 use App\Models\SfiaTeam;
 use App\Models\SfiaUser;
@@ -23,11 +24,18 @@ class SfiaRoleUserController extends Controller
 
         $sfiaRoleUser = SfiaRoleUser::with('company', 'sfiaTeam', 'sfiaRole', 'sfiaUser')->where('status', 1)->where('sfia_role_id', $id)->first();
         
+        $dat['categories'] = SfiaCategory::with(array('sfiaSubcategory'=>function($q1){
+            $q1->with('sfiaSkill')->get();
+        }))->where('status', 1)->where('sfia_id', $id)->get();
+
         if($sfiaRoleUser){
             $data['status'] = true;
             $data['message'] = "Found";
-            $data['userName'] = $sfiaRoleUser->sfiaUser->name;
+            $data['userName'] =  '<h1>ID: '.$sfiaRoleUser->sfiaUser->name.'</h1>';
             $data['userId'] = $sfiaRoleUser->sfia_user_id;
+            $data['notes'] = view('frontend.pages.sfia.load_notes')->render();
+            $data['assessmentBody'] = view('frontend.pages.sfia.load_assessment_body',$dat)->render();
+
             return response()->json($data, 200);
         }else{
             $data['status'] = false;

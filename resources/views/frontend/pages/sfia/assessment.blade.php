@@ -113,19 +113,18 @@
             <div class="container-fluid">
                 <div class="">
                             <!--begin::Container-->
-                            <div class="
-                    container-fluid">
-                    <div class="text-center">
-                        <div class="card mt-1">
-                            <div class="card-body">
-                                <a class="btn btn-lg btn-primary btn-publish bold" href="javascript:;">Publish</a>
-                                <a class="btn btn-lg btn-danger btn-publish bold" href="javascript:;">Reset All</a>
-                                <a class="btn btn-lg btn-warning btn-publish bold" href="javascript:;">Publish All</a>
-                                <a class="btn btn-lg btn-success btn-publish bold" href="javascript:;">Report Preview</a>
+                    <div class="container-fluid">
+                        <div class="text-center">
+                            <div class="card mt-1">
+                                <div class="card-body">
+                                    <a class="btn btn-lg btn-primary btn-publish bold" href="javascript:;">Publish</a>
+                                    <a class="btn btn-lg btn-danger btn-publish bold" href="javascript:;">Reset All</a>
+                                    <a class="btn btn-lg btn-warning btn-publish bold" href="javascript:;">Publish All</a>
+                                    <a class="btn btn-lg btn-success btn-publish bold" href="javascript:;">Report Preview</a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
                 <!--end::Container-->
 
@@ -140,9 +139,8 @@
                         {{-- USER ID --}}
                         <div class="row">
 
-                            <div class="col-md-12">
+                            <div class="col-md-12 load-user">
 
-                                <h1 style="display: none" class="user_id">ID: <span class="userID">CSM001</span></h1>
 
                             </div>
 
@@ -155,9 +153,9 @@
                                 <div class="row">
 
                                     <div class="col-md-3">
-                                        <a href="{{ route('sfia.dashboard', $sfia->id) }}"> <img
-                                                src="{{ asset('frontend') }}/assets/img/sfia/sfia-logo.png" alt=""
-                                                srcset=""> </a>
+                                        <a href="{{ route('sfia.dashboard', $sfia->id) }}"> 
+                                            <img src="{{ asset('frontend') }}/assets/img/sfia/sfia-logo.png" alt="" srcset=""> 
+                                        </a>
                                     </div>
 
 
@@ -217,213 +215,129 @@
                                 </div>
 
 
-
-
-                                <div class="row descriptionRow" style="display: none">
-
-                                    <div class="col-md-10">
-                                        <div class="form-group">
-                                            <label for="notes"><img src="{{ asset('frontend') }}/assets/img/sfia/notes.png"
-                                                    alt="" srcset=""></label>
-
-                                            <textarea class="form-control" name="notes" id="notes" rows="7"></textarea>
-
-                                        </div>
-
-                                    </div>
-
-                                    <div class="col-md-2 text-center">
-                                        <label for="level_desc"><img
-                                                src="{{ asset('frontend') }}/assets/img/sfia/level_desc.png" alt=""
-                                                srcset=""></label>
-
-                                            <select name="level_desc" class="form-control" id="level_desc">
-                                                <option value="1">Level 1 </option>
-                                                <option value="2">Level 2 </option>
-                                                <option value="3">Level 3 </option>
-                                                <option value="4">Level 4 </option>
-                                                <option value="5">Level 5 </option>
-                                                <option value="6">Level 6 </option>
-                                                <option value="7">Level 7 </option>
-
-                                            </select>
-                                            
-                                    </div>
-
+                                <div class="load-notes">
+                                 
                                 </div>
 
-                                <div class="row" style="display: none">
+                               
 
 
-                                    <div class="col-md-10">
+                            </div>
 
+
+
+                            <div class="col-sm-6 col-lg-6 col-xxl-4">
+                                <div class="sticky-right2">
+                
+                                    <div class=" sub-dashboard-titlebar">
                                         <div class="row">
-                                            <div class="col-md-4">
-                                                <label for="skill_fit"> <img
-                                                        src="{{ asset('frontend') }}/assets/img/sfia/skills_fit.png"
-                                                        alt="" srcset=""> </label>
-                                                <p>72%</p>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <label for="technical_score"> <img
-                                                        src="{{ asset('frontend') }}/assets/img/sfia/technica_score.png"
-                                                        alt="" srcset=""> </label>
-                                                <p>N/A</p>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <label for="start_edit"> <img
-                                                        src="{{ asset('frontend') }}/assets/img/sfia/start-red.png"
-                                                        alt="" srcset=""> </label>
-                                            </div>
+                                            <div class="col-sm-12">
+                                                <div class="right-bar it-skill">
+                                                    <div class="row ">
 
-                                        </div>
-
-                                    </div>
-
-                                    <div class="col-md-2">
-                                    </div>
-
-                                </div>
-
-
-
-
-
-
-
-                                </div>
-
-
-
-                                <div class="col-sm-6 col-lg-6 col-xxl-4">
-                                    <div class="sticky-right2">
-                                        <div class="">
-                                                <div class="">
-                    
-                                                        <div class=" sub-dashboard-titlebar">
-                                            <div class="row">
-                                                <div class="col-sm-3">
-                                                    <div class="main-db-thum">
-                                                        {{-- <a href="">
-                                                                        <img src="{{asset('frontend')}}/assets/media/icons/encase-icon.png" alt="">
-                                                                    </a> --}}
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-9">
-                                                    <div class="right-bar it-skill">
-                                                        <div class="row ">
-
-                                                            <div class="col-sm-12 col-xxl-12">
-                                                                <div class="sfia-title-icons text-left">
-                                                                    <div class="item">
-                                                                        <a class="d-flex " href="javascript:;"
-                                                                            data-toggle="modal" data-target="#howItWork">
-                                                                            <img src="{{ asset('frontend') }}/assets/media/icons/information-button.png"
-                                                                                alt="">
-                                                                            <span>How SFIA Works</span>
-                                                                        </a>
-                                                                    </div>
-                                                                    <div class="item">
-                                                                        <a class="d-flex " href="javascript:;"
-                                                                            data-toggle="modal"
-                                                                            data-target="#levelsOfResponsibility">
-                                                                            <img src="{{ asset('frontend') }}/assets/media/icons/user.png"
-                                                                                alt="">
-                                                                            <span>Levels of Responsibility</span>
-                                                                        </a>
-                                                                    </div>
-                                                                    <div class="item">
-                                                                        <a class="d-flex " href="javascript:;"
-                                                                            data-toggle="modal"
-                                                                            data-target="#skillsManagement">
-                                                                            <img src="{{ asset('frontend') }}/assets/media/icons/settings.png"
-                                                                                alt="">
-                                                                            <span>Skills Management</span>
-                                                                        </a>
-                                                                    </div>
+                                                        <div class="col-sm-12 col-xxl-12">
+                                                            <div class="sfia-title-icons text-left">
+                                                                <div class="item">
+                                                                    <a class="d-flex " href="javascript:;"
+                                                                        data-toggle="modal" data-target="#howItWork">
+                                                                        <img src="{{ asset('frontend') }}/assets/media/icons/information-button.png"
+                                                                            alt="">
+                                                                        <span>How SFIA Works</span>
+                                                                    </a>
+                                                                </div>
+                                                                <div class="item">
+                                                                    <a class="d-flex " href="javascript:;"
+                                                                        data-toggle="modal"
+                                                                        data-target="#levelsOfResponsibility">
+                                                                        <img src="{{ asset('frontend') }}/assets/media/icons/user.png"
+                                                                            alt="">
+                                                                        <span>Levels of Responsibility</span>
+                                                                    </a>
+                                                                </div>
+                                                                <div class="item">
+                                                                    <a class="d-flex " href="javascript:;"
+                                                                        data-toggle="modal"
+                                                                        data-target="#skillsManagement">
+                                                                        <img src="{{ asset('frontend') }}/assets/media/icons/settings.png"
+                                                                            alt="">
+                                                                        <span>Skills Management</span>
+                                                                    </a>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-
-
-
                                         </div>
+                                    </div>
 
-                                        <div class="sfia-color-items mt-5">
-                                            <div class="row">
-                                                <div class="col-sm-6">
-                                                    <div class="item d-flex">
-                                                        <div class="color item-one"></div>
-                                                        <div class="txt">
-                                                            <a href="javascript:;" data-toggle="modal"
-                                                                data-target="#strategyAndArchitecture">
-                                                                Strategy and Architecture
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                    <div class="item d-flex">
-                                                        <div class="color item-two"></div>
-                                                        <div class="txt">
-                                                            <a href="javascript:;" data-toggle="modal"
-                                                                data-target="#changeAndTransformation">
-                                                                Change and Transformation
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                    <div class="item d-flex">
-                                                        <div class="color item-three"></div>
-                                                        <div class="txt">
-                                                            <a href="javascript:;" data-toggle="modal"
-                                                                data-target="#developmentAndImplementation">
-                                                                Development and Implementation
-                                                            </a>
-                                                        </div>
+                                    <div class="sfia-color-items mt-5">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="item d-flex">
+                                                    <div class="color item-one"></div>
+                                                    <div class="txt">
+                                                        <a href="javascript:;" data-toggle="modal"
+                                                            data-target="#strategyAndArchitecture">
+                                                            Strategy and Architecture
+                                                        </a>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-6">
-                                                    <div class="item d-flex">
-                                                        <div class="color item-four"></div>
-                                                        <div class="txt">
-                                                            <a href="javascript:;" data-toggle="modal"
-                                                                data-target="#deliveryAndOperation">
-                                                                Delivery and Operation
-                                                            </a>
-                                                        </div>
+                                                <div class="item d-flex">
+                                                    <div class="color item-two"></div>
+                                                    <div class="txt">
+                                                        <a href="javascript:;" data-toggle="modal"
+                                                            data-target="#changeAndTransformation">
+                                                            Change and Transformation
+                                                        </a>
                                                     </div>
-                                                    <div class="item d-flex">
-                                                        <div class="color item-five"></div>
-                                                        <div class="txt">
-                                                            <a href="javascript:;" data-toggle="modal"
-                                                                data-target="#skillAndQuality">
-                                                                Skills and Quality
-                                                            </a>
-                                                        </div>
+                                                </div>
+                                                <div class="item d-flex">
+                                                    <div class="color item-three"></div>
+                                                    <div class="txt">
+                                                        <a href="javascript:;" data-toggle="modal"
+                                                            data-target="#developmentAndImplementation">
+                                                            Development and Implementation
+                                                        </a>
                                                     </div>
-                                                    <div class="item d-flex">
-                                                        <div class="color item-six"></div>
-                                                        <div class="txt">
-                                                            <a href="javascript:;" data-toggle="modal"
-                                                                data-target="#relationshipAndEngasement">
-                                                                Relationships and Engagement
-                                                            </a>
-                                                        </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="item d-flex">
+                                                    <div class="color item-four"></div>
+                                                    <div class="txt">
+                                                        <a href="javascript:;" data-toggle="modal"
+                                                            data-target="#deliveryAndOperation">
+                                                            Delivery and Operation
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="item d-flex">
+                                                    <div class="color item-five"></div>
+                                                    <div class="txt">
+                                                        <a href="javascript:;" data-toggle="modal"
+                                                            data-target="#skillAndQuality">
+                                                            Skills and Quality
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="item d-flex">
+                                                    <div class="color item-six"></div>
+                                                    <div class="txt">
+                                                        <a href="javascript:;" data-toggle="modal"
+                                                            data-target="#relationshipAndEngasement">
+                                                            Relationships and Engagement
+                                                        </a>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-
-
-
-
                                     </div>
+
                                 </div>
                             </div>
-                        </div>
 
-                    </div>
+                        </div>
 
 
 
@@ -447,131 +361,8 @@
             </div>
 
 
-            <div class="assessmentBody" style="display: none">
-                <div class="card mt-5">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-12">
-    
-                                <div class="table-responsive">
-    
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th>NO.</th>
-                                                <th>CATEGORY</th>
-                                                <th>SUB-CATEGORY</th>
-                                                <th>SKILL</th>
-                                                <th>CODE</th>
-                                                <th>RANK</th>
-                                                <th>TARGET</th>
-                                                <th>EVALUATION</th>
-                                                <th>ACTIONS</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>Delivery And Operation</td>
-                                                <td>Service Design</td>
-                                                <td>Availa</td>
-                                                <td>AVMT</td>
-                                                <td>Core</td>
-                                                <td>Level 4</td>
-                                                <td>Level 5</td>
-                                                <td>
-                                                    <button type="button" class="btn btn-primary"> <i
-                                                            class="fa fa-info"></i> </button>
-                                                    <button type="button" class="btn btn-danger"> <i
-                                                            class="fa fa-trash"></i> </button>
-    
-                                                </td>
-                                            </tr>
-                                        </tbody>
-    
-                                    </table>
-    
-                                </div>
-    
-                            </div>
-    
-                        </div>
-    
-                    </div>
-                    <div class="card-footer">
-                        <div class="row">
-                            <div class="col-md-12 text-right">
-                                <button type="button" class="btn btn-primary"><i class="fa fa-plus"></i> Add
-                                    Skill</button>
-                                <button type="button" class="btn btn-success"><i class="fa fa-save"></i> Save</button>
-    
-                            </div>
-    
-                        </div>
-    
-                    </div>
-    
-                </div>
-    
-                <div class="card mt-5">
-    
-                    <div class="card-body">
-                        <h1 class="card-title">Summary 1</h1>
-                        <div class="row">
-                            <div class="col-md-12">
-    
-                                <div class="form-group">
-                                    <textarea name="" class="form-control" rows="10"></textarea>
-    
-                                </div>
-    
-                            </div>
-    
-                        </div>
-    
-                    </div>
-                    <div class="card-footer">
-                        <div class="row">
-                            <div class="col-md-12 text-right">
-                                <button type="button" class="btn btn-success"><i class="fa fa-save"></i> Save</button>
-    
-                            </div>
-    
-                        </div>
-    
-                    </div>
-    
-                </div>
-    
-                <div class="card mt-5">
-    
-                    <div class="card-body">
-                        <h1 class="card-title">Summary 2</h1>
-                        <div class="row">
-                            <div class="col-md-12">
-    
-                                <div class="form-group">
-                                    <textarea name="" class="form-control" rows="10"></textarea>
-    
-                                </div>
-    
-                            </div>
-    
-                        </div>
-    
-                    </div>
-                    <div class="card-footer">
-                        <div class="row">
-                            <div class="col-md-12 text-right">
-                                <button type="button" class="btn btn-success"><i class="fa fa-save"></i> Save</button>
-    
-                            </div>
-    
-                        </div>
-    
-                    </div>
-    
-                </div>
+            <div class="load-assessment-body">
+                
             </div>
 
            
@@ -834,11 +625,9 @@
 
                         if(response.status){
 
-                            $('.userID').html(response.userName);
-
-                            $('.user_id').show();
-                            $('.descriptionRow').show();
-                            $('.assessmentBody').show();
+                            $('.load-user').html(response.userName);
+                            $('.load-notes').html(response.notes);
+                            $('.load-assessment-body').html(response.assessmentBody);
 
 
 
