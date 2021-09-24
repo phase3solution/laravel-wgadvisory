@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Company;
 use App\Models\Sfia;
 use App\Models\SfiaRole;
+use App\Models\SfiaSubcategory;
 use App\Models\SfiaTeam;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -94,10 +95,40 @@ class SfiaController extends Controller
         return view('pages.assessment.sfias.edit', $data);
     }
 
+    public function editSfia($id){
+
+        $data['sfia'] = Sfia::with('company')
+        ->with(array('sfiaCategory'=>function($q1){
+            $q1->with(array('sfiaSubcategory'=>function($q2){
+                $q2->with('sfiaSkill')->get();
+            }))
+            
+            ->get();
+        }))
+        ->where('id', $id)->first();
+
+        $data['sfiaSubCategories'] = SfiaSubcategory::with('sfiaCategory', 'sfiaSkill')->where('sfia_id', $id)->get();
+
+        // return response()->json($data, 200);
+        return view('pages.assessment.sfias.sfia_edit', $data);
+
+    }
+
+    public function addModeSfiaCategory($id){
+        
+    }
+
 
     public function update(Request $request, $id)
     {
+
+
+
         $sfia = Sfia::find($id);
+
+
+        if($sfia){
+
         $sfia->name = $request->name;
         $sfia->slug = Str::slug($request->input('name'), "-");
         $sfia->description = $request->description;
@@ -135,6 +166,17 @@ class SfiaController extends Controller
             $data['message'] = "Update Failed!";
             return response()->json($data, 500);
         }
+
+        }else{
+
+            $data['status'] =false;
+            $data['message'] = "Not Found!";
+            return response()->json($data, 404);
+
+        }
+
+
+        
     }
 
     public function destroy( $id)
