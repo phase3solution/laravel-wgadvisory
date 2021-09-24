@@ -22,14 +22,14 @@
     <ul class="nav">
       <li class="nav-item dashboard {{ $activePage == 'dashboard' ? ' active' : '' }}">
         <a class="nav-link" href="{{ route('home') }}">
-          <i class="material-icons"><img src="/public/backend/img/sidebar-menu-icons/dashboard.png"></i>
+          <i class="material-icons"><img src="{{asset('backend')}}/img/sidebar-menu-icons/dashboard.png"></i>
             <p>{{ __('Dashboard') }}</p>
         </a>
       </li>
 
       <li class="nav-item {{ ($activePage == 'role' || $activePage == 'user' || $activePage == 'createUser' ) ? ' active' : '' }}">
         <a class="nav-link" data-toggle="collapse" href="#laravelExample" aria-expanded="{{ ($activePage == 'role' || $activePage == 'user') ? ' true' : 'false' }}">
-          <i><img style="width:24px" src="/public/backend/img/sidebar-menu-icons/menu-user.png"></i>
+          <i><img style="width:24px" src="{{asset('backend')}}/img/sidebar-menu-icons/menu-user.png"></i>
           <p>{{ __('User Management') }}
             <b class="caret"></b>
           </p>
@@ -39,21 +39,21 @@
 
             <li class="nav-item{{ $activePage == 'createUser' ? ' active' : '' }}">
               <a class="nav-link" href="{{ route('user.create') }}">
-                 <i class="material-icons"><img src="/public/backend/img/sidebar-menu-icons/add-user.png"></i>
+                 <i class="material-icons"><img src="{{asset('backend')}}/img/sidebar-menu-icons/add-user.png"></i>
                 <span class="sidebar-normal"> {{ __('Add User') }} </span>
               </a>
             </li>
 
             <li class="nav-item{{ $activePage == 'user' ? ' active' : '' }}">
               <a class="nav-link" href="{{ route('user.index') }}">
-                 <i class="material-icons"><img src="/public/backend/img/sidebar-menu-icons/user.png"></i>
+                 <i class="material-icons"><img src="{{asset('backend')}}/img/sidebar-menu-icons/user.png"></i>
                 <span class="sidebar-normal"> {{ __('User List') }} </span>
               </a>
             </li>
             @if ($user->role_id == 1 )
             <li class="nav-item{{ $activePage == 'role' ? ' active' : '' }}">
               <a class="nav-link" href="{{ route('role.index') }}">
-                 <i class="material-icons"><img src="/public/backend/img/sidebar-menu-icons/id-card.png"></i>
+                 <i class="material-icons"><img src="{{asset('backend')}}/img/sidebar-menu-icons/id-card.png"></i>
                 <span class="sidebar-normal"> {{ __('Roles') }} </span>
               </a>
             </li>
@@ -66,7 +66,7 @@
       
       <li class="nav-item {{ ($activePage == 'company' || $activePage == 'createCompany' || $activePage == 'assign-user' || $activePage == 'assign-assessment' ) ? ' active' : '' }}">
         <a class="nav-link" data-toggle="collapse" href="#company" aria-expanded="{{ ($activePage == 'company' || $activePage == 'assign-user' || $activePage == 'assign-assessment' ) ? ' true' : 'false' }}">
-          <i><img style="width:24px" src="/public/backend/img/sidebar-menu-icons/suitcase.png"></i>
+          <i><img style="width:24px" src="{{asset('backend')}}/img/sidebar-menu-icons/suitcase.png"></i>
           <p>{{ __('Company') }}
             <b class="caret"></b>
           </p>
@@ -77,28 +77,28 @@
 
             <li class="nav-item{{ $activePage == 'createCompany' ? ' active' : '' }}">
               <a class="nav-link" href="{{ route('company.create') }}">
-                 <i class="material-icons"><img src="/public/backend/img/sidebar-menu-icons/add.png"></i>
+                 <i class="material-icons"><img src="{{asset('backend')}}/img/sidebar-menu-icons/add.png"></i>
                 <span class="sidebar-normal"> {{ __('Add Company') }} </span>
               </a>
             </li>
 
             <li class="nav-item{{ $activePage == 'company' ? ' active' : '' }}">
               <a class="nav-link" href="{{ route('company.index') }}">
-                 <i class="material-icons"><img src="/public/backend/img/sidebar-menu-icons/files.png"></i>
+                 <i class="material-icons"><img src="{{asset('backend')}}/img/sidebar-menu-icons/files.png"></i>
                 <span class="sidebar-normal"> {{ __('Company List') }} </span>
               </a>
             </li>
 
             <li class="nav-item{{ $activePage == 'assign-user' ? ' active' : '' }}">
               <a class="nav-link" href="{{ route('company.assign.user') }}">
-                 <i class="material-icons"><img src="/public/backend/img/sidebar-menu-icons/user_sub.png"></i>
+                 <i class="material-icons"><img src="{{asset('backend')}}/img/sidebar-menu-icons/user_sub.png"></i>
                 <span class="sidebar-normal"> {{ __('Assign User') }} </span>
               </a>
             </li>
 
             <li class="nav-item{{ $activePage == 'assign-assessment' ? ' active' : '' }}">
               <a class="nav-link" href="{{ route('company.assign.assessment') }}">
-                 <i class="material-icons"><img src="/public/backend/img/sidebar-menu-icons/evaluation.png"></i>
+                 <i class="material-icons"><img src="{{asset('backend')}}/img/sidebar-menu-icons/evaluation.png"></i>
                 <span class="sidebar-normal"> {{ __('Assign Assessment') }} </span>
               </a>
             </li>
@@ -111,7 +111,7 @@
       @if ($user->role_id == 1 )
         <li class="nav-item {{ ($activePage == 'assessmentType' || $activePage == 'assessmentLabel') ? ' active' : '' }}">
           <a class="nav-link" data-toggle="collapse" href="#assessmentSettings" aria-expanded="{{ ($activePage == 'role' || $activePage == 'user') ? ' true' : 'false' }}">
-            <i><img style="width:24px" src="/public/backend/img/sidebar-menu-icons/settings.png"></i>
+            <i><img style="width:24px" src="{{asset('backend')}}/img/sidebar-menu-icons/settings.png"></i>
             <p>{{ __('Settings') }}
               <b class="caret"></b>
             </p>
@@ -147,7 +147,7 @@
         
       <li class="nav-item {{ ($activePage == 'assessment') ? ' active' : '' }}">
         <a class="nav-link" data-toggle="collapse" href="#assessment" aria-expanded="{{ ($activePage == 'assessment') ? ' true' : 'false' }}">
-          <i><img style="width:24px" src="/public/backend/img/sidebar-menu-icons/clipboard.png"></i>
+          <i><img style="width:24px" src="{{asset('backend')}}/img/sidebar-menu-icons/clipboard.png"></i>
           <p>{{ __('Assessments') }}
             <b class="caret"></b>
           </p>
