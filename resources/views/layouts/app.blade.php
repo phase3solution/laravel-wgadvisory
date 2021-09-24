@@ -19,9 +19,11 @@
     <link href="{{ asset('backend') }}/css/style.css" rel="stylesheet" />
     <link href="{{ asset('backend') }}/css/custom.css" rel="stylesheet" />
 
-
     @yield('style')
 
+
+
+    
 
     </head>
     <body class="{{ $class ?? '' }}">
