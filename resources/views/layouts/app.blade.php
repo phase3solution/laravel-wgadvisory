@@ -22,6 +22,9 @@
     @yield('style')
 
 
+
+    
+
     </head>
     <body class="{{ $class ?? '' }}">
 
