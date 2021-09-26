@@ -138,6 +138,58 @@
         </li>
       @endif
 
+
+           
+
+      <li class="nav-item {{ ($activePage == 'sfiaTeam' || $activePage == 'sfiaRole' || $activePage == 'sfiaTeamRole' || $activePage == 'sfiaUser' || $activePage == 'sfiaRoleUser') ? ' active' : '' }}">
+        <a class="nav-link" data-toggle="collapse" href="#sfiaSettings" aria-expanded="{{ ($activePage == 'sfiaTeam' || $activePage == 'sfiaRole' || $activePage == 'sfiaTeamRole' || $activePage == 'sfiaUser' || $activePage == 'sfiaRoleUser') ? ' true' : 'false' }}">
+          <i><img style="width:25px" src="{{asset('backend')}}/img/sidebar-menu-icons/settings.png"></i>
+          <p>{{ __('SFIA Settings') }}
+            <b class="caret"></b>
+          </p>
+        </a>
+        <div class="collapse {{ ($activePage == 'sfiaTeam' || $activePage == 'sfiaRole' || $activePage == 'sfiaTeamRole' || $activePage == 'sfiaUser' || $activePage == 'sfiaRoleUser') ? ' show' : '' }}" id="sfiaSettings">
+          <ul class="nav">
+
+            <li class="nav-item{{ $activePage == 'sfiaTeam' ? ' active' : '' }}">
+              <a class="nav-link" href="{{ route('sfiaTeam.index') }}">
+                <i class="material-icons">content_paste</i>
+                  <p>{{ __('SFIA Teams') }}</p>
+              </a>
+            </li>
+
+            <li class="nav-item{{ $activePage == 'sfiaRole' ? ' active' : '' }}">
+              <a class="nav-link" href="{{ route('sfiaRole.index') }}">
+                <i class="material-icons">content_paste</i>
+                  <p>{{ __('SFIA Roles') }}</p>
+              </a>
+            </li>
+
+            <li class="nav-item{{ $activePage == 'sfiaTeamRole' ? ' active' : '' }}">
+              <a class="nav-link" href="{{ route('sfiaTeamRole.index') }}">
+                <i class="material-icons">content_paste</i>
+                  <p>{{ __('Assign Team-Roles') }}</p>
+              </a>
+            </li>
+
+            <li class="nav-item{{ $activePage == 'sfiaUser' ? ' active' : '' }}">
+              <a class="nav-link" href="{{ route('sfiaUser.index') }}">
+                <i class="material-icons">content_paste</i>
+                  <p>{{ __('SFIA Users') }}</p>
+              </a>
+            </li>
+
+            <li class="nav-item{{ $activePage == 'sfiaRoleUser' ? ' active' : '' }}">
+              <a class="nav-link" href="{{ route('sfiaRoleUser.index') }}">
+                <i class="material-icons">content_paste</i>
+                  <p>{{ __('Assign Role-Users') }}</p>
+              </a>
+            </li>
+
+          </ul>
+        </div>
+      </li>
+
      
 
 
@@ -173,6 +225,13 @@
                 <a class="nav-link" href="{{ route('bia.index') }}">
                    <i class="material-icons">content_paste</i>
                   <span class="sidebar-normal"> BIA </span>
+                </a>
+              </li>
+
+              <li class="nav-item {{ $titlePage == "SFIA" ? ' active' : '' }}">
+                <a class="nav-link" href="{{ route('sfia.index') }}">
+                   <i class="material-icons">content_paste</i>
+                  <span class="sidebar-normal"> SFIA </span>
                 </a>
               </li>
 

@@ -130,6 +130,68 @@ class SfiaSkillController extends Controller
         //
     }
 
+    public function skillBySubcategory($subcategory_id){
+        $query = SfiaSkill::where('sfia_subcategory_id', $subcategory_id)->get();
+
+        $html = '<option value="" >Skills</option>';
+
+        if($query){
+
+            foreach($query as $item){
+
+                $html .='<option value="'.$item->id.'">'.$item->name.'</option>';
+
+            }
+
+        }
+
+        return $html;
+
+
+    }
+
+    public function sfiaSkillDetails($skill_id){
+        $query = SfiaSkill::where('id', $skill_id)->first();
+        if($query){
+
+            $targetLevel = '<option value="">Target</option>';
+            $evaluationLevel = '<option value="">Evaluation</option>';
+            $evaluationLevel .= '<option value="0">Missing</option>';
+
+            $queryTargetLevel = json_decode($query->level, true);
+
+            if($queryTargetLevel){
+                foreach($queryTargetLevel as $item){
+                    if($item !=null){
+                        $level = preg_replace('/[^0-9]/', '', $item);
+                        $targetLevel .= '<option value="'.$level.'">'.$item.'</option>';
+                        $evaluationLevel .= '<option value="'.$level.'">'.$item.'</option>';
+                    }
+                }
+            }
+
+
+
+            $data['code'] = $query->code;
+            $data['targetLevel'] = $targetLevel ;
+            $data['evaluationLevel'] =  $evaluationLevel;
+
+        }else{
+            $targetLevel = '<option value="">Target</option>';
+            $evaluationLevel = '<option value="">Evaluation</option>';
+            $evaluationLevel .= '<option value="0">Missing</option>';
+
+            $data['code'] = "";
+            $data['targetLevel'] = $targetLevel;
+            $data['evaluationLevel'] = $evaluationLevel;
+
+        }
+
+        return response()->json($data, 200);
+
+
+    }
+
    
     public function destroy($id)
     {

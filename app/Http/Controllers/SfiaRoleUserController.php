@@ -23,10 +23,12 @@ class SfiaRoleUserController extends Controller
     public function findUserByRole($id){
 
         $sfiaRoleUser = SfiaRoleUser::with('company', 'sfiaTeam', 'sfiaRole', 'sfiaUser')->where('status', 1)->where('sfia_role_id', $id)->first();
-        
+
+
+        $dat['company_id'] =  $sfiaRoleUser->company_id;
         $dat['categories'] = SfiaCategory::with(array('sfiaSubcategory'=>function($q1){
             $q1->with('sfiaSkill')->get();
-        }))->where('status', 1)->where('sfia_id', $id)->get();
+        }))->where('status', 1)->where('company_id', $sfiaRoleUser->company_id)->get();
 
         if($sfiaRoleUser){
             $data['status'] = true;
@@ -44,6 +46,19 @@ class SfiaRoleUserController extends Controller
         }
         
        
+
+    }
+
+    public function addMoreCategories(Request $request){
+
+        $data['categories'] = SfiaCategory::with(array('sfiaSubcategory'=>function($q1){
+            $q1->with('sfiaSkill')->get();
+        }))->where('status', 1)->where('company_id', $request->company_id)->get();
+
+        $data['rowCount'] = $request->row_id;
+
+
+        return view('frontend.pages.sfia.load_add_more', $data);
 
     }
 

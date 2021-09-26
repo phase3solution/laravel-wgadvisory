@@ -27,6 +27,7 @@ use App\Http\Controllers\CybersecurityMaturityResultController;
 use App\Http\Controllers\CybersecurityMaturityRegisterResultController;
 use App\Http\Controllers\SfiaCategoryController;
 use App\Http\Controllers\SfiaController;
+use App\Http\Controllers\SfiaResultController;
 use App\Http\Controllers\SfiaRoleController;
 use App\Http\Controllers\SfiaRoleUserController;
 use App\Http\Controllers\SfiaSkillController;
@@ -170,11 +171,13 @@ Route::get('/delete-sfia-category/{id}', [SfiaCategoryController::class, 'destro
 Route::get('/add-more-sfia-subcategory', [SfiaSubcategoryController::class, 'addMoreSfiaSubcategory']);
 Route::post('/sfia-subcategory-store', [SfiaSubcategoryController::class, 'store']);
 Route::get('/delete-sfia-sub-category/{id}', [SfiaSubcategoryController::class, 'destroy']);
+Route::get('/sfia-subcategory-by-category-id/{category_id}', [SfiaSubcategoryController::class, 'subcategoryByCategory']);
 
 Route::get('/add-more-sfia-skill', [SfiaSkillController::class, 'addMoreSfiaSkill']);
 Route::post('/sfia-skill-store', [SfiaSkillController::class, 'store']);
 Route::get('/delete-sfia-skill/{id}', [SfiaSkillController::class, 'destroy']);
-
+Route::get('/sfia-skill-by-subcategory-id/{subcategory_id}', [SfiaSkillController::class, 'skillBySubcategory' ]);
+Route::get('/sfia-skill-details-by-id/{id}', [SfiaSkillController::class, 'sfiaSkillDetails']);
 
 
 
@@ -186,6 +189,9 @@ Route::resource('sfiaRoleUser', SfiaRoleUserController::class);
 
 Route::get('/find-sfia-role-by-team/{team_id}', [SfiaTeamRoleController::class, 'findRoleByTeam']);
 Route::get('/find-sfia-user-by-role/{role_id}', [SfiaRoleUserController::class, 'findUserByRole']);
+Route::get('/find-sfia-add-more-categories', [SfiaRoleUserController::class, 'addMoreCategories']);
+
+Route::resource('sfiaResult', SfiaResultController::class);
 
 
 

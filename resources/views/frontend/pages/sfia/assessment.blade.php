@@ -1,5 +1,46 @@
 @extends('frontend.master')
 
+@section('styles')
+
+<style>
+
+ 
+    .sfia-color-1 td:nth-child(1), 
+    .sfia-color-1 td:nth-child(2), 
+    .sfia-color-1 td:nth-child(3),
+    .sfia-color-1 td:nth-child(4),
+    .sfia-color-1 td:nth-child(5) {
+        background-color:#e5164c !important;
+    }
+
+    .sfia-color-2{
+        background-color:  #ce4f96 !important;
+    }
+
+    .sfia-color-3{
+        background-color: #ffdc5d !important;
+    }
+
+    .sfia-color-4{
+        background-color: #bd6817 !important;
+    }
+
+    .sfia-color-5{
+        background-color: #169ad7 !important;
+    }
+
+    .sfia-color-7{
+        background-color: #0f9742 !important;
+    }
+
+
+
+
+</style>
+    
+@endsection
+
+
 @section('content')
 
     @include('frontend.layouts.sidebar_user')
@@ -132,136 +173,145 @@
 
 
                 <div class="card mt-2">
-                    <div class="card-body">
+
+                    <form id="sfiaResultForm1" method="post">
+                        @csrf
+
+                        <input type="hidden" name="company_id" value="{{$sfia->company_id}}">
+                        <input type="hidden" name="sfia_id" value="{{$sfia->id}}">
 
 
 
-                        {{-- USER ID --}}
-                        <div class="row">
+                        <div class="card-body">
 
-                            <div class="col-md-12 load-user">
+                            {{-- USER ID --}}
+                            <div class="row user_id">
 
+                                <div class="col-md-12 load-user">
+
+                                </div>
+
+                                <input type="hidden" class="sfia_user_id" name="sfia_user_id" value="">
 
                             </div>
 
-                        </div>
+                            <div class="row">
 
-                        <div class="row">
+                                <div class="col-sm-6 col-lg-6 col-xxl-8">
+                                
+                                    <div class="row">
 
-                            <div class="col-sm-6 col-lg-6 col-xxl-8">
-                              
-                                <div class="row">
-
-                                    <div class="col-md-3">
-                                        <a href="{{ route('sfia.dashboard', $sfia->id) }}"> 
-                                            <img src="{{ asset('frontend') }}/assets/img/sfia/sfia-logo.png" alt="" srcset=""> 
-                                        </a>
-                                    </div>
-
-
-                                    {{-- TEAM/GROUP --}}
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label for="team"><img src="{{ asset('frontend') }}/assets/img/sfia/team.png" alt="" srcset=""></label>
-                                            <select class="form-control" name="select_team" id="team">
-                                                <option value="">Select Team</option>
-                                                @if ($sfiaTeams)
-                                                    @foreach ($sfiaTeams as $sfiaTeam)
-                                                        <option value="{{$sfiaTeam->id}}">{{$sfiaTeam->name}}</option>
-                                                    @endforeach
-                                                @endif
-                                            </select>
-                                        </div>
-                                    </div>
-
-
-                                    {{-- ASSIGN ROLE/NAME --}}
-                                    <div class="col-md-3">
-
-                                        <div class="form-group">
-                                            <label for="name"><img src="{{ asset('frontend') }}/assets/img/sfia/name.png"
-                                                    alt="" srcset=""></label>
-                                            <select class="form-control" name="select_team" disabled id="name">
-                                                <option value="">Select Name</option>
-                                            </select>
+                                        <div class="col-md-3">
+                                            <a href="{{ route('sfia.dashboard', $sfia->id) }}"> 
+                                                <img src="{{ asset('frontend') }}/assets/img/sfia/sfia-logo.png" alt="" srcset=""> 
+                                            </a>
                                         </div>
 
 
-                                    </div>
-
-
-                                    {{-- ALL ROLE/TITLE --}}
-                                    <div style="display: none" class="col-md-3 allRoles">
-
-                                        <div class="form-group">
-                                            <label for="role"><img src="{{ asset('frontend') }}/assets/img/sfia/role.png"
-                                                    alt="" srcset=""></label>
-                                            <select class="form-control" name="select_team" id="role">
-                                                <option value="">Role/Title</option>
-                                                @if ($sfiaRoles)
-
-                                                    @foreach ($sfiaRoles as $sfiaRole)
-                                                        <option value="{{$sfiaRole->id}}">{{$sfiaRole->name}}</option>
-                                                    @endforeach
-                                                    
-                                                @endif
-
-                                            </select>
+                                        {{-- TEAM/GROUP --}}
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="team"><img src="{{ asset('frontend') }}/assets/img/sfia/team.png" alt="" srcset=""></label>
+                                                <select class="form-control" name="sfia_team_id" required id="team">
+                                                    <option value="">Select Team</option>
+                                                    @if ($sfiaTeams)
+                                                        @foreach ($sfiaTeams as $sfiaTeam)
+                                                            <option value="{{$sfiaTeam->id}}">{{$sfiaTeam->name}}</option>
+                                                        @endforeach
+                                                    @endif
+                                                </select>
+                                            </div>
                                         </div>
 
 
+                                        {{-- ASSIGN ROLE/NAME --}}
+                                        <div class="col-md-3">
+
+                                            <div class="form-group">
+                                                <label for="name"><img src="{{ asset('frontend') }}/assets/img/sfia/name.png"
+                                                        alt="" srcset=""></label>
+                                                <select class="form-control" required name="sfia_name_role_id" disabled id="name">
+                                                    <option value="">Select Name</option>
+                                                </select>
+                                            </div>
+
+
+                                        </div>
+
+
+                                        {{-- ALL ROLE/TITLE --}}
+                                        <div style="display: none"  class="col-md-3 allRoles">
+
+                                            <div class="form-group">
+                                                <label for="role"><img src="{{ asset('frontend') }}/assets/img/sfia/role.png"
+                                                        alt="" srcset=""></label>
+                                                <select class="form-control" name="sfia_title_role_id" id="role">
+                                                    <option value="">Role/Title</option>
+                                                    @if ($sfiaRoles)
+
+                                                        @foreach ($sfiaRoles as $sfiaRole)
+                                                            <option value="{{$sfiaRole->id}}">{{$sfiaRole->name}}</option>
+                                                        @endforeach
+                                                        
+                                                    @endif
+
+                                                </select>
+                                            </div>
+
+
+                                        </div>
+
                                     </div>
+
+
+                                    <div class="load-notes descriptionRow">
+                                    
+                                    </div>
+
+                                
+
 
                                 </div>
 
 
-                                <div class="load-notes">
-                                 
-                                </div>
 
-                               
+                                <div class="col-sm-6 col-lg-6 col-xxl-4">
+                                    <div class="sticky-right2">
+                    
+                                        <div class=" sub-dashboard-titlebar">
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <div class="right-bar it-skill">
+                                                        <div class="row ">
 
-
-                            </div>
-
-
-
-                            <div class="col-sm-6 col-lg-6 col-xxl-4">
-                                <div class="sticky-right2">
-                
-                                    <div class=" sub-dashboard-titlebar">
-                                        <div class="row">
-                                            <div class="col-sm-12">
-                                                <div class="right-bar it-skill">
-                                                    <div class="row ">
-
-                                                        <div class="col-sm-12 col-xxl-12">
-                                                            <div class="sfia-title-icons text-left">
-                                                                <div class="item">
-                                                                    <a class="d-flex " href="javascript:;"
-                                                                        data-toggle="modal" data-target="#howItWork">
-                                                                        <img src="{{ asset('frontend') }}/assets/media/icons/information-button.png"
-                                                                            alt="">
-                                                                        <span>How SFIA Works</span>
-                                                                    </a>
-                                                                </div>
-                                                                <div class="item">
-                                                                    <a class="d-flex " href="javascript:;"
-                                                                        data-toggle="modal"
-                                                                        data-target="#levelsOfResponsibility">
-                                                                        <img src="{{ asset('frontend') }}/assets/media/icons/user.png"
-                                                                            alt="">
-                                                                        <span>Levels of Responsibility</span>
-                                                                    </a>
-                                                                </div>
-                                                                <div class="item">
-                                                                    <a class="d-flex " href="javascript:;"
-                                                                        data-toggle="modal"
-                                                                        data-target="#skillsManagement">
-                                                                        <img src="{{ asset('frontend') }}/assets/media/icons/settings.png"
-                                                                            alt="">
-                                                                        <span>Skills Management</span>
-                                                                    </a>
+                                                            <div class="col-sm-12 col-xxl-12">
+                                                                <div class="sfia-title-icons text-left">
+                                                                    <div class="item">
+                                                                        <a class="d-flex " href="javascript:;"
+                                                                            data-toggle="modal" data-target="#howItWork">
+                                                                            <img src="{{ asset('frontend') }}/assets/media/icons/information-button.png"
+                                                                                alt="">
+                                                                            <span>How SFIA Works</span>
+                                                                        </a>
+                                                                    </div>
+                                                                    <div class="item">
+                                                                        <a class="d-flex " href="javascript:;"
+                                                                            data-toggle="modal"
+                                                                            data-target="#levelsOfResponsibility">
+                                                                            <img src="{{ asset('frontend') }}/assets/media/icons/user.png"
+                                                                                alt="">
+                                                                            <span>Levels of Responsibility</span>
+                                                                        </a>
+                                                                    </div>
+                                                                    <div class="item">
+                                                                        <a class="d-flex " href="javascript:;"
+                                                                            data-toggle="modal"
+                                                                            data-target="#skillsManagement">
+                                                                            <img src="{{ asset('frontend') }}/assets/media/icons/settings.png"
+                                                                                alt="">
+                                                                            <span>Skills Management</span>
+                                                                        </a>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -269,99 +319,98 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
 
-                                    <div class="sfia-color-items mt-5">
-                                        <div class="row">
-                                            <div class="col-sm-6">
-                                                <div class="item d-flex">
-                                                    <div class="color item-one"></div>
-                                                    <div class="txt">
-                                                        <a href="javascript:;" data-toggle="modal"
-                                                            data-target="#strategyAndArchitecture">
-                                                            Strategy and Architecture
-                                                        </a>
+                                        <div class="sfia-color-items mt-5">
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <div class="item d-flex">
+                                                        <div class="color item-one"></div>
+                                                        <div class="txt">
+                                                            <a href="javascript:;" data-toggle="modal"
+                                                                data-target="#strategyAndArchitecture">
+                                                                Strategy and Architecture
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="item d-flex">
+                                                        <div class="color item-two"></div>
+                                                        <div class="txt">
+                                                            <a href="javascript:;" data-toggle="modal"
+                                                                data-target="#changeAndTransformation">
+                                                                Change and Transformation
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="item d-flex">
+                                                        <div class="color item-three"></div>
+                                                        <div class="txt">
+                                                            <a href="javascript:;" data-toggle="modal"
+                                                                data-target="#developmentAndImplementation">
+                                                                Development and Implementation
+                                                            </a>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="item d-flex">
-                                                    <div class="color item-two"></div>
-                                                    <div class="txt">
-                                                        <a href="javascript:;" data-toggle="modal"
-                                                            data-target="#changeAndTransformation">
-                                                            Change and Transformation
-                                                        </a>
+                                                <div class="col-sm-6">
+                                                    <div class="item d-flex">
+                                                        <div class="color item-four"></div>
+                                                        <div class="txt">
+                                                            <a href="javascript:;" data-toggle="modal"
+                                                                data-target="#deliveryAndOperation">
+                                                                Delivery and Operation
+                                                            </a>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="item d-flex">
-                                                    <div class="color item-three"></div>
-                                                    <div class="txt">
-                                                        <a href="javascript:;" data-toggle="modal"
-                                                            data-target="#developmentAndImplementation">
-                                                            Development and Implementation
-                                                        </a>
+                                                    <div class="item d-flex">
+                                                        <div class="color item-five"></div>
+                                                        <div class="txt">
+                                                            <a href="javascript:;" data-toggle="modal"
+                                                                data-target="#skillAndQuality">
+                                                                Skills and Quality
+                                                            </a>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <div class="item d-flex">
-                                                    <div class="color item-four"></div>
-                                                    <div class="txt">
-                                                        <a href="javascript:;" data-toggle="modal"
-                                                            data-target="#deliveryAndOperation">
-                                                            Delivery and Operation
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                                <div class="item d-flex">
-                                                    <div class="color item-five"></div>
-                                                    <div class="txt">
-                                                        <a href="javascript:;" data-toggle="modal"
-                                                            data-target="#skillAndQuality">
-                                                            Skills and Quality
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                                <div class="item d-flex">
-                                                    <div class="color item-six"></div>
-                                                    <div class="txt">
-                                                        <a href="javascript:;" data-toggle="modal"
-                                                            data-target="#relationshipAndEngasement">
-                                                            Relationships and Engagement
-                                                        </a>
+                                                    <div class="item d-flex">
+                                                        <div class="color item-six"></div>
+                                                        <div class="txt">
+                                                            <a href="javascript:;" data-toggle="modal"
+                                                                data-target="#relationshipAndEngasement">
+                                                                Relationships and Engagement
+                                                            </a>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
 
+                                    </div>
                                 </div>
+
                             </div>
 
                         </div>
 
+                        <div class="card-footer">
+                            <div class="row">
+                                <div class="col-md-6 text-left">
+                                    <button type="button" class="btn btn-primary"> <i class="fa fa-plus"></i> Add User</button>
 
+                                </div>
 
-                </div>
+                                <div class="col-md-6 text-right">
+                                    <button type="submit" disabled class="btn btn-success form-one-save-btn"> <i class="fa fa-save"></i> Save</button>
+                                </div>
 
-                <div class="card-footer">
-                    <div class="row">
-                        <div class="col-md-6 text-left">
-                            <button class="btn btn-primary"> <i class="fa fa-plus"></i> Add User</button>
+                            </div>
 
                         </div>
 
-                        <div class="col-md-6 text-right">
-                            <button class="btn btn-success"> <i class="fa fa-save"></i> Save</button>
-
-                        </div>
-
-                    </div>
+                    </form>
 
                 </div>
-            </div>
 
 
-            <div class="load-assessment-body">
+            <div class="load-assessment-body assessmentBody">
                 
             </div>
 
@@ -622,12 +671,20 @@
                     url : "{{url('/find-sfia-user-by-role')}}/"+role_id,
                     type: "GET",
                     success: function(response){
+                            $('.user_id').show();
+                            $('.descriptionRow').show();
+                            $('.assessmentBody').show();
+                            $('.allRoles').show();
 
                         if(response.status){
 
                             $('.load-user').html(response.userName);
+                            $('.sfia_user_id').val(response.userId);
                             $('.load-notes').html(response.notes);
                             $('.load-assessment-body').html(response.assessmentBody);
+                            $('.form-one-save-btn').prop('disabled', false);
+
+                           
 
 
 
@@ -649,10 +706,53 @@
             }else{
 
                 $('.user_id').hide();
+                $('.allRoles').hide();
                 $('.descriptionRow').hide();
                 $('.assessmentBody').hide();
+                $('.form-one-save-btn').prop('disabled', true);
 
             }
+
+        })
+
+
+
+
+        $('#sfiaResultForm1').on('submit', function(e){
+            e.preventDefault();
+
+            var formData = $(this).serialize();
+
+            $.ajax({
+                type: "post",
+                url: "{{route('sfiaResult.store')}}",
+                data: formData,
+                success:function(response){
+
+                    const Toast = Swal.mixin({
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000
+                        });
+
+                        Toast.fire({
+                            type: 'success',
+                            title: response.message
+                        })
+
+
+                        // setTimeout(function() {
+                        //     location.reload();
+                        // }, 2000)
+
+                },
+                error:function(err){
+                    console.log(err);
+                }
+            })
+
+
 
         })
 
@@ -662,6 +762,31 @@
 
 
     })
+
+    var rowCount = 1;
+    function addMoreCategories(company_id){
+
+        rowCount = rowCount+1;
+
+
+        $.ajax({
+            url : "{{url('/find-sfia-add-more-categories')}}",
+            type: "GET",
+            data:{
+                company_id : company_id,
+                row_id : rowCount
+            },
+            success: function(response){
+                $('.categoriesTable').append(response);
+            },
+            error:function(err){
+                console.err;
+            }
+        })
+
+    }
+
+
 </script>
 
 

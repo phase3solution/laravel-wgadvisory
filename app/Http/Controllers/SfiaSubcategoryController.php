@@ -119,6 +119,24 @@ class SfiaSubcategoryController extends Controller
         //
     }
 
+    public function subcategoryByCategory($category_id){
+        $query = SfiaSubcategory::where('sfia_category_id', $category_id)->get();
+
+        $html = '<option value="">Subcategory</option>';
+
+        if($query){
+
+            foreach($query as $item){
+                $html .= '<option value="'.$item->id.'">'.$item->name.'</option>';
+            }
+
+        }
+
+
+        return $html;
+
+    }
+
    
     public function destroy($id)
     {

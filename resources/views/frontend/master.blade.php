@@ -39,13 +39,16 @@
 
         <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
 
-        @yield('styles')
         <!--end::Global Theme Styles-->
         <!--begin::Layout Themes(used by all pages)-->
         <!--end::Layout Themes-->
 
         <link rel="stylesheet" href="{{ asset('frontend/assets/css/area.css') }}">
         <script src="https://cdn.ckeditor.com/ckeditor5/27.0.0/classic/ckeditor.js"></script>
+
+
+        @yield('styles')
+
 
     </head>
     <!--end::Head-->
@@ -109,6 +112,11 @@
         @include('frontend.layouts.partials.quick_switch_user')
         
         
+
+        <script type="text/javascript">
+            var APP_URL = {!! json_encode(url('/')) !!}
+        </script>
+
         <!--end::Demo Panel-->
         {{-- <script>var HOST_URL = "{{ route('quick-search') }}";</script> --}}
         <!--begin::Global Config(global config for global JS scripts)-->
@@ -136,6 +144,7 @@
         <script src="{{ asset('frontend/assets/js/jquery.mCustomScrollbar.concat.min.js') }}"></script>
         <script src="{{ asset('frontend/assets/js/custom.js') }}"></script>
         <script src="{{ asset('frontend/assets/js/mtaRegister.js')}}"></script>
+        <script src="{{asset('frontend/ajax.js')}}"></script>
         <!--end::Page Scripts-->
         @yield('script')
 

@@ -19,51 +19,54 @@
                                 <th>ACTIONS</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody class="categoriesTable">
 
                            
 
-                            <tr>
+                            <tr class="row-new-1">
                                 <td>1</td>
                                 <td>
-                                    <select name="category_id" class="form-control category">
+                                    <select name="category_id" onchange="newCategoryChange(1)"  class="form-control new-category-1">
                                         <option value="">Category</option>
                                         @if ($categories)
 
                                             @foreach ($categories as $category)
-                                                <option value="">{{$category->name}}</option>
+                                                <option value="{{$category->id}}">{{$category->name}}</option>
                                             @endforeach
                                             
                                         @endif
                                     </select>
                                 </td>
                                 <td>
-                                    <select name="subcategory_id" disabled class="form-control subcategory">
+                                    <select name="subcategory_id" onchange="newSubcategoryChange(1)" disabled class="form-control new-subcategory-1">
                                         <option value="">Subcategory</option>
                                     </select>
                                 </td>
                                 <td>
-                                    <select name="skill_id" disabled class="form-control skill">
+                                    <select name="skill_id" onchange="newSkillChange(1)" disabled class="form-control new-skill-1">
                                         <option value="">Skills</option>
                                     </select>
                                 </td>
                                 <td>
-                                    <span class="code"></span>
+                                    <span class="new-code-1"></span>
                                 </td>
                                 <td>
-                                    <select name="rank" class="form-control rand">
+                                    {{-- onchange="newRankChange(1)" --}}
+                                    <select name="rank"  class="form-control rank new-rank-1">
                                         <option value="core">Core</option>
                                         <option value="contributor">Contributor</option>
                                         <option value="awarness">Awarness</option>
                                     </select>
                                 </td>
                                 <td>
-                                    <select name="target" disabled class="form-control target">
+                                    {{-- onchange="newTargetChange(1)" --}}
+                                    <select name="target"  disabled class="form-control target new-target-1">
                                         <option value="">Target</option>
                                     </select>
                                 </td>
                                 <td>
-                                    <select name="evaluation" disabled class="form-control target">
+                                    {{-- onchange="newEvaluationChange(1)" --}}
+                                    <select name="evaluation"   disabled class="form-control evaluation new-evaluation-1">
                                         <option value="">Evaluation</option>
                                     </select>
                                 </td>
@@ -71,7 +74,7 @@
                                     <button type="button" disabled class="btn btn-primary"> 
                                         <i class="fa fa-info"></i> 
                                     </button>
-                                    <button type="button" class="btn btn-danger"> 
+                                    <button type="button" onclick="newRemoveThisCategories(1)" class="btn btn-danger"> 
                                         <i class="fa fa-trash"></i> 
                                     </button>
                                 </td>
@@ -93,7 +96,7 @@
     <div class="card-footer">
         <div class="row">
             <div class="col-md-12 text-right">
-                <button type="button" class="btn btn-primary"><i class="fa fa-plus"></i> Add
+                <button type="button" onclick="addMoreCategories({{$company_id}})" class="btn btn-primary"><i class="fa fa-plus"></i> Add
                     Skill</button>
                 <button type="button" class="btn btn-success"><i class="fa fa-save"></i> Save</button>
 
@@ -113,7 +116,7 @@
             <div class="col-md-12">
 
                 <div class="form-group">
-                    <textarea name="" class="form-control" rows="10"></textarea>
+                    <textarea name="summary_1" class="form-control" rows="10"></textarea>
 
                 </div>
 
@@ -143,8 +146,7 @@
             <div class="col-md-12">
 
                 <div class="form-group">
-                    <textarea name="" class="form-control" rows="10"></textarea>
-
+                    <textarea name="summary_2" class="form-control" rows="10"></textarea>
                 </div>
 
             </div>

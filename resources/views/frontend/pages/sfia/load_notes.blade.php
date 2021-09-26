@@ -16,7 +16,7 @@
                 src="{{ asset('frontend') }}/assets/img/sfia/level_desc.png" alt=""
                 srcset=""></label>
 
-            <select name="level_desc" class="form-control" id="level_desc">
+            <select name="level" class="form-control" id="level_desc">
                 <option value="1">Level 1 </option>
                 <option value="2">Level 2 </option>
                 <option value="3">Level 3 </option>
@@ -41,13 +41,15 @@
                 <label for="skill_fit"> <img
                         src="{{ asset('frontend') }}/assets/img/sfia/skills_fit.png"
                         alt="" srcset=""> </label>
-                <p>72%</p>
+                <p id="skill_fit">N/A</p>
+                <input type="hidden" id="skill_fit_input" name="skill_fit" class="skill_fit_input" value="">
             </div>
             <div class="col-md-4">
                 <label for="technical_score"> <img
                         src="{{ asset('frontend') }}/assets/img/sfia/technica_score.png"
                         alt="" srcset=""> </label>
                 <p>N/A</p>
+                <input type="hidden" name="technical_score">
             </div>
             <div class="col-md-4">
                 <label for="start_edit"> <img
