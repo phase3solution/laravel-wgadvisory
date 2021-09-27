@@ -1,4 +1,4 @@
-@extends('layouts.app', ['activePage' => 'assessment', 'titlePage' =>'BIA'])
+@extends('layouts.app', ['activePage' => 'assessment', 'titlePage' =>'Assessments'])
 
 
 @section('style')
@@ -948,7 +948,7 @@
                                                                                         <label class="col-sm-2 col-form-label">{{ __('Impact Criteria Field') }}</label>
                                                                                         <div class="col-sm-8">
                                                                                             <div class="form-group">
-                                                                                               <select class="form-control" name="impact_criteria_field[0]">
+                                                                                               <select class="form-control select2 " name="impact_criteria_field[0]">
                                                                                                    <option value="bia">BIA</option>
                                                                                                </select>
                                                                                             </div>
@@ -1243,4 +1243,15 @@
 
     </script>
 
+@endpush
+
+
+@push('js')
+
+<script>
+  $(document).ready(function() {
+    $('.select2').select2();
+});
+</script>
+    
 @endpush

@@ -1,4 +1,4 @@
-@extends('layouts.app', ['activePage' => 'company', 'titlePage' => __('Company List')])
+@extends('layouts.app', ['activePage' => 'company', 'titlePage' => __('Company')])
 
 @section('content')
 <div class="content">
@@ -57,7 +57,7 @@
 
                                   @if (count($company->companyAsessmentType) > 0)
                                       @foreach ($company->companyAsessmentType as $type)
-                                         <span>{{$type->assessmentType->name}} : {{$type->assessment->name}} </span> <br> 
+                                         <span> @if(isset($type->assessmentType->name)) {{$type->assessmentType->name}}  @endif   </span> @if(isset($type->assessment->name)) {{$type->assessment->name}} @endif  <br> 
                                       @endforeach
 
                                   @else 

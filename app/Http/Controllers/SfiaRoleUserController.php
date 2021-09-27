@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\SfiaRoleUser;
 use Illuminate\Http\Request;
 use App\Models\Company;
+use App\Models\Sfia;
 use App\Models\SfiaCategory;
 use App\Models\SfiaRole;
 use App\Models\SfiaTeam;
+use App\Models\SfiaTeamRole;
 use App\Models\SfiaUser;
 use Illuminate\Support\Facades\Auth;
 
@@ -26,6 +28,13 @@ class SfiaRoleUserController extends Controller
 
 
         $dat['company_id'] =  $sfiaRoleUser->company_id;
+        // $dat['sfia_id'] = Sfia::where('company_id', $sfiaRoleUser->company_id)->select('id')->first();
+        // $dat['sfia_team_id'] =  SfiaTeamRole::where('sfia_role_id', $id)->select('sfia_team_id')->frist();
+
+        $dat['sfia_id'] = 1;
+        $dat['sfia_team_id'] = 1;
+        $dat['sfia_name_role_id'] =  $id;
+
         $dat['categories'] = SfiaCategory::with(array('sfiaSubcategory'=>function($q1){
             $q1->with('sfiaSkill')->get();
         }))->where('status', 1)->where('company_id', $sfiaRoleUser->company_id)->get();

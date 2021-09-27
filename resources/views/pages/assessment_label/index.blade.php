@@ -1,6 +1,6 @@
 {{-- assessmentLabels --}}
 
-@extends('layouts.app', ['activePage' => 'assessmentLabel', 'titlePage' => __('Assessment Labels')])
+@extends('layouts.app', ['activePage' => 'assessmentLabel', 'titlePage' => __('Settings')])
 
 @section('content')
 <div class="content">

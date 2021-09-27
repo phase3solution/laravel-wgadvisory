@@ -2,9 +2,9 @@
 <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
   <div class="container-fluid">
     <div class="navbar-wrapper">
-      <a class="navbar-brand" href="#"> @if (isset($titlePage))
+      <h2 class="navbar-brand page-title" > @if (isset($titlePage))
         {{ $titlePage }}
-      @endif </a>
+      @endif </h2>
     </div>
     <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
     <span class="sr-only">Toggle navigation</span>
@@ -50,8 +50,16 @@
             </p>
           </a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownProfile">
+            <a class="dropdown-item" href="{{ route('profile.edit') }}"> 
+              @if (Auth::user()->image)
+              <img height="20" width="20" src="{{asset(Auth::user()->image)}}" alt="IMG" srcset="">
+              @else
+              <i class="material-icons">person</i>
+              @endif
+              &nbsp;{{Auth::user()->name}}
+            </a>
+            <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="{{ route('profile.edit') }}">{{ __('Profile') }}</a>
-            {{-- <a class="dropdown-item" href="#">{{ __('Settings') }}</a> --}}
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">{{ __('Log out') }}</a>
           </div>

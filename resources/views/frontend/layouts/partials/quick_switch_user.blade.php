@@ -20,9 +20,9 @@
 							<div class="symbol symbol-50 mr-3">
 								<div class="symbol-label">
 									@if ($userCompany->user->image)
-									<img src="{{$userCompany->user->image}}" class="h-75 align-self-end" alt="" />
+									<img src="{{asset($userCompany->user->image)}}" class="h-75 align-self-end" alt="" />
 									@else
-									<img src="" class="h-75 align-self-end" alt="" />
+									<img src=""{{asset('no-image-found.jpeg')}} class="h-75 align-self-end" alt="" />
 									@endif
 									
 								</div>

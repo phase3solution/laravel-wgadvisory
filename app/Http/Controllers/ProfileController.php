@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+
 class ProfileController extends Controller
 {
     public function __construct()
@@ -26,17 +28,89 @@ class ProfileController extends Controller
  
     public function update(ProfileRequest $request)
     {
-        auth()->user()->update($request->all());
+        // auth()->user()->update($request->all());
 
-        return back()->withStatus(__('Profile successfully updated.'));
+        $user = User::find(Auth::id());
+        if($user){
+
+            $user->name = $request->name;
+            $user->email = $request->email;
+
+            if($user->save()){
+
+                $data['status'] = true;
+                $data['message'] = 'Profile successfully updated.';
+                    return response()->json($data,200);
+
+            }else{
+
+                $data['status'] = false;
+                $data['message'] = 'Server Error';
+                return response()->json($data,500);
+
+            }
+
+
+        }else{
+
+        $data['status'] = true;
+        $data['message'] = 'You are not authorized.';
+        return response()->json($data,404);
+
+        }
+
+        
+
+                // return back()->withStatus(__('Profile successfully updated.'));
+
     }
 
   
-    public function password(PasswordRequest $request)
+    public function password(Request $request)
     {
-        auth()->user()->update(['password' => Hash::make($request->get('password'))]);
+        // auth()->user()->update(['password' => Hash::make($request->get('password'))]);
 
-        return back()->withStatusPassword(__('Password successfully updated.'));
+
+        $user = User::find(Auth::id());
+        if($user){
+
+            if(Hash::check($request->old_password, $user->password)){
+
+                $user->password = Hash::make($request->password);
+                if($user->save()){
+
+                    $data['status'] = true;
+                    $data['message'] = 'Password successfully updated.';
+                    return response()->json($data,200);
+
+                }else{
+
+                    $data['status'] = false;
+                    $data['message'] = 'Server Error';
+                    return response()->json($data,500);
+
+                }
+
+            }else{
+
+                $data['status'] = false;
+                $data['message'] = 'Current password does not match.';
+                return response()->json($data,200);
+
+            }
+
+            
+
+
+        }else{
+
+        $data['status'] = true;
+        $data['message'] = 'You are not authorized.';
+        return response()->json($data,404);
+
+        }
+
+        // return back()->withStatusPassword(__('Password successfully updated.'));
     }
 
     public function profile($id){

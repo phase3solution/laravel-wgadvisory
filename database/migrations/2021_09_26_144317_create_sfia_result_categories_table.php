@@ -15,9 +15,14 @@ class CreateSfiaResultCategoriesTable extends Migration
     {
         Schema::create('sfia_result_categories', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('sfia_result_id')->unsigned();
-            $table->foreign('sfia_result_id')->references('id')->on('sfia_results')->onDelete('cascade');
-           
+     
+            $table->bigInteger('company_id')->nullable();
+            $table->bigInteger('sfia_id')->nullable();
+
+            $table->bigInteger('sfia_user_id')->nullable();
+            $table->bigInteger('sfia_team_id')->nullable();
+            $table->bigInteger('sfia_name_role_id')->nullable();
+
             $table->bigInteger('sfia_category_id')->nullable();
             $table->bigInteger('sfia_subcategory_id')->nullable();
             $table->bigInteger('sfia_skill_id')->nullable();

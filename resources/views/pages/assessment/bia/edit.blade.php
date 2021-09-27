@@ -1,4 +1,4 @@
-@extends('layouts.app', ['activePage' => 'assessment', 'titlePage' =>'BIA'])
+@extends('layouts.app', ['activePage' => 'assessment', 'titlePage' =>'Assessments'])
 
 @section('content')
   <div class="content">
@@ -47,7 +47,7 @@
                     <div class="row">
                         <label class="col-sm-2 col-form-label">{{ __('Select Company') }}</label>
                         <div class="col-sm-7">
-                          <select name="company_id" required class="form-control">
+                          <select name="company_id" required class="form-control select2">
                               <option value="">--</option>
                               @if (count($companies)> 0)
 
@@ -65,7 +65,7 @@
                    
 
                   </div>
-                  <div class="card-footer ml-auto mr-auto">
+                  <div class="card-footer">
                     <button type="submit" class="btn btn-primary">{{ __('Update') }}</button>
                   </div>
                 </div>
@@ -143,6 +143,16 @@
     })
 
 
+</script>
+    
+@endpush
+
+@push('js')
+
+<script>
+  $(document).ready(function() {
+    $('.select2').select2();
+});
 </script>
     
 @endpush

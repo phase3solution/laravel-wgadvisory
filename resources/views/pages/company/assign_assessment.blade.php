@@ -1,4 +1,4 @@
-@extends('layouts.app', ['activePage' => 'assign-assessment', 'titlePage' => __('Assign Assessment List')])
+@extends('layouts.app', ['activePage' => 'assign-assessment', 'titlePage' => __('Company')])
 
 @section('content')
 <div class="content">
@@ -39,7 +39,7 @@
                                 <td>{{++$key}}</td>
                                 <td>{{$assign_assessment->company->name}}</td>
                                 <td>{{$assign_assessment->assessmentType->name}}</td>
-                                <td>{{$assign_assessment->assessment->name}}</td>
+                                <td> @if(isset($assign_assessment->assessment->name)  ) {{$assign_assessment->assessment->name}} @endif </td>
                                 <td>
                                     @if ($assign_assessment->status)
                                     <span class="badge badge-success">Active</span>
@@ -49,10 +49,16 @@
                                     
                                 </td>
                                 <td>
-
-                                    <button type="button" class="btn btn-primary editBtn btn-link btn-sm" data-toggle="modal" data-type_id="{{$assign_assessment->assessmentType->id}}" data-assessment_id="{{$assign_assessment->assessment->id}}" data-company="{{$assign_assessment->company->id}}" data-stauts_val="{{$assign_assessment->status}}" data-target="#createModal" rel="tooltip" title="Edit">
+                                    
+                                    @if(isset($assign_assessment->assessmentType->id) && isset($assign_assessment->assessment->id))
+                                     <button type="button" class="btn btn-primary editBtn btn-link btn-sm" data-toggle="modal" data-type_id="{{$assign_assessment->assessmentType->id}}" data-assessment_id="{{$assign_assessment->assessment->id}}" data-company="{{$assign_assessment->company->id}}" data-stauts_val="{{$assign_assessment->status}}" data-target="#createModal" rel="tooltip" title="Edit">
                                         <i class="material-icons">edit</i>
                                     </button>
+                                    @endif
+
+                                   
+                                    
+                                    
                                     <a class="btn btn-danger btn-link btn-sm" rel="tooltip" title="Delete" onclick="return confirm('Are you sure?')" href="{{route('company-assessment-delete', $assign_assessment->id)}}" ><i class="material-icons">close</i></a>
                                 </td>
                             </tr>
@@ -101,7 +107,7 @@
                     <label class="col-sm-3 col-form-label">{{ __('Company') }}</label>
                     <div class="col-sm-7">
                         <div class="form-group">
-                            <select name="company_id" class="form-control" id="company_id">
+                            <select name="company_id" class="form-control select2" id="company_id">
                                 <option value="">Select Company</option>
                                 @foreach ($companies as $company)
                                     <option value="{{$company->id}}">{{$company->name}}</option>
@@ -117,7 +123,7 @@
                     <label class="col-sm-3 col-form-label">{{ __('Assessment') }}</label>
                     <div class="col-sm-7">
                         <div class="form-group">
-                            <select name="type_id" class="form-control" id="type_id">
+                            <select name="type_id" class="form-control select2" id="type_id">
                                     <option value="">Assessment Type</option>
                                 @foreach ($assessmentTypes as $type)
                                     <option value="{{$type->id}}">{{$type->name}}</option>
@@ -133,7 +139,7 @@
                     <label class="col-sm-3 col-form-label">{{ __('Name') }}</label>
                     <div class="col-sm-7">
                         <div class="form-group">
-                            <select name="assessment_id" class="form-control" id="assessment_id">
+                            <select name="assessment_id" class="form-control select2" id="assessment_id">
                                     <option value="">Assessment</option>
                                 @foreach ($assessments as $assessment)
                                     <option value="{{$assessment->id}}">{{$assessment->name}}</option>
@@ -148,7 +154,7 @@
                     <label class="col-sm-3 col-form-label">{{ __('Status') }}</label>
                     <div class="col-sm-7">
                         <div class="form-group">
-                            <select name="status" class="form-control" id="status">
+                            <select name="status" class="form-control select2" id="status">
                                     <option value=""></option>
                                     <option value="0">Inactive</option>
                                     <option value="1">Active</option>
@@ -176,6 +182,8 @@
 @push('js')
     <script>
         $(document).ready(function(){
+            $('.select2').select2();
+
 
             $('.editBtn').on('click', function(){
 
@@ -190,6 +198,9 @@
                 $('#assessment_id').val(assessment_id);
                 $('#status').val(statusValue);
                 $('.submitBtn').html("Save changes");
+
+                $('.select2').select2().trigger('change');
+
 
             })
 

@@ -14,7 +14,7 @@
 
 
   <div class="logo">
-    <a href="{{url('/')}}" class="simple-text logo-normal">
+    <a href="{{url('/dashboard')}}" class="simple-text logo-normal">
       <img class="advisory-logo" src="{{asset('backend/img/advisory-logo.png')}}" >
     </a>
   </div>

@@ -1,4 +1,4 @@
-@extends('layouts.app', ['activePage' => 'assessmentType', 'titlePage' => __('Edit Assessment Type')])
+@extends('layouts.app', ['activePage' => 'assessmentType', 'titlePage' => __('Settings')])
 
 @section('content')
   <div class="content">
@@ -37,7 +37,7 @@
 
 
               </div>
-              <div class="card-footer ml-auto mr-auto">
+              <div class="card-footer">
                 <button type="submit" class="btn btn-primary">{{ __('Update') }}</button>
               </div>
             </div>

@@ -1,4 +1,4 @@
-@extends('layouts.app', ['activePage' => 'user', 'titlePage' => __('Users List')])
+@extends('layouts.app', ['activePage' => 'user', 'titlePage' => __('User Management')])
 @php
   $userCheck = \App\Models\UserRole::where('user_id',Auth::id() )->first();
 @endphp
@@ -10,7 +10,7 @@
         <div class="card">
 
           <div class="card-header card-header-primary">
-              <div class="row">
+              <div class="row align-items-center">
                   <div class="col-md-6">
                     <h4 class="card-title ">Users</h4>
                     <p class="card-category">All users</p>
@@ -41,7 +41,16 @@
                         @foreach ($users as $key=>$user)
                             <tr>
                                 <td>{{++$key}}</td>
-                                <td> <img height="80" width="80" src="{{asset($user->image)}}" alt=""> </td>
+                                <td> 
+
+                                  @if ($user->image)
+                                    <img height="80" width="80" src="{{asset($user->image)}}" alt="Image"> 
+                                  @else 
+                                    <img height="80" width="80" src="{{asset('no-image-found.jpeg')}}" alt="NoImage"> 
+                                  @endif
+
+                                    
+                                </td>
                                 <td>{{$user->name}}</td>
                                 <td>{{$user->email}}</td>
                                 <td> 

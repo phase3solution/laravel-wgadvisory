@@ -1,4 +1,4 @@
-@extends('layouts.app', ['activePage' => 'assessment', 'titlePage' => __('Add Assessment')])
+@extends('layouts.app', ['activePage' => 'assessment', 'titlePage' => __('Assessments')])
 
 
 @section('style')

@@ -1,4 +1,4 @@
-@extends('layouts.app', ['activePage' => 'sfiaTeamRole', 'titlePage' => __('SFIA Team Role')])
+@extends('layouts.app', ['activePage' => 'sfiaTeamRole', 'titlePage' => __('SFIA Settings')])
 
 @section('content')
   <div class="content">
@@ -24,7 +24,8 @@
                     <label class="col-sm-2 col-form-label">{{ __('Select Company') }}</label>
                     <div class="col-sm-7">
                       <div class="form-group">
-                          <select name="company_id" class="form-control">
+                          <select name="company_id" class="form-control select2">
+                            <option value="">Select Company</option>
                               @if ($companies)
                                 @foreach ($companies as $company)
                                     <option value="{{$company->id}}">{{$company->name}}</option>
@@ -39,7 +40,9 @@
                     <label class="col-sm-2 col-form-label">{{ __('Select Team') }}</label>
                     <div class="col-sm-7">
                       <div class="form-group">
-                          <select name="sfia_team_id" class="form-control">
+                          <select name="sfia_team_id" class="form-control select2">
+                            <option value="">Select Team</option>
+
                               @if ($sfiaTeams)
                                 @foreach ($sfiaTeams as $sfiaTeam)
                                     <option value="{{$sfiaTeam->id}}">{{$sfiaTeam->name}}</option>
@@ -56,7 +59,9 @@
                     <label class="col-sm-2 col-form-label">{{ __('Select Role') }}</label>
                     <div class="col-sm-7">
                       <div class="form-group">
-                          <select name="sfia_role_id" class="form-control">
+                          <select name="sfia_role_id" class="form-control select2">
+                            <option value="">Select Role</option>
+
                               @if ($sfiaRoles)
                                 @foreach ($sfiaRoles as $sfiaRole)
                                     <option value="{{$sfiaRole->id}}">{{$sfiaRole->name}}</option>
@@ -71,7 +76,7 @@
               </div>
 
 
-              <div class="card-footer ml-auto mr-auto">
+              <div class="card-footer">
                 <button type="submit" class="btn btn-primary">{{ __('Save') }}</button>
               </div>
 
@@ -84,3 +89,14 @@
     </div>
   </div>
 @endsection
+
+
+@push('js')
+
+  <script>
+    $(document).ready(function() {
+      $('.select2').select2();
+  });
+  </script>
+    
+@endpush

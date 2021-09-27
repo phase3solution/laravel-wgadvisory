@@ -1,4 +1,4 @@
-@extends('layouts.app', ['activePage' => 'assign-user', 'titlePage' => __('Assign User List')])
+@extends('layouts.app', ['activePage' => 'assign-user', 'titlePage' => __('Company')])
 
 @section('content')
 <div class="content">
@@ -93,10 +93,10 @@
             <div class="modal-body">
                 @if ($companies)
                 <div class="row">
-                    <label class="col-sm-3 col-form-label">{{ __('Company') }}</label>
-                    <div class="col-sm-7">
+                    <label class="col-md-3 col-form-label">{{ __('Company') }}</label>
+                    <div class="col-md-9">
                         <div class="form-group">
-                            <select name="company_id" class="form-control" id="company_id">
+                            <select name="company_id" class="form-control select2" id="company_id">
                                 <option value="">Select Company</option>
                                 @foreach ($companies as $company)
                                     <option value="{{$company->id}}">{{$company->name}}</option>
@@ -109,10 +109,10 @@
                 
                 @if ($users)
                 <div class="row">
-                    <label class="col-sm-3 col-form-label">{{ __('User') }}</label>
-                    <div class="col-sm-7">
+                    <label class="col-md-3 col-form-label">{{ __('User') }}</label>
+                    <div class="col-md-9">
                         <div class="form-group">
-                            <select name="user_id" class="form-control" id="user_id">
+                            <select name="user_id" class="form-control select2" id="user_id">
                                 <option value="">Select User</option>
                                 @foreach ($users as $user)
                                     <option value="{{$user->id}}">{{$user->name}} - {{$user->email}} </option>
@@ -141,6 +141,11 @@
     <script>
         $(document).ready(function(){
 
+          $('.select2').select2();
+
+
+
+
             $('.editBtn').on('click', function(){
 
                 var user_id = $(this).data('user');
@@ -150,6 +155,9 @@
                 $('#company_id').val(company_id);
                 $('#user_id').val(user_id);
                 $('.submitBtn').html("Save changes");
+
+                $('.select2').select2().trigger('change');
+
 
             })
 

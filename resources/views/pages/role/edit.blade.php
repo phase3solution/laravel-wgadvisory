@@ -1,4 +1,4 @@
-@extends('layouts.app', ['activePage' => 'role', 'titlePage' => __('Role Edit')])
+@extends('layouts.app', ['activePage' => 'role', 'titlePage' => __('User Management')])
 
 @section('content')
   <div class="content">
@@ -35,7 +35,7 @@
                   </div>
                 </div>
               </div>
-              <div class="card-footer ml-auto mr-auto">
+              <div class="card-footer">
                 <button type="submit" class="btn btn-primary">{{ __('Update') }}</button>
               </div>
             </div>

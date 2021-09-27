@@ -1,4 +1,4 @@
-@extends('layouts.app', ['activePage' => 'user', 'titlePage' => __('User Edit')])
+@extends('layouts.app', ['activePage' => 'user', 'titlePage' => __('User Management')])
 @php
   $userCheck = \App\Models\UserRole::where('user_id',Auth::id() )->first();
 @endphp
@@ -42,7 +42,7 @@
                         <label class="col-sm-2 col-form-label">{{ __('Role') }}</label>
                         <div class="col-sm-7">
                             <div class="form-group">
-                                <select name="role_id" class="form-control" id="">
+                                <select name="role_id" class="form-control select2">
                                     <option value="">Select Role</option>
                                     @foreach ($roles as $role)
                                         <option value="{{$role->id}}" @if ( isset($user->userRole->role_id) && $user->userRole->role_id == $role->id)
@@ -64,7 +64,7 @@
                         <label class="col-sm-2 col-form-label">{{ __('Company') }}</label>
                         <div class="col-sm-7">
                             <div class="form-group">
-                                <select name="company_id" class="form-control" id="">
+                                <select name="company_id" class="form-control select2" >
                                     <option value="">Select Company</option>
                                     @foreach ($companies as $company)
                                         <option value="{{$company->id}}"  @if (isset($user->userCompany->company_id) &&  $user->userCompany->company_id == $company->id)
@@ -91,7 +91,7 @@
 
 
               </div>
-              <div class="card-footer ml-auto mr-auto">
+              <div class="card-footer">
                 <button type="submit" class="btn btn-primary">{{ __('Update') }}</button>
               </div>
             </div>
@@ -135,7 +135,7 @@
                 </div>
 
               </div>
-              <div class="card-footer ml-auto mr-auto">
+              <div class="card-footer">
                 <button type="submit" class="btn btn-primary">{{ __('Change password') }}</button>
               </div>
             </div>
@@ -146,3 +146,13 @@
     </div>
   </div>
 @endsection
+
+@push('js')
+
+<script>
+  $(document).ready(function() {
+    $('.select2').select2();
+});
+</script>
+    
+@endpush

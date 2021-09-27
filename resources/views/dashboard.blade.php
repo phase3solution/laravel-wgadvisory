@@ -6,73 +6,101 @@
       <div class="row">
 
         <div class="col-lg-3 col-md-6 col-sm-6">
-          <div class="card card-stats">
-            <div class="card-header card-header-warning card-header-icon">
-              <div class="card-icon">
-                <i class="material-icons">content_copy</i>
+          <a href="{{route('user.index')}}">
+            <div class="card card-stats">
+              <div class="card-header card-header-warning card-header-icon">
+                <div class="card-icon">
+                  <i class="material-icons">content_copy</i>
+                </div>
+                <p class="card-category">Total Users</p>
+                <h3 class="card-title">{{count($users)}}
+                </h3>
               </div>
-              <p class="card-category">Total Users</p>
-              <h3 class="card-title">{{count($users)}}
-              </h3>
+              {{-- 
+                <div class="card-footer">
+                  <div class="stats">
+                    <i class="material-icons text-warning">list</i>
+                    <a href="{{route('user.index')}}">Get User List...</a>
+                  </div>
+                </div> --}}
+
+
             </div>
-            <div class="card-footer">
-              <div class="stats">
-                {{-- <i class="material-icons text-danger">warning</i>
-                <a href="#pablo">Get More Space...</a> --}}
-              </div>
-            </div>
-          </div>
+          </a>
+
+
         </div>
 
         <div class="col-lg-3 col-md-6 col-sm-6">
-          <div class="card card-stats">
-            <div class="card-header card-header-success card-header-icon">
-              <div class="card-icon">
-                <i class="material-icons">store</i>
+          <a href="{{route('company.index')}}">
+            <div class="card card-stats">
+              <div class="card-header card-header-success card-header-icon">
+                <div class="card-icon">
+                  <i class="material-icons">store</i>
+                </div>
+                <p class="card-category">Total Company</p>
+                <h3 class="card-title">{{count($companies)}}</h3> 
               </div>
-              <p class="card-category">Total Company</p>
-              <h3 class="card-title">{{count($companies)}}</h3> 
+
+              {{-- <div class="card-footer">
+                <div class="stats">
+                  <i class="material-icons">date_range</i> Last 24 Hours
+                </div>
+              </div> --}}
+
+
             </div>
-            <div class="card-footer">
-              <div class="stats">
-                {{-- <i class="material-icons">date_range</i> Last 24 Hours --}}
-              </div>
-            </div>
-          </div>
+          </a>
+
         </div>
 
         <div class="col-lg-3 col-md-6 col-sm-6">
-          <div class="card card-stats">
-            <div class="card-header card-header-danger card-header-icon">
-              <div class="card-icon">
-                <i class="material-icons">info_outline</i>
+          <a href="{{route('assessmentType.index')}}">
+            <div class="card card-stats">
+              <div class="card-header card-header-danger card-header-icon">
+                <div class="card-icon">
+                  <i class="material-icons">info_outline</i>
+                </div>
+                <p class="card-category">Assessment Types</p>
+                <h3 class="card-title">{{count($assessments)}}</h3>
               </div>
-              <p class="card-category">Assessments</p>
-              <h3 class="card-title">{{count($assessments)}}</h3>
+
+              {{-- <div class="card-footer">
+                <div class="stats">
+                  <i class="material-icons">local_offer</i> Tracked from Github
+                </div>
+              </div> --}}
+
+
             </div>
-            <div class="card-footer">
-              <div class="stats">
-                {{-- <i class="material-icons">local_offer</i> Tracked from Github --}}
-              </div>
-            </div>
-          </div>
+          </a>
+
         </div>
 
         <div class="col-lg-3 col-md-6 col-sm-6">
-          <div class="card card-stats">
-            <div class="card-header card-header-info card-header-icon">
-              <div class="card-icon">
-                <i class="fa fa-twitter"></i>
+
+          <a href="{{route('role.index')}}">
+            <div class="card card-stats">
+              <div class="card-header card-header-info card-header-icon">
+                <div class="card-icon">
+                  <i class="fa fa-twitter"></i>
+                </div>
+                <p class="card-category">Roles</p>
+                <h3 class="card-title">{{count($roles)}}</h3>
               </div>
-              <p class="card-category">Roles</p>
-              <h3 class="card-title">{{count($roles)}}</h3>
+
+
+              {{-- <div class="card-footer">
+                <div class="stats">
+                  <i class="material-icons">update</i> Just Updated
+                </div>
+              </div> --}}
+
+
             </div>
-            <div class="card-footer">
-              <div class="stats">
-                {{-- <i class="material-icons">update</i> Just Updated --}}
-              </div>
-            </div>
-          </div>
+          </a>
+
+
         </div>
 
       </div>

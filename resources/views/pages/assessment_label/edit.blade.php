@@ -1,4 +1,4 @@
-@extends('layouts.app', ['activePage' => 'assessmentLabel', 'titlePage' => __('Edit Assessment Label')])
+@extends('layouts.app', ['activePage' => 'assessmentLabel', 'titlePage' => __('Settings')])
 
 @section('content')
   <div class="content">
@@ -22,8 +22,8 @@
                     <div class="col-sm-7">
                       <div class="form-group">
                         @if ($assessmentTypes)
-                        <select class="form-control" name="assessment_type_id">
-                            <option value=""></option>
+                        <select class="form-control select2" name="assessment_type_id">
+                            <option value="">Select Assessment Type</option>
                             @foreach($assessmentTypes as $assessmentType)
                                 <option value="{{$assessmentType->id}}" @if ($assessmentType->id == $assessmentLabel->assessment_type_id)
                                     selected
@@ -55,7 +55,7 @@
 
 
               </div>
-              <div class="card-footer ml-auto mr-auto">
+              <div class="card-footer">
                 <button type="submit" class="btn btn-primary">{{ __('Update') }}</button>
               </div>
             </div>
@@ -66,3 +66,14 @@
     </div>
   </div>
 @endsection
+
+
+@push('js')
+
+<script>
+  $(document).ready(function() {
+    $('.select2').select2();
+});
+</script>
+    
+@endpush

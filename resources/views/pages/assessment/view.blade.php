@@ -1,4 +1,4 @@
-@extends('layouts.app', ['activePage' => 'assessment', 'titlePage' =>$assessmentType->name])
+@extends('layouts.app', ['activePage' => 'assessment', 'titlePage' =>'Assessments'])
 
 @section('content')
 <div class="content">

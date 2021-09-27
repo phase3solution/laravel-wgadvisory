@@ -5,7 +5,8 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-12">
-          <form method="post" action="{{ route('profile.update') }}" autocomplete="off" class="form-horizontal">
+          {{-- action="{{ route('profile.update') }}" --}}
+          <form method="post" id="profileUpdateForm"  autocomplete="off" class="form-horizontal">
             @csrf
             @method('put')
 
@@ -50,8 +51,8 @@
                   </div>
                 </div>
               </div>
-              <div class="card-footer ml-auto mr-auto">
-                <button type="submit" class="btn btn-primary">{{ __('Save') }}</button>
+              <div class="card-footer">
+                <button type="submit" class="btn btn-success">{{ __('Update Profile') }}</button>
               </div>
             </div>
           </form>
@@ -61,9 +62,9 @@
 
       <div class="row">
         <div class="col-md-12">
-          <form method="post" action="{{ route('update.password') }}" class="form-horizontal">
+          {{-- action="{{ route('update.password') }}" --}}
+          <form method="post" id="passwordUpdateForm"  class="form-horizontal">
             @csrf
-            @method('put')
 
             <div class="card ">
               <div class="card-header card-header-primary">
@@ -114,8 +115,8 @@
                   </div>
                 </div>
               </div>
-              <div class="card-footer ml-auto mr-auto">
-                <button type="submit" class="btn btn-primary">{{ __('Change password') }}</button>
+              <div class="card-footer">
+                <button type="submit" class="btn btn-success">{{ __('Change password') }}</button>
               </div>
             </div>
           </form>
@@ -126,3 +127,145 @@
     </div>
   </div>
 @endsection
+
+@push('js')
+
+<script>
+  $(document).ready(function(){
+
+      $("#profileUpdateForm").on('submit', function(e){
+        e.preventDefault();
+
+        var formData = $(this).serialize();
+
+          $.ajax({
+            type:"post",
+            url:"{{route('profile.update')}}",
+            data: formData,
+            success:function(response){
+
+              if(response.status){
+                const Toast = Swal.mixin({
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000
+                        });
+
+                        Toast.fire({
+                            type: 'success',
+                            title: response.message
+                        })
+              }
+
+            },
+            error:function(err){
+              console.log(err);
+
+              const Toast = Swal.mixin({
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000
+                        });
+
+                        Toast.fire({
+                            type: 'error',
+                            title: "Server Error !"
+                        })
+
+
+            }
+          })
+      })
+
+      $("#passwordUpdateForm").on('submit', function(e){
+        e.preventDefault();
+        var newPassword = $("#input-password").val();
+        var confirmPassword = $("#input-password-confirmation").val();
+
+        if(newPassword == confirmPassword){
+
+          var formData = $(this).serialize();
+          $.ajax({
+            type:"post",
+            url:"{{route('update.password')}}",
+            data: formData,
+            success:function(response){
+
+              if(response.status){
+                const Toast = Swal.mixin({
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000
+                        });
+
+                        Toast.fire({
+                            type: 'success',
+                            title: response.message
+                        })
+              }else{
+
+                const Toast = Swal.mixin({
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000
+                        });
+
+                        Toast.fire({
+                            type: 'error',
+                            title: response.message
+                        })
+
+              }
+
+            },
+            error:function(err){
+              console.log(err);
+
+              const Toast = Swal.mixin({
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000
+                        });
+
+                        Toast.fire({
+                            type: 'error',
+                            title: "Server Error !"
+                        })
+
+
+            }
+          })
+
+
+        }else{
+
+          const Toast = Swal.mixin({
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000
+                        });
+
+                        Toast.fire({
+                            type: 'error',
+                            title: "New and confirm password does not match !"
+                        })
+
+        }
+
+          
+
+
+      })
+   
+  })
+</script>
+    
+@endpush
+
+

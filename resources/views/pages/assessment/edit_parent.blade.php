@@ -1,4 +1,4 @@
-@extends('layouts.app', ['activePage' => 'assessment', 'titlePage' =>$assessmentType->name])
+@extends('layouts.app', ['activePage' => 'assessment', 'titlePage' =>'Assessments'])
 
 @section('content')
   <div class="content">
@@ -41,7 +41,7 @@
                       <label class="col-sm-2 col-form-label">{{ __('Select Company') }}</label>
                       <div class="col-sm-7">
                         <div class="form-group">
-                          <select name="company_id" class="form-control">
+                          <select name="company_id" class="form-control select2">
                             <option value=""></option>
                             @if (count($companies) > 0)
                               @foreach ($companies as $company)
@@ -65,7 +65,7 @@
                       <label class="col-sm-2 col-form-label">{{ __('Status') }}</label>
                       <div class="col-sm-7">
                         <div class="form-group">
-                            <select required name="status" class="form-control">
+                            <select required name="status" class="form-control select2">
                               <option value=""></option>
                               <option value="0" @if ($assessment->status == 0)
                                 selected
@@ -119,7 +119,7 @@
                       <label class="col-sm-2 col-form-label">{{ __('Select Register') }}</label>
                       <div class="col-sm-7">
                         <div class="form-group">
-                          <select class="form-control" name="register_id" id="register_id">
+                          <select class="form-control select2" name="register_id" id="register_id">
                             <option value="0"></option>
                             @if (count($registers)>0)
                               @foreach ($registers as $register)
@@ -133,7 +133,7 @@
 
 
                   </div>
-                  <div class="card-footer ml-auto mr-auto">
+                  <div class="card-footer">
                     <button type="submit" class="btn btn-primary">{{ __('Update') }}</button>
                   </div>
                 </div>
@@ -151,6 +151,9 @@
 
 <script>
   $(document).ready(function(){
+
+    $('.select2').select2();
+
 
 
     $('input[name="register_check"]:radio').change(function () {

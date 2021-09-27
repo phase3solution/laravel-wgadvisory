@@ -1,4 +1,4 @@
-@extends('layouts.app', ['activePage' => 'sfiaUser', 'titlePage' => __('SFIA User')])
+@extends('layouts.app', ['activePage' => 'sfiaUser', 'titlePage' => __('SFIA Settings')])
 
 @section('content')
 <div class="content">

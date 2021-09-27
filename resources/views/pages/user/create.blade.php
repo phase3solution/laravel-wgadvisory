@@ -1,4 +1,4 @@
-@extends('layouts.app', ['activePage' => 'createUser', 'titlePage' => __('Add Role')])
+@extends('layouts.app', ['activePage' => 'createUser', 'titlePage' => __('User Management')])
 @php
   $userCheck = \App\Models\UserRole::where('user_id',Auth::id() )->first();
 @endphp
@@ -62,7 +62,7 @@
                         <label class="col-sm-2 col-form-label">{{ __('Role') }}</label>
                         <div class="col-sm-7">
                             <div class="form-group">
-                                <select name="role_id" class="form-control" id="">
+                                <select name="role_id" class="form-control select2" >
                                     <option value="">Select Role</option>
                                     @foreach ($roles as $role)
                                         <option value="{{$role->id}}" @if ($userCheck->role_id != 1 && $role->id ==1)
@@ -77,7 +77,7 @@
             
 
               </div>
-              <div class="card-footer ml-auto mr-auto">
+              <div class="card-footer">
                 <button type="submit" class="btn btn-primary">{{ __('Save') }}</button>
               </div>
             </div>
@@ -88,3 +88,13 @@
     </div>
   </div>
 @endsection
+
+@push('js')
+
+<script>
+  $(document).ready(function() {
+    $('.select2').select2();
+});
+</script>
+    
+@endpush
