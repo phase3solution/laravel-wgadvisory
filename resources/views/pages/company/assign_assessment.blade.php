@@ -56,10 +56,16 @@
                                     </button>
                                     @endif
 
-                                   
+                                    <form class="deleteAssignAssessmentForm" method="post">
+                                        @csrf
+  
+                                        <input type="hidden" class="deleteId" name="id" value="{{$assign_assessment->id}}">
+                                        <button class="btn btn-danger btn-link btn-sm" rel="tooltip" title="Delete" type="submit"><i class="material-icons">close</i></button>
+  
+                                    </form>
                                     
                                     
-                                    <a class="btn btn-danger btn-link btn-sm" rel="tooltip" title="Delete" onclick="return confirm('Are you sure?')" href="{{route('company-assessment-delete', $assign_assessment->id)}}" ><i class="material-icons">close</i></a>
+                                    {{-- <a class="btn btn-danger btn-link btn-sm" rel="tooltip" title="Delete" onclick="return confirm('Are you sure?')" href="{{route('company-assessment-delete', $assign_assessment->id)}}" ><i class="material-icons">close</i></a> --}}
                                 </td>
                             </tr>
                         @endforeach
@@ -99,7 +105,8 @@
           </button>
         </div>
 
-        <form action="{{route('company-assessment-insert')}}" method="post">
+        {{-- action="{{route('company-assessment-insert')}}" --}}
+        <form  method="post" id="companyAssessmentInsertForm">
             @csrf
             <div class="modal-body">
                 @if ($companies)
@@ -139,7 +146,7 @@
                     <label class="col-sm-3 col-form-label">{{ __('Name') }}</label>
                     <div class="col-sm-7">
                         <div class="form-group">
-                            <select name="assessment_id" class="form-control select2" id="assessment_id">
+                            <select name="assessment_id" class="form-control select2 assessmentName" id="assessment_id">
                                     <option value="">Assessment</option>
                                 @foreach ($assessments as $assessment)
                                     <option value="{{$assessment->id}}">{{$assessment->name}}</option>
@@ -151,16 +158,15 @@
                 @endif
                 
                 <div class="row">
-                    <label class="col-sm-3 col-form-label">{{ __('Status') }}</label>
-                    <div class="col-sm-7">
-                        <div class="form-group">
-                            <select name="status" class="form-control select2" id="status">
-                                    <option value=""></option>
-                                    <option value="0">Inactive</option>
-                                    <option value="1">Active</option>
-                                
-                            </select>
-                        </div>
+                    <label class="col-sm-2 col-form-label">{{ __('Status') }} <span class="text-danger">*</span></label>
+                    <div class="col-sm-10">
+                      <div class="form-group">
+                        <input type="radio" name="status" value="1" checked id="active-status" required>
+                        <label for="active-status">Active</label>
+  
+                        <input type="radio" name="status" value="0" id="inactive-status">
+                        <label for="inactive-status">Inactive</label>
+                      </div>
                     </div>
                 </div>
 
@@ -192,11 +198,13 @@
                 var company_id = $(this).data('company');
                 var statusValue = $(this).data('stauts_val');
 
-                console.log(type_id, assessment_id, company_id);
+                // console.log(type_id, assessment_id, company_id);
                 $('#company_id').val(company_id);
                 $('#type_id').val(type_id);
-                $('#assessment_id').val(assessment_id);
-                $('#status').val(statusValue);
+                // $('.assessmentName').val(assessment_id);
+                $('#assessment_id  option[value="' +assessment_id+ '"]').prop('selected', true);
+                $("input[name=status][value='"+statusValue+"']").prop("checked",true);
+
                 $('.submitBtn').html("Save changes");
 
                 $('.select2').select2().trigger('change');
@@ -230,6 +238,88 @@
 
 
             })
+
+            $("#companyAssessmentInsertForm").on('submit', function(e){
+              e.preventDefault();
+              var formData = $(this).serialize();
+              $.ajax({
+                type: "POST",
+                url: "{{route('company-assessment-insert')}}",
+                data:formData,
+                success:function(response){
+
+                  console.log(response);
+                  Toast.fire({
+                      type: 'success',
+                      title: response.message
+                  })
+
+                  setTimeout(function(){
+                    location.reload();
+                  },3000)
+
+
+                },
+                error:function(error){
+                  console.log(error);
+                  Toast.fire({
+                      type: 'error',
+                      title: 'Server error!'
+                  })
+                }
+              })
+
+            })
+
+            $('.deleteAssignAssessmentForm').on('submit', function(e){
+
+              e.preventDefault();
+              var id = $(this).find('.deleteId').val();
+              var formData = $(this).serialize();
+
+
+
+              Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+              }).then((result) => {
+                if (result.value) {
+
+                  $.ajax({
+                    type:"POST",
+                    url: "{{url('/company-assessment-delete')}}/"+id,
+                    data: formData,
+                    success:function(response){
+
+                      Toast.fire({
+                            type: 'success',
+                            title: response.message
+                        })
+
+                        setTimeout(function(){
+                          location.reload();
+                        },3000)
+
+                    },
+                    error:function(error){
+                      console.log(error);
+
+                      Toast.fire({
+                            type: 'error',
+                            title: "Server error!"
+                        })
+                    }
+                  })
+
+                    
+                }
+                });
+            });
 
         })
     </script>

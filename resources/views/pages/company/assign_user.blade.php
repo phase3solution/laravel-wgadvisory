@@ -41,15 +41,32 @@
                                 <td>{{$assign_user->user->name}}</td>
                                 <td>{{$assign_user->user->email}}</td>
                                 <td>
+
+                                  @if ($assign_user->status ==1)
                                     <span class="badge badge-success">Active</span>
+                                  @else 
+                                    <span class="badge badge-danger">Inactive</span>
+                                  @endif
+                                    
                                 </td>
                                 <td>
 
-                                    <button type="button" class="btn btn-primary editBtn btn-link btn-sm" data-toggle="modal" rel="tooltip" title="Edit" data-user="{{$assign_user->user->id}}" data-company="{{$assign_user->company->id}}" data-target="#createModal">
+                                    <button type="button" class="btn btn-primary editBtn btn-link btn-sm" data-toggle="modal" rel="tooltip" title="Edit" data-user="{{$assign_user->user->id}}" data-company="{{$assign_user->company->id}}" data-status="{{$assign_user->status}}" data-target="#createModal">
                                         <i class="material-icons">edit</i>
                                     </button>
-                                    <a class="btn btn-danger btn-link btn-sm" rel="tooltip" title="Delete" onclick="return confirm('Are you sure?')" href="{{route('company-user-delete', $assign_user->id)}}" ><i class="material-icons">close</i></a>
-                                </td>
+
+
+                                    {{-- <a class="btn btn-danger btn-link btn-sm" rel="tooltip" title="Delete" onclick="return confirm('Are you sure?')" href="{{route('company-user-delete', $assign_user->id)}}" ><i class="material-icons">close</i></a> --}}
+                                    
+                                    <form class="deleteAssignUserForm" method="post">
+                                      @csrf
+
+                                      <input type="hidden" class="deleteId" name="id" value="{{$assign_user->id}}">
+                                      <button class="btn btn-danger btn-link btn-sm" rel="tooltip" title="Delete" type="submit"><i class="material-icons">close</i></button>
+
+                                    </form>
+                                
+                                  </td>
                             </tr>
                         @endforeach
 
@@ -82,14 +99,16 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="createModalLabel">Assign New User</h5>
+          <h5 class="modal-title" id="createModalLabel">Assign User</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
 
-        <form action="{{route('company-user-insert')}}" method="post">
+        {{-- action="{{route('company-user-insert')}}" --}}
+        <form id="companyUserInsertForm"  method="post">
             @csrf
+
             <div class="modal-body">
                 @if ($companies)
                 <div class="row">
@@ -121,8 +140,27 @@
                         </div>
                     </div>
                 </div>
-                @endif  
+                @endif 
+
+
+                <div class="row">
+                  <label class="col-sm-2 col-form-label">{{ __('Status') }} <span class="text-danger">*</span></label>
+                  <div class="col-sm-10">
+                    <div class="form-group">
+                      <input type="radio" name="status" value="1" checked id="active-status" required>
+                      <label for="active-status">Active</label>
+
+                      <input type="radio" name="status" value="0" id="inactive-status">
+                      <label for="inactive-status">Inactive</label>
+                    </div>
+                  </div>
+                </div>
+                
+                
+
             </div>
+
+
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button type="submit" class="btn btn-primary submitBtn">Save</button>
@@ -143,23 +181,107 @@
 
           $('.select2').select2();
 
-
-
-
             $('.editBtn').on('click', function(){
 
                 var user_id = $(this).data('user');
                 var company_id = $(this).data('company');
+                var status_id = $(this).data('status');
 
                 console.log(user_id, company_id);
                 $('#company_id').val(company_id);
                 $('#user_id').val(user_id);
+                $("input[name=status][value='"+status_id+"']").prop("checked",true);
                 $('.submitBtn').html("Save changes");
 
                 $('.select2').select2().trigger('change');
 
 
             })
+
+            $("#companyUserInsertForm").on('submit', function(e){
+              e.preventDefault();
+              var formData = $(this).serialize();
+              $.ajax({
+                type: "POST",
+                url: "{{route('company-user-insert')}}",
+                data:formData,
+                success:function(response){
+
+                  console.log(response);
+                  Toast.fire({
+                      type: 'success',
+                      title: response.message
+                  })
+
+                  setTimeout(function(){
+                    location.reload();
+                  },3000)
+
+
+                },
+                error:function(error){
+                  console.log(error);
+                  Toast.fire({
+                      type: 'error',
+                      title: 'Server error!'
+                  })
+                }
+              })
+
+            })
+
+            $('.deleteAssignUserForm').on('submit', function(e){
+              e.preventDefault();
+              var id = $(this).find('.deleteId').val();
+              var formData = $(this).serialize();
+
+
+
+              Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+              }).then((result) => {
+                if (result.value) {
+
+                  $.ajax({
+                    type:"POST",
+                    url: "{{url('/company-delete-user')}}/"+id,
+                    data: formData,
+                    success:function(response){
+
+                      Toast.fire({
+                            type: 'success',
+                            title: response.message
+                        })
+
+                        setTimeout(function(){
+                          location.reload();
+                        },3000)
+
+                    },
+                    error:function(error){
+                      console.log(error);
+
+                      Toast.fire({
+                            type: 'error',
+                            title: "Server error!"
+                        })
+                    }
+                  })
+
+                    
+                }
+            });
+
+
+          })
+
+
 
         })
     </script>
