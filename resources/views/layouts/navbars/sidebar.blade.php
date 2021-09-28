@@ -20,10 +20,10 @@
   </div>
   <div class="sidebar-wrapper">
     <ul class="nav">
-      <li class="nav-item dashboard {{ $activePage == 'dashboardddd' ? ' active' : '' }}">
+      <li class="nav-item dashboard {{ $activePage == 'dashboard' ? ' active' : '' }}">
         <a class="nav-link" href="{{ route('home') }}">
           <i class="material-icons"><img src="{{asset('backend')}}/img/sidebar-menu-icons/dashboard.png"></i>
-            <p>{{ __('Dashboard') }}</p>
+            <p>{{ __('Dashboarddddd') }}</p>
         </a>
       </li>
 
