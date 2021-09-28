@@ -1,6 +1,10 @@
 /node_modules
 /public/hot
-/public
+/public/material
+/public/assessmentLogo
+/public/companyImg
+/public/userImg
+/public/frontend/assets
 /storage/*.key
 /vendor
 /docker
