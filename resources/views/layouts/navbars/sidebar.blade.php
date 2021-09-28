@@ -23,7 +23,7 @@
       <li class="nav-item dashboard {{ $activePage == 'dashboard' ? ' active' : '' }}">
         <a class="nav-link" href="{{ route('home') }}">
           <i class="material-icons"><img src="{{asset('backend')}}/img/sidebar-menu-icons/dashboard.png"></i>
-            <p>{{ __('Dashboarddddd') }}</p>
+            <p>{{ __('Dashboard') }}</p>
         </a>
       </li>
 
