@@ -48,6 +48,7 @@
               <span>
                 <b> Info - </b> This is a regular notification made with ".alert-info"</span>
             </div>
+
             <div class="alert alert-success">
               <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <i class="material-icons">close</i>
@@ -55,6 +56,8 @@
               <span>
                 <b> Success - </b> This is a regular notification made with ".alert-success"</span>
             </div>
+
+            
             <div class="alert alert-warning">
               <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <i class="material-icons">close</i>

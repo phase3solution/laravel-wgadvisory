@@ -231,7 +231,8 @@ Route::group(['middleware' => 'auth'], function () {
 
 	Route::resource('role', RoleController::class);
 	Route::resource('user', UserController::class);
-	Route::post('update-password', [UserController::class, 'updatePassword' ])->name('update.password');
+
+	Route::post('change-password', [UserController::class, 'updatePassword' ])->name('change.password');
 
 	Route::resource('company', CompanyController::class);
 
@@ -289,7 +290,7 @@ Route::group(['middleware' => 'auth'], function () {
 });
 
 Route::group(['middleware' => 'auth'], function () {
-	Route::resource('user', 'App\Http\Controllers\UserController', ['except' => ['show']]);
+	// Route::resource('user', 'App\Http\Controllers\UserController', ['except' => ['show']]);
 	Route::get('profile', ['as' => 'profile.edit', 'uses' => 'App\Http\Controllers\ProfileController@edit']);
 	Route::put('profile', ['as' => 'profile.update', 'uses' => 'App\Http\Controllers\ProfileController@update']);
 

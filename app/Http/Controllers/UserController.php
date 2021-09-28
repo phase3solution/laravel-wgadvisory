@@ -31,6 +31,7 @@ class UserController extends Controller
         ->with(array('userCompany'=>function($q2){
             $q2->with('company')->get();
         }))
+        ->orderBy('id', 'desc')
         ->get();
         return view('pages.user.view', $data);
     }
@@ -38,7 +39,8 @@ class UserController extends Controller
 
     public function create()
     {
-        $data['roles'] = Role::all();
+        $data['roles'] = Role::where('status', 1)->get();
+        $data['companies'] = Company::where('status', 1)->get();
         return view('pages.user.create', $data);
     }
 
@@ -49,30 +51,67 @@ class UserController extends Controller
             'email'=> 'required',
             'password'=> 'required',
             'confirm_password'=> 'required_with:password|same:password',
-            'role_id'=>'nullable'
-
+            'role_id'=>'required'
         ]);
 
         if($validate->fails()){
-            return redirect()->back();
+            $data['status'] = false;
+            $data['message'] = "Validation error!";
+            $data['errors'] = "";
+            return response()->json($data, 400);
         }else{
+
             $user = new User();
             $user->name = $request->name;
             $user->email = $request->email;
+            $user->status = $request->status;
             $user->password = Hash::make($request->password);
-           if( $user->save()){
 
-            if($request->role_id){
-              $userRole = new  UserRole();
-              $userRole->user_id = $user->id;
-              $userRole->role_id = $request->role_id;
-              $userRole->created_by = Auth::id();
-              $userRole->save();
+            $image=$request->file('image');
+    
+            if($image){
+                
+                $image_name=Str::slug($request->input('name'), "-").Str::random(4);
+                $ext=strtolower($image->getClientOriginalExtension());
+                $image_full_name=$image_name.".".$ext;
+                $upload_path='userImg/';
+                $image_url=$upload_path.$image_full_name;
+                $success=$image->move($upload_path,$image_full_name);
+                if($success){
+                    $user->image=$image_url;
+                }
+
             }
 
-            return redirect()->route('user.index');
+
+
+           if( $user->save()){
+
+                if($request->role_id){
+                    $userRole = new  UserRole();
+                    $userRole->user_id = $user->id;
+                    $userRole->role_id = $request->role_id;
+                    $userRole->created_by = Auth::id();
+                    $userRole->save();
+                }
+
+                if($request->company_id){
+                    $userRole = new  UserCompany();
+                    $userRole->user_id = $user->id;
+                    $userRole->company_id = $request->company_id;
+                    $userRole->created_by = Auth::id();
+                    $userRole->save();
+                }
+
+                $data['status'] = true;
+                $data['message'] = "User created successfully!";
+                return response()->json($data, 200);
            }else{
-            return redirect()->back();
+
+                $data['status'] = false;
+                $data['message'] = "Server error!";
+                $data['errors'] = '';
+                return response()->json($data, 500);
            }
 
         }
@@ -107,12 +146,20 @@ class UserController extends Controller
         ]);
 
         if($validate->fails()){
-            return redirect()->back();
+            $data['status'] = false;
+            $data['message'] = "Validation error!";
+            $data['errors'] = "";
+            return response()->json($data, 400);
         }else{
             $user = User::find($id);
 
             if($user){
+
                 $user->name = $request->name;
+                $user->email = $request->email;
+                $user->status = $request->status;
+
+
                 $image=$request->file('image');
     
                 if($image){
@@ -134,53 +181,62 @@ class UserController extends Controller
 
                if( $user->save()){
 
-                if($request->role_id){
+                    if($request->role_id){
 
-                    $userRole = UserRole::where('user_id', $id)->first();
+                        $userRole = UserRole::where('user_id', $id)->first();
 
-                    if($userRole){
-                        $userRole->user_id = $id;
-                        $userRole->role_id = $request->role_id;
-                        $userRole->updated_by = Auth::id();
-                    }else{
-                        $userRole = new UserRole();
-                        $userRole->user_id = $id;
-                        $userRole->role_id = $request->role_id;
-                        $userRole->created_by = Auth::id();
+                        if($userRole){
+                            $userRole->user_id = $id;
+                            $userRole->role_id = $request->role_id;
+                            $userRole->updated_by = Auth::id();
+                        }else{
+                            $userRole = new UserRole();
+                            $userRole->user_id = $id;
+                            $userRole->role_id = $request->role_id;
+                            $userRole->created_by = Auth::id();
+
+                        }
+
+                        $userRole->save();
+                    }
+
+                    if($request->company_id){
+
+                        
+                        $userCompany = UserCompany::where('user_id', $id)->first();
+
+                        if($userCompany){
+                            $userCompany->user_id = $id;
+                            $userCompany->company_id = $request->company_id;
+                            $userCompany->updated_by = Auth::id();
+                        }else{
+                            $userCompany = new UserCompany();
+                            $userCompany->user_id = $id;
+                            $userCompany->company_id = $request->company_id;
+                            $userCompany->created_by = Auth::id();
+                        }
+
+                        $userCompany->save();
 
                     }
 
-                    $userRole->save();
-                }
 
-                if($request->company_id){
-
-                    
-                    $userCompany = UserCompany::where('user_id', $id)->first();
-
-                    if($userCompany){
-                        $userCompany->user_id = $id;
-                        $userCompany->company_id = $request->company_id;
-                        $userCompany->updated_by = Auth::id();
-                    }else{
-                        $userCompany = new UserCompany();
-                        $userCompany->user_id = $id;
-                        $userCompany->company_id = $request->company_id;
-                        $userCompany->created_by = Auth::id();
-                    }
-
-                    $userCompany->save();
-
-                }
-
-
-                return redirect()->route('user.index');
+                    $data['status'] = false;
+                    $data['message'] = "User updated successfully!";
+                    $data['errors'] = "";
+                    return response()->json($data, 200);
                }else{
-                return redirect()->back();
+                    $data['status'] = false;
+                    $data['message'] = "Server error!";
+                    $data['errors'] = "";
+                    return response()->json($data, 500);
                }
 
             }else{
-                return redirect()->back();
+                $data['status'] = false;
+                $data['message'] = "User not found!";
+                $data['errors'] = "";
+                return response()->json($data, 404);
             }
 
 
@@ -195,27 +251,69 @@ class UserController extends Controller
             'id' => 'required',
             'password'=> 'required',
             'confirm_password'=> 'required_with:password|same:password',
-
         ]);
 
         if($validate->fails()){
-            return redirect()->back();
+
+            $data['status'] = false;
+            $data['message'] = "Validation error!";
+            $data['errors'] = "";
+            return response()->json($data, 400);
         }else{
+
             $user =  User::find($request->id);
             $user->password = Hash::make($request->password);
+
+
            if( $user->save()){
-            return redirect()->route('user.index');
+                $data['status'] = true;
+                $data['message'] = "User password changed successfuly!";
+                return response()->json($data, 200);
            }else{
-            return redirect()->back();
+                $data['status'] = false;
+                $data['message'] = "Server error!";
+                $data['errors'] = "";
+                return response()->json($data, 500);
            }
 
         }
 
     }
 
-    public function destroy(Role $role)
-    {
-        //
+    public function destroy($id)
+    {   
+        $user = User::find($id);
+
+        if($user){
+            if($user->image){
+                unlink($user->image);
+            }
+
+            if($user->delete()){
+                $userRole = UserRole::where('user_id', $id)->first();
+                if($userRole){
+                    $userRole->delete();
+                }
+
+                $userCompany = UserCompany::where('user_id', $id)->first();
+                if($userCompany){
+                    $userCompany->delete();
+                }
+
+                $data['status'] = true;
+                $data['message'] = "User deleted successfully! ";
+                return response()->json($data, 200);
+
+            }else{
+                $data['status'] = false;
+                $data['message'] = "Server error! ";
+                return response()->json($data, 500);
+            }
+        }
+
+        $data['status'] = false;
+        $data['message'] = "User not found! ";
+        return response()->json($data, 404);
     }
 
 

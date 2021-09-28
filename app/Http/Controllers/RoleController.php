@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Role;
+use App\Models\UserRole;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -21,22 +22,13 @@ class RoleController extends Controller
         return view('pages.role.view', $data);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+ 
     public function create()
     {
         return view('pages.role.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+ 
     public function store(Request $request)
     {
         $validate=  Validator::make($request->all(),[
@@ -46,39 +38,48 @@ class RoleController extends Controller
         ]);
 
         if($validate->fails()){
-            return redirect()->back();
+
+            $data['status'] = false;
+            $data['message'] = "Validation error!";
+            $data['errors'] = "";
+            return response()->json($data, 400);
+
+
         }else{
+
             $role = new Role();
             $role->name = $request->name;
             $role->slug = Str::slug($request->input('name'), "-");
             $role->description = $request->description;
+            $role->status = $request->status;
+
+
            if( $role->save()){
-            return redirect()->route('role.index');
+
+            $data['status'] = true;
+            $data['message'] = "User role created successfully!";
+            return response()->json($data, 200);
+
            }else{
-            return redirect()->back();
+
+            $data['status'] = false;
+            $data['message'] = "Server error!";
+            $data['errors'] = "";
+            return response()->json($data, 500);
+
            }
 
         }
 
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Role  $role
-     * @return \Illuminate\Http\Response
-     */
+
     public function show(Role $role)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Role  $role
-     * @return \Illuminate\Http\Response
-     */
+
     public function edit($id)
     {
         $data['role'] = Role::find($id);
@@ -90,24 +91,21 @@ class RoleController extends Controller
         }
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Role  $role
-     * @return \Illuminate\Http\Response
-     */
+  
     public function update(Request $request,$id)
     {
         $validate=  Validator::make($request->all(),[
 
             'name'=>'required',
             'description'=> 'nullable',
-            'status'=> 'nullable'
+            'status'=> 'required'
         ]);
 
         if($validate->fails()){
-            return redirect()->back();
+            $data['status'] = false;
+            $data['message'] = "Validation error!";
+            $data['errors'] = "";
+            return response()->json($data, 400);
         }else{
             $role = Role::find($id);
 
@@ -115,14 +113,25 @@ class RoleController extends Controller
 
                 $role->name = $request->name;
                 $role->description = $request->description;
+                $role->status = $request->status;
+
                if( $role->save()){
-                return redirect()->route('role.index');
+                    $data['status'] = true;
+                    $data['message'] = "User role updated successfully!";
+                    $data['errors'] = "";
+                    return response()->json($data, 200);
                }else{
-                return redirect()->back();
+                $data['status'] = false;
+                $data['message'] = "Server error!";
+                $data['errors'] = "";
+                return response()->json($data, 500);
                }
 
             }else{
-                return redirect()->back();
+                $data['status'] = false;
+                $data['message'] = "User role not found!";
+                $data['errors'] = "";
+                return response()->json($data, 409);
             }
 
 
@@ -130,14 +139,41 @@ class RoleController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Role  $role
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Role $role)
+  
+    public function destroy($id)
     {
-        //
+
+        $role = Role::find($id);
+        if($role){
+
+            if($role->delete()){
+
+                $userRole = UserRole::where('role_id', $id)->first();
+                if($userRole){
+                    $userRole->delete();
+                }
+
+                $data['status'] = true;
+                $data['message'] = "User role deleted successfully!";
+                return response()->json($data, 200);
+
+            }else{
+                $data['status'] = false;
+                $data['message'] = "Server error!";
+                $data['errors'] = "";
+                return response()->json($data, 500);
+            }
+
+
+
+        }else{
+
+            $data['status'] = false;
+            $data['message'] = "User role error!";
+            $data['errors'] = "";
+            return response()->json($data, 404);
+
+        }
+        
     }
 }
