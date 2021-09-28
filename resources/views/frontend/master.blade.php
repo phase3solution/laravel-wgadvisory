@@ -45,6 +45,7 @@
 
         <link rel="stylesheet" href="{{ asset('frontend/assets/css/area.css') }}">
         <script src="https://cdn.ckeditor.com/ckeditor5/27.0.0/classic/ckeditor.js"></script>
+        <link rel="stylesheet" href="{{ asset('frontend/css/custom.css') }}">
 
 
         @yield('styles')
