@@ -92,14 +92,14 @@
             <li class="nav-item{{ $activePage == 'assign-user' ? ' active' : '' }}">
               <a class="nav-link" href="{{ route('company.assign.user') }}">
                  <i class="material-icons"><img src="{{asset('backend')}}/img/sidebar-menu-icons/user_sub.png"></i>
-                <span class="sidebar-normal"> {{ __('Assign User') }} </span>
+                <span class="sidebar-normal"> {{ __('Assigned User') }} </span>
               </a>
             </li>
 
             <li class="nav-item{{ $activePage == 'assign-assessment' ? ' active' : '' }}">
               <a class="nav-link" href="{{ route('company.assign.assessment') }}">
                  <i class="material-icons"><img src="{{asset('backend')}}/img/sidebar-menu-icons/evaluation.png"></i>
-                <span class="sidebar-normal"> {{ __('Assign Assessment') }} </span>
+                <span class="sidebar-normal"> {{ __('Assigned Assessment') }} </span>
               </a>
             </li>
 

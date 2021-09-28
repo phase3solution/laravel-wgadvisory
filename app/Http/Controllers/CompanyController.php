@@ -30,9 +30,9 @@ class CompanyController extends Controller
         ->with(array('userCompany'=>function($q2){
             $q2->with('user')->get();
         }))
+        ->orderBy('id', 'desc')
         ->get();
 
-        // return response()->json($data,200);
         return view('pages.company.view', $data);
     }
 
@@ -146,17 +146,25 @@ class CompanyController extends Controller
         $validate=  Validator::make($request->all(),[
             'name'=>'required',
             'description'=> 'nullable',
-            'status'=> 'nullable'
+            'status'=> 'required'
         ]);
 
         if($validate->fails()){
-            return redirect()->back();
+
+            $data['status'] = false;
+            $data['message'] = "Validation error!";
+            $data['errors'] = "";
+            return response()->json($data, 400);
+
         }else{
+
             $company = new Company();
             $company->name = $request->name;
             $company->slug = Str::slug($request->input('name'), "-");
             $company->description = $request->description;
             $company->dashboard_type = $request->dashboard_type;
+            $company->status = $request->status;
+
 
             $image=$request->file('image');
     
@@ -174,21 +182,25 @@ class CompanyController extends Controller
             }
 
            if( $company->save()){
-            return redirect()->route('company.index');
+
+                $data['status'] = true;
+                $data['message'] = "Company created successfully!";
+                return response()->json($data, 200);
+
            }else{
-            return redirect()->back();
+
+            $data['status'] = false;
+            $data['message'] = "Server error!";
+            $data['errors'] = "";
+            return response()->json($data, 500);
+
            }
 
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Company  $company
-     * @return \Illuminate\Http\Response
-     */
-    public function show($company)
+  
+    public function show($id)
     {
         //
     }

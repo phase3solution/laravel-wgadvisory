@@ -7,7 +7,7 @@
       <div class="col-md-12">
         <div class="card">
           <div class="card-header card-header-primary">
-              <div class="row">
+              <div class="row align-items-center">
                   <div class="col-md-6">
                     <h4 class="card-title ">Company</h4>
                     <p class="card-category">All available company</p>
@@ -80,7 +80,15 @@
 
                                 </td>
                                 <td>
-                                    <span class="badge badge-success">Active</span>
+
+                                  @if ($company->status)
+                                  <span class="badge badge-success">Active</span>
+
+                                  @else 
+                                  <span class="badge badge-danger">Inactive</span>
+
+                                  @endif
+
                                 </td>
                                 <td>
                                     <a class="btn btn-primary btn-link btn-sm" rel="tooltip" title="Edit" href="{{route('company.edit', $company->id)}}"><i class="material-icons">edit</i></a>
