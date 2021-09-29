@@ -124,6 +124,11 @@ thead.text-primary th {
     width:  100% !important;
 }
 
+.navbar-wrapper .page-title {
+    font-size: 22px;
+    font-weight: 700;
+}
+
 /*=======================================*/
 /*===========Left Sidebar Menu===========*/
 /*=======================================*/
