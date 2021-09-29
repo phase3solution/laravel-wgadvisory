@@ -144,7 +144,7 @@
                 @if ($assessments)
                 <div class="row">
                     <label class="col-sm-3 col-form-label">{{ __('Name') }}</label>
-                    <div class="col-sm-7">
+                    <div class="col-sm-9">
                         <div class="form-group">
                             <select name="assessment_id" class="form-control select2 assessmentName" id="assessment_id">
                                     <option value="">Assessment</option>

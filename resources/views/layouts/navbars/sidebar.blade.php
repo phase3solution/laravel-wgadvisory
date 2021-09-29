@@ -141,10 +141,10 @@
 
            
 
-      <li class="nav-item {{ ($activePage == 'sfiaTeam' || $activePage == 'sfiaRole' || $activePage == 'sfiaTeamRole' || $activePage == 'sfiaUser' || $activePage == 'sfiaRoleUser') ? ' active' : '' }}">
+      {{-- <li class="nav-item {{ ($activePage == 'sfiaTeam' || $activePage == 'sfiaRole' || $activePage == 'sfiaTeamRole' || $activePage == 'sfiaUser' || $activePage == 'sfiaRoleUser') ? ' active' : '' }}">
         <a class="nav-link" data-toggle="collapse" href="#sfiaSettings" aria-expanded="{{ ($activePage == 'sfiaTeam' || $activePage == 'sfiaRole' || $activePage == 'sfiaTeamRole' || $activePage == 'sfiaUser' || $activePage == 'sfiaRoleUser') ? ' true' : 'false' }}">
           <i><img style="width:25px" src="{{asset('backend')}}/img/sidebar-menu-icons/settings.png"></i>
-          <p>{{ __('SFIA Settings') }}
+          <p>{{ __('SFIA Setup') }}
             <b class="caret"></b>
           </p>
         </a>
@@ -188,7 +188,7 @@
 
           </ul>
         </div>
-      </li>
+      </li> --}}
 
      
 
@@ -206,7 +206,7 @@
         </a>
 
         @php
-            $assessmentTypes = \App\Models\AssessmentType::all();
+            $assessmentTypes = \App\Models\AssessmentType::where('status', 1)->get();
         @endphp
 
           <div class="collapse {{ ($activePage == 'assessment') ? ' show' : '' }}" id="assessment">
@@ -228,12 +228,12 @@
                 </a>
               </li>
 
-              <li class="nav-item {{ $titlePage == "SFIA" ? ' active' : '' }}">
+              {{-- <li class="nav-item {{ $titlePage == "SFIA" ? ' active' : '' }}">
                 <a class="nav-link" href="{{ route('sfia.index') }}">
                    <i class="material-icons">content_paste</i>
                   <span class="sidebar-normal"> SFIA </span>
                 </a>
-              </li>
+              </li> --}}
 
 
             </ul>
