@@ -93,7 +93,18 @@
                                 <td>
                                     <a class="btn btn-primary btn-link btn-sm" rel="tooltip" title="Edit" href="{{route('company.edit', $company->id)}}"><i class="material-icons">edit</i></a>
                                     {{-- <a class="btn btn-danger btn-link btn-sm" rel="tooltip" title="Delete" href="" ><i class="material-icons">close</i></a> --}}
-                                </td>
+                                    
+                                    <form class="deleteCompanyForm" method="post">
+                                      @csrf
+                                      @method('delete')
+                                      <input type="hidden" class="deleteId" name="id" value="{{$company->id}}">
+
+                                      <button class="btn btn-danger btn-link btn-sm" rel="tooltip" title="Delete" type="submit"><i class="material-icons">close</i></button>
+
+                                    </form>
+
+                                
+                                  </td>
                             </tr>
                         @endforeach
 
@@ -127,6 +138,71 @@
 <script>
   $(document).ready(function(){
     $("#companyTable").DataTable();
+
+
+    $('.deleteCompanyForm').on('submit', function(e){
+            e.preventDefault();
+            var id = $(this).find('.deleteId').val();
+            var formData = $(this).serialize();
+
+
+
+            Swal.fire({
+              title: 'Are you sure?',
+              text: "You won't be able to revert this!",
+              type: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+              if (result.value) {
+
+                $.ajax({
+                  type:"POST",
+                  url: "{{url('company')}}/"+id,
+                  data: formData,
+                  success:function(response){
+
+                    Toast.fire({
+                          type: 'success',
+                          title: response.message
+                      })
+
+                      setTimeout(function(){
+                        location.reload();
+                      },3000)
+
+                  },
+                  error:function(error){
+                    console.log(error);
+
+                    Toast.fire({
+                          type: 'error',
+                          title: "Server error!"
+                      })
+                  }
+                })
+
+                  
+              }
+          });
+
+
+
+
+           
+
+        
+            
+
+         
+
+
+        })
+
+
+
   })
 </script>
     

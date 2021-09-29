@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Assessment;
 use App\Models\AssessmentType;
+use App\Models\Bia;
 use App\Models\Company;
 use App\Models\CompanyAssessmentType;
 use App\Models\Role;
+use App\Models\Sfia;
 use App\Models\User;
 use App\Models\UserCompany;
 use Illuminate\Http\Request;
@@ -38,7 +40,7 @@ class CompanyController extends Controller
 
     public function assignUserList(){
 
-        $data['assign_users'] = UserCompany::with('company', 'user')->get();
+        $data['assign_users'] = UserCompany::with('company', 'user')->orderBy('id','desc')->get();
         $data['companies'] = Company::all();
         $data['users'] = User::all();
         return view('pages.company.assign_user', $data);
@@ -54,40 +56,78 @@ class CompanyController extends Controller
                     if($userCompany){
                         $userCompany->user_id = $user_id;
                         $userCompany->company_id = $company_id;
+                        $userCompany->status = $request->status;
                         $userCompany->updated_by = Auth::id();
                     }else{
+
                         $userCompany = new UserCompany();
                         $userCompany->user_id = $user_id;
                         $userCompany->company_id = $company_id;
+                        $userCompany->status = $request->status;
+
                         $userCompany->created_by = Auth::id();
                     }
 
-                    $userCompany->save();
+                   if($userCompany->save()){
 
-                    return redirect()->back();
+                        $data['status'] = true;
+                        $data['message'] = "User assigned to the selected company successfully!";
+                        return response()->json($data, 200);
+                       
+                   }else{
+
+                        $data['status'] = false;
+                        $data['message'] = "Server error!";
+                        $data['errors'] = "";
+                        return response()->json($data, 500);
+
+                   }
+
 
     }
 
 
 
-    public function assignUserDelete($id){
+    public function assignUserDelete(Request $request, $id){
 
         $userCompany = UserCompany::find($id);
         if($userCompany){
-            $userCompany->delete();
+
+            if($userCompany->delete()){
+
+                $data['status'] = true;
+                $data['message'] = "Assigned company user deleted successfully!";
+                return response()->json($data, 200);
+
+            }else{
+
+                $data['status'] = false;
+                $data['message'] = "Server error!";
+                $data['errors'] = '';
+                return response()->json($data, 500);
+
+            }
+            
+
+        }else{
+
+            $data['status'] = false;
+            $data['message'] = "The given id not found !";
+            $data['errors'] = '';
+            return response()->json($data, 404);
+
+
         }
 
-        return redirect()->back();
 
     }
 
     public function assignAssessmentList(){
 
-        $data['assign_assessments'] = CompanyAssessmentType::with('company', 'assessment', 'assessmentType')->get();
+        $data['assign_assessments'] = CompanyAssessmentType::with('company', 'assessment', 'assessmentType')->orderBy('updated_at', 'desc')->get();
         $data['companies'] = Company::all();
         $data['assessmentTypes'] = AssessmentType::all();
         $data['assessments'] = Assessment::where('parent_id', 0)->get();
-
         return view('pages.company.assign_assessment', $data);
     }
 
@@ -110,16 +150,39 @@ class CompanyController extends Controller
                 $companyAssessment->company_id = $request->company_id;
                 $companyAssessment->assessment_id = $request->assessment_id;
                 $companyAssessment->assessment_type_id =  $request->type_id;
-                if($request->status){
-                    $companyAssessment->status =  $request->status;
-                }
+                $companyAssessment->status =  $request->status;
+
+               
                 $companyAssessment->created_by = Auth::id();
             }
 
-            $companyAssessment->save();
+            if($companyAssessment->save()){
+
+                $data['status'] = true;
+                $data['message'] = "Company assissment assigned successfully !";
+                return response()->json($data, 200);
+
+                
+
+            }else{
+
+                $data['status'] = false;
+                $data['message'] = "Server error !";
+                $data['errors'] = '';
+                return response()->json($data, 500);
+
+            }
+
+            
+        }else{
+
+            $data['status'] = false;
+            $data['message'] = "The given id not found !";
+            $data['errors'] = '';
+            return response()->json($data, 404);
+
         }
 
-        return redirect()->back();
 
     }
 
@@ -127,10 +190,21 @@ class CompanyController extends Controller
 
         $assessmentCompany = CompanyAssessmentType::find($id);
         if($assessmentCompany){
-            $assessmentCompany->delete();
+            if($assessmentCompany->delete()){
+                $data['status'] = true;
+                $data['message'] = "Company assissment deleted successfully !";
+                return response()->json($data, 200);
+            }else{
+                $data['status'] = false;
+                $data['message'] = "Server error !";
+                return response()->json($data, 500);
+            }
+        }else{
+            $data['status'] = false;
+            $data['message'] = "The given id not found !";
+            return response()->json($data, 404);
         }
 
-        return redirect()->back();
 
     }
 
@@ -222,18 +296,28 @@ class CompanyController extends Controller
         $validate=  Validator::make($request->all(),[
             'name'=>'required',
             'description'=> 'nullable',
-            'status'=> 'nullable'
+            'status'=> 'required'
         ]);
 
         if($validate->fails()){
-            return redirect()->back();
+
+
+            $data['status'] = false;
+            $data['message'] = "Validation error!";
+            $data['errors'] = "";
+            return response()->json($data, 400);
+
+
         }else{
             $company = Company::find($companyId);
 
             if($company){
+
                 $company->name = $request->name;
                 $company->description = $request->description;
                 $company->dashboard_type = $request->dashboard_type;
+                $company->status = $request->status;
+
 
                 $image=$request->file('image');
     
@@ -253,13 +337,25 @@ class CompanyController extends Controller
                 }
 
                if( $company->save()){
-                return redirect()->route('company.index');
+
+                    $data['status'] = true;
+                    $data['message'] = "Company updated successfully!";
+                    return response()->json($data, 200);
+
                }else{
-                return redirect()->back();
+
+                    $data['status'] = false;
+                    $data['message'] = "Server error!";
+                    $data['errors'] = "";
+                    return response()->json($data, 500);
+
                }
 
             }else{
-                return redirect()->back();
+                $data['status'] = false;
+                $data['message'] = "Company not found!";
+                $data['errors'] = "";
+                return response()->json($data, 404);
             }
 
 
@@ -267,8 +363,39 @@ class CompanyController extends Controller
     }
 
 
-    public function destroy($company)
+    public function destroy($id)
     {
-        //
+        $company = Company::find($id);
+        if($company){
+
+            if($company->delete()){
+
+                CompanyAssessmentType::where('company_id', $id)->delete();
+                UserCompany::where('company_id', $id)->delete();
+                Bia::where('company_id', $id)->delete();
+                Sfia::where('company_id', $id)->delete();
+
+                $data['status'] = true;
+                $data['message'] = "Company deleted successfully!";
+                return response()->json($data, 200);
+
+            }else{
+
+                $data['status'] = false;
+                $data['message'] = "Server error!";
+                return response()->json($data, 500);
+
+            }
+
+            
+
+        }else{
+
+            $data['status'] = false;
+            $data['message'] = "Company not found!";
+            $data['errors'] = "";
+            return response()->json($data, 404);
+
+        }
     }
 }

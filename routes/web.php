@@ -239,13 +239,13 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/company-assign-user', [CompanyController::class, 'assignUserList'])->name('company.assign.user');
 	Route::post('/company-insert-user', [CompanyController::class, 'assignUserInsert'])->name('company-user-insert');
 	Route::post('/company-update-user', [CompanyController::class, 'assignUserUpdate'])->name('company-user-update');
-	Route::get('/company-delete-user/{id}', [CompanyController::class, 'assignUserDelete'])->name('company-user-delete');
+	Route::post('/company-delete-user/{id}', [CompanyController::class, 'assignUserDelete'])->name('company-user-delete');
 
 
 
 	Route::get('/company-assign-assessment', [CompanyController::class, 'assignAssessmentList'])->name('company.assign.assessment');
 	Route::post('/assignAssessmentInsert', [CompanyController::class, 'assignAssessmentInsert'])->name('company-assessment-insert');
-	Route::get('/assign-assessment-delete/{id}', [CompanyController::class, 'assignAssessmentDelete'])->name('company-assessment-delete');
+	Route::post('/company-assessment-delete/{id}', [CompanyController::class, 'assignAssessmentDelete'])->name('company-assessment-delete');
 
 	Route::resource('assessmentType', AssessmentTypeController::class);
 	Route::resource('assessmentLabel', AssessmentLabelController::class);
