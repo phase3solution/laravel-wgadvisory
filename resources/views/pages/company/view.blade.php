@@ -140,6 +140,8 @@
     $("#companyTable").DataTable();
   })
 
+
+
   $(document).on('submit', '.deleteCompanyForm', function(e){
 
     e.preventDefault();
@@ -190,6 +192,7 @@
           });
 
   })
+  
 </script>
     
 @endpush
