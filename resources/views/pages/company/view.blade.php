@@ -138,10 +138,11 @@
 <script>
   $(document).ready(function(){
     $("#companyTable").DataTable();
+  })
 
+  $(document).on('submit', '.deleteCompanyForm', function(e){
 
-    $('.deleteCompanyForm').on('submit', function(e){
-            e.preventDefault();
+    e.preventDefault();
             var id = $(this).find('.deleteId').val();
             var formData = $(this).serialize();
 
@@ -187,21 +188,6 @@
                   
               }
           });
-
-
-
-
-           
-
-        
-            
-
-         
-
-
-        })
-
-
 
   })
 </script>

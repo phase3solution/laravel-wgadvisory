@@ -87,7 +87,7 @@ class AssessmentLabelController extends Controller
 
     public function edit($assessmentLabelId)
     {
-        $data['assessmentTypes'] = AssessmentType::all();
+        $data['assessmentTypes'] = AssessmentType::where('status',1)->get();
         $data['assessmentLabel'] = AssessmentLabel::find($assessmentLabelId);
         return view('pages.assessment_label.edit', $data);
     }

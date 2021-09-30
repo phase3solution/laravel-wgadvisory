@@ -100,9 +100,7 @@
                                     <select name="role_id" class="form-control select2" required >
                                         <option value="">Select Role</option>
                                         @foreach ($roles as $role)
-                                            <option value="{{$role->id}}" @if ($userCheck->role_id != 1 && $role->id ==1)
-                                                style="display:none"
-                                            @endif  >{{$role->name}}</option>
+                                            <option value="{{$role->id}}">{{$role->name}}</option>
                                         @endforeach
                                     </select>
                                 </div>

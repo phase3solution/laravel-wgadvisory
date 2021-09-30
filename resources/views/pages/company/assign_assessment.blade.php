@@ -95,7 +95,7 @@
 
 
 <!-- Create Modal -->
-<div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="createModal"  role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -111,10 +111,10 @@
             <div class="modal-body">
                 @if ($companies)
                 <div class="row">
-                    <label class="col-sm-3 col-form-label">{{ __('Company') }}</label>
-                    <div class="col-sm-7">
+                    <label class="col-sm-3 col-form-label">{{ __('Company') }} <span class="text-danger">*</span></label>
+                    <div class="col-sm-9">
                         <div class="form-group">
-                            <select name="company_id" class="form-control select2" id="company_id">
+                            <select name="company_id" class="form-control select2" required id="company_id">
                                 <option value="">Select Company</option>
                                 @foreach ($companies as $company)
                                     <option value="{{$company->id}}">{{$company->name}}</option>
@@ -127,10 +127,10 @@
                 
                 @if ($assessmentTypes)
                 <div class="row">
-                    <label class="col-sm-3 col-form-label">{{ __('Assessment') }}</label>
-                    <div class="col-sm-7">
+                    <label class="col-sm-3 col-form-label">{{ __('Assessment') }} <span class="text-danger">*</span></label>
+                    <div class="col-sm-9">
                         <div class="form-group">
-                            <select name="type_id" class="form-control select2" id="type_id">
+                            <select name="type_id" class="form-control select2" required id="type_id">
                                     <option value="">Assessment Type</option>
                                 @foreach ($assessmentTypes as $type)
                                     <option value="{{$type->id}}">{{$type->name}}</option>
@@ -143,10 +143,10 @@
                 
                 @if ($assessments)
                 <div class="row">
-                    <label class="col-sm-3 col-form-label">{{ __('Name') }}</label>
+                    <label class="col-sm-3 col-form-label">{{ __('Name') }} <span class="text-danger">*</span></label>
                     <div class="col-sm-9">
                         <div class="form-group">
-                            <select name="assessment_id" class="form-control select2 assessmentName" id="assessment_id">
+                            <select name="assessment_id" required class="form-control select2 assessmentName" id="assessment_id">
                                     <option value="">Assessment</option>
                                 @foreach ($assessments as $assessment)
                                     <option value="{{$assessment->id}}">{{$assessment->name}}</option>
@@ -158,8 +158,8 @@
                 @endif
                 
                 <div class="row">
-                    <label class="col-sm-2 col-form-label">{{ __('Status') }} <span class="text-danger">*</span></label>
-                    <div class="col-sm-10">
+                    <label class="col-sm-3 col-form-label">{{ __('Status') }} <span class="text-danger">*</span></label>
+                    <div class="col-sm-9">
                       <div class="form-group">
                         <input type="radio" name="status" value="1" checked id="active-status" required>
                         <label for="active-status">Active</label>

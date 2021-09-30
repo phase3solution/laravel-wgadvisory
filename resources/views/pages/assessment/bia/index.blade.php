@@ -38,7 +38,16 @@
                                 <td>{{++$key}}</td>
                                 <td>{{$bia->company->name}}</td>
                                 <td>{{$bia->name}}</td>
-                                <td class="bg-dark text-center"> <img  height="60" width="60" src="{{asset($bia->image)}}" alt=""> </td>
+                                <td class="bg-light text-center"> 
+                                  
+                                  @if ($bia->image)
+                                  <img  height="60" width="60" src="{{asset($bia->image)}}" alt=""> </td>
+
+                                  @else
+                                  <img  height="60" width="60" src="{{asset('no-image-found.jpeg')}}" alt=""> </td>
+
+                                  @endif
+                                  
                                 
                                 <td>
 
@@ -60,9 +69,11 @@
                                 <td>
                                     <a class="btn btn-info btn-link btn-sm"  rel="tooltip" title="Add"  href="{{url('edit-bia', $bia->id)}}"><i class="material-icons">playlist_add</i></a>
                                     <a class="btn btn-primary btn-link btn-sm"  rel="tooltip" title="Edit" href="{{route('bia.edit', $bia->id)}}"> <i class="material-icons">edit</i></a> 
-                                    <form onSubmit="return confirm('Are you sure?') " action="{{route('bia.destroy', $bia->id)}}" method="POST">
+                                    <form  method="POST" class="deleteBiaForm">
                                         @csrf
                                         @method('delete')
+                                        <input type="hidden" class="deleteId" name="id" value="{{$bia->id}}">
+
                                         <button class="btn btn-danger btn-link btn-sm"  rel="tooltip" title="Delete"  type="submit" ><i class="material-icons">close</i></button>
                                     </form>
                                 </td>
@@ -83,3 +94,75 @@
   </div>
 </div>
 @endsection
+
+
+@push('js')
+    <script>
+      $(document).ready(function(){
+
+
+        $('.deleteBiaForm').on('submit', function(e){
+            e.preventDefault();
+            var id = $(this).find('.deleteId').val();
+            var formData = $(this).serialize();
+
+
+
+            Swal.fire({
+              title: 'Are you sure?',
+              text: "You won't be able to revert this!",
+              type: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+              if (result.value) {
+
+                $.ajax({
+                  type:"POST",
+                  url: "{{url('bia')}}/"+id,
+                  data: formData,
+                  success:function(response){
+
+                    Toast.fire({
+                          type: 'success',
+                          title: response.message
+                      })
+
+                      setTimeout(function(){
+                        location.reload();
+                      },3000)
+
+                  },
+                  error:function(error){
+                    console.log(error);
+
+                    Toast.fire({
+                          type: 'error',
+                          title: "Server error!"
+                      })
+                  }
+                })
+
+                  
+              }
+          });
+
+
+
+
+           
+
+        
+            
+
+         
+
+
+        })
+
+
+      })
+    </script>
+@endpush

@@ -95,7 +95,7 @@
 
 
 <!-- Create Modal -->
-<div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="createModal"  role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -112,10 +112,10 @@
             <div class="modal-body">
                 @if ($companies)
                 <div class="row">
-                    <label class="col-md-3 col-form-label">{{ __('Company') }}</label>
+                    <label class="col-md-3 col-form-label">{{ __('Company') }} <span class="text-danger">*</span></label>
                     <div class="col-md-9">
                         <div class="form-group">
-                            <select name="company_id" class="form-control select2" id="company_id">
+                            <select name="company_id" class="form-control select2" id="company_id" required>
                                 <option value="">Select Company</option>
                                 @foreach ($companies as $company)
                                     <option value="{{$company->id}}">{{$company->name}}</option>
@@ -128,10 +128,10 @@
                 
                 @if ($users)
                 <div class="row">
-                    <label class="col-md-3 col-form-label">{{ __('User') }}</label>
+                    <label class="col-md-3 col-form-label">{{ __('User') }} <span class="text-danger">*</span></label>
                     <div class="col-md-9">
                         <div class="form-group">
-                            <select name="user_id" class="form-control select2" id="user_id">
+                            <select name="user_id" class="form-control select2" required id="user_id">
                                 <option value="">Select User</option>
                                 @foreach ($users as $user)
                                     <option value="{{$user->id}}">{{$user->name}} - {{$user->email}} </option>
@@ -144,8 +144,8 @@
 
 
                 <div class="row">
-                  <label class="col-sm-2 col-form-label">{{ __('Status') }} <span class="text-danger">*</span></label>
-                  <div class="col-sm-10">
+                  <label class="col-sm-3 col-form-label">{{ __('Status') }} <span class="text-danger">*</span></label>
+                  <div class="col-sm-9">
                     <div class="form-group">
                       <input type="radio" name="status" value="1" checked id="active-status" required>
                       <label for="active-status">Active</label>

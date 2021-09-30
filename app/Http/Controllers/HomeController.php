@@ -20,10 +20,10 @@ class HomeController extends Controller
 
     public function index()
     {
-        $data['roles'] = Role::all();
-        $data['users'] = User::all();
+        $data['roles'] = Role::where('status',1)->get();
+        $data['users'] = User::where('status',1)->get();
         $data['assessments'] = AssessmentType::where('status', 1)->get();
-        $data['companies'] = Company::all();
+        $data['companies'] = Company::where('status',1)->get();
         return view('dashboard', $data);
     }
 }
