@@ -226,10 +226,13 @@ Auth::routes();
 
 Route::get('/dashboard', 'App\Http\Controllers\HomeController@index')->name('home')->middleware('auth');
 
+Route::resource('role', RoleController::class)->middleware('administrator');
+Route::resource('assessmentType', AssessmentTypeController::class)->middleware('administrator');
+
+
 Route::group(['middleware' => 'auth'], function () {
 
 
-	Route::resource('role', RoleController::class);
 	Route::resource('user', UserController::class);
 
 	Route::post('change-password', [UserController::class, 'updatePassword' ])->name('change.password');
@@ -247,7 +250,6 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('/assignAssessmentInsert', [CompanyController::class, 'assignAssessmentInsert'])->name('company-assessment-insert');
 	Route::post('/company-assessment-delete/{id}', [CompanyController::class, 'assignAssessmentDelete'])->name('company-assessment-delete');
 
-	Route::resource('assessmentType', AssessmentTypeController::class);
 	Route::resource('assessmentLabel', AssessmentLabelController::class);
 
 	Route::resource('assessment', AssessmentController::class);
