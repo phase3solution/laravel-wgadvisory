@@ -25,21 +25,67 @@ class UserController extends Controller
     
     public function index()
     {
-        $data['users'] = User::with(array('userRole'=>function($q1){
-            $q1->with('role')->get();
-        }))
-        ->with(array('userCompany'=>function($q2){
-            $q2->with('company')->get();
-        }))
-        ->orderBy('id', 'desc')
-        ->get();
+
+
+       
+
+
+        $userRole = UserRole::where('user_id', Auth::id())->first();
+
+        if($userRole->role_id == 1){
+
+            $data['users'] = User::with(array('userRole'=>function($q1){
+                $q1->with('role')->get();
+            }))
+            ->with(array('userCompany'=>function($q2){
+                $q2->with('company')->get();
+            }))
+            ->orderBy('id', 'desc')
+            ->get();
+
+        }else if($userRole->role_id == 2){
+
+            $superUsers = UserRole::select('user_id')->where('role_id', 1)->get();
+
+            $data['users'] = User::with(array('userRole'=>function($q1){
+                $q1->with('role')->get();
+            }))
+            ->with(array('userCompany'=>function($q2){
+                $q2->with('company')->get();
+            }))
+            ->whereNotIn('id', $superUsers )
+            ->orderBy('id', 'desc')
+            ->get();
+
+        }else{
+            $data['users'] = array();
+        }
+
+
+
+
+
+
         return view('pages.user.view', $data);
     }
 
 
     public function create()
     {
-        $data['roles'] = Role::where('status', 1)->get();
+
+        $userRole = UserRole::where('user_id', Auth::id())->first();
+
+        if($userRole->role_id == 1){
+            $data['roles'] = Role::where('status', 1)->get();
+
+        }else if($userRole->role_id == 2){
+            $data['roles'] = Role::where('id', '!=', 1)->where('status', 1)->get();
+
+        }else{
+            $data['roles'] = array();
+        }
+
+
         $data['companies'] = Company::where('status', 1)->get();
         return view('pages.user.create', $data);
     }
@@ -127,9 +173,20 @@ class UserController extends Controller
   
     public function edit($id)
     {
+
+        $userRole = UserRole::where('user_id', Auth::id())->first();
+
+        if($userRole->role_id == 1){
+            $data['roles'] = Role::where('status', 1)->get();
+
+        }else if($userRole->role_id == 2){
+            $data['roles'] = Role::where('id', '!=', 1)->where('status', 1)->get();
+
+        }else{
+            $data['roles'] = array();
+        }
         $data['user'] = User::with('userRole', 'userCompany')->find($id);
-        $data['roles'] = Role::all();
-        $data['companies'] = Company::all();
+        $data['companies'] = Company::where('status',1)->get();
 
 
         if($data['user']){

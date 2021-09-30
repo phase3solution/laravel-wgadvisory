@@ -33,6 +33,7 @@ class AssessmentController extends Controller
     {
         $data['assessmentLabel'] =  AssessmentLabel::where('assessment_type_id', $typeId)->first();
         $data['assessmentType'] =  AssessmentType::where('id', $typeId)->first();
+        $data['companies'] = Company::where('status',1)->get();
         return view('pages.assessment.store', $data);
         
     }
@@ -64,7 +65,7 @@ class AssessmentController extends Controller
         $data['assessment'] =  Assessment::with('company')->where('id', $assessmentId)->first();
         $data['assessmentLabel'] =  AssessmentLabel::where('assessment_type_id', $data['assessment']->assessment_type_id)->first();
         $data['assessmentType'] =  AssessmentType::where('id', $data['assessment']->assessment_type_id)->first();
-        $data['companies'] = Company::all();
+        $data['companies'] = Company::where('status',1)->get();
         $data['registers'] = Assessment::where('name', 'like', '%Register%')->get();
         // return response()->json($data, 200);
         return view('pages.assessment.edit_parent', $data);
@@ -139,12 +140,36 @@ class AssessmentController extends Controller
     }
 
 
-    public function deleteParent($assessmentId){
+    public function deleteParent(Request $request, $assessmentId){
+
+
+
         $assessment =  Assessment::where('id', $assessmentId)->first();
         if($assessment){
-            $assessment->delete();
+           if($assessment->delete()){
+
+                if($assessment->image){
+                    unlink($assessment->image);
+                }
+               
+                CompanyAssessmentType::where('assessment_id', $assessmentId)->delete();
+                Assessment::where('base_id', $assessmentId)->delete();
+
+                $data['status'] =true;
+                $data['message'] = "Assessment deleted successfully";
+                return response()->json($data,200);
+           }else{
+                $data['status'] =true;
+                $data['message'] = "Server error";
+                return response()->json($data,500);
+           }
+        }else{
+            $data['status'] =true;
+            $data['message'] = "Not found!";
+            return response()->json($data,404);
         }
-        return redirect()->back();
+
+
     }
 
 
@@ -153,11 +178,16 @@ class AssessmentController extends Controller
         $validate=  Validator::make($request->all(),[
             'name'=>'required',
             'description'=> 'nullable',
-            'status'=> 'nullable'
+            // 'status'=> 'nullable'
         ]);
 
         if($validate->fails()){
-            return redirect()->back();
+
+            $data['status'] = false;
+            $data['message'] = "Validation error!";
+            $data['errors'] = "";
+            return response()->json($data, 400);
+
         }else{
             $assessmentType = new Assessment();
             $assessmentType->parent_id = $request->parent_id;
@@ -166,13 +196,39 @@ class AssessmentController extends Controller
             $assessmentType->assessment_label_id = $request->assessment_label_id;
             $assessmentType->slug = Str::slug($request->input('name'), "-");
             $assessmentType->description = $request->description;
+            // $assessmentType->status = $request->status;
+
             $assessmentType->created_by = Auth::id();
 
+            $image=$request->file('image');
+    
+            if($image){
+               
+                $image_name=Str::slug($request->input('name'), "-").Str::random(4);
+                $ext=strtolower($image->getClientOriginalExtension());
+                $image_full_name=$image_name.".".$ext;
+                $upload_path='assessmentLogo/';
+                $image_url=$upload_path.$image_full_name;
+                $success=$image->move($upload_path,$image_full_name);
+                if($success){
+                    $assessmentType->image=$image_url;
+                }
+
+            }
+
+
            if( $assessmentType->save()){
-            return redirect()->route('assessmentList',$request->assessment_type_id);
-            // return redirect()->route('assessmentType.index');
+            // return redirect()->route('assessmentList',$request->assessment_type_id);
+                $data['status'] = true;
+                $data['message'] = "Assessment created successfully!";
+                return response()->json($data, 200);
            }else{
-            return redirect()->back();
+
+                $data['status'] = false;
+                $data['message'] = "Server error!";
+                $data['errors'] = "";
+                return response()->json($data, 500);
+
            }
 
         }
@@ -1122,13 +1178,13 @@ class AssessmentController extends Controller
 
 
 
-    }else{
+        }else{
             return view('pages.assessment.under_construction');
         }
 
 
             
-        }
+    }
 
         public function update(Request $request)
         {
@@ -1216,4 +1272,4 @@ class AssessmentController extends Controller
 
             
         }
-    }
+}

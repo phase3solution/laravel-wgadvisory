@@ -41,8 +41,8 @@ class CompanyController extends Controller
     public function assignUserList(){
 
         $data['assign_users'] = UserCompany::with('company', 'user')->orderBy('id','desc')->get();
-        $data['companies'] = Company::all();
-        $data['users'] = User::all();
+        $data['companies'] = Company::where('status',1)->get();
+        $data['users'] = User::where('status',1)->get();
         return view('pages.company.assign_user', $data);
 
     }
@@ -125,8 +125,8 @@ class CompanyController extends Controller
     public function assignAssessmentList(){
 
         $data['assign_assessments'] = CompanyAssessmentType::with('company', 'assessment', 'assessmentType')->orderBy('updated_at', 'desc')->get();
-        $data['companies'] = Company::all();
-        $data['assessmentTypes'] = AssessmentType::all();
+        $data['companies'] = Company::where('status',1)->get();
+        $data['assessmentTypes'] = AssessmentType::where('status',1)->get();
         $data['assessments'] = Assessment::where('parent_id', 0)->get();
         return view('pages.company.assign_assessment', $data);
     }

@@ -6,6 +6,7 @@ use App\Models\Bia;
 use App\Models\BiaDepartment;
 use App\Models\Company;
 use App\Models\BiaDepartmentResult;
+use App\Models\BiaService;
 use App\Models\BiaServiceResult;
 // use Barryvdh\DomPDF\PDF;
 use Barryvdh\DomPDF\Facade as PDF;
@@ -14,6 +15,9 @@ use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+
 class BiaController extends Controller
 {
     
@@ -129,41 +133,66 @@ class BiaController extends Controller
     public function create()
     {
 
-        $data['companies'] = Company::all();
+        $data['companies'] = Company::where('status',1)->get();
        return view('pages.assessment.bia.create', $data);
     }
 
  
     public function store(Request $request)
     {
-        $bia = new Bia();
-        $bia->name = $request->name;
-        $bia->slug = Str::slug($request->input('name'), "-");
-        $bia->description = $request->description;
-        $bia->company_id = $request->company_id;
-        $bia->created_by= Auth::id();
+
+        $validate=  Validator::make($request->all(),[
+            'name'=>'required',
+            'company_id'=> 'required',
+            // 'status'=> 'required',
+       
+        ]);
+
+        if($validate->fails()){
+            $data['status'] = false;
+            $data['message'] = "Validation error!";
+            $data['errors'] = "";
+            return response()->json($data, 400);
+
+        }else{
+
+
+            $bia = new Bia();
+            $bia->name = $request->name;
+            $bia->slug = Str::slug($request->input('name'), "-");
+            $bia->description = $request->description;
+            $bia->company_id = $request->company_id;
+            // $bia->status = $request->status;
+
+            $bia->created_by= Auth::id();
 
 
 
-            $image=$request->file('image');
-    
-                if($image){
-                    $image_name=Str::slug($request->input('name'), "-").Str::random(4);
-                    $ext=strtolower($image->getClientOriginalExtension());
-                    $image_full_name=$image_name.".".$ext;
-                    $upload_path='assessmentLogo/';
-                    $image_url=$upload_path.$image_full_name;
-                    $success=$image->move($upload_path,$image_full_name);
-                    if($success){
-                        $bia->image=$image_url;
+                $image=$request->file('image');
+        
+                    if($image){
+                        $image_name=Str::slug($request->input('name'), "-").Str::random(4);
+                        $ext=strtolower($image->getClientOriginalExtension());
+                        $image_full_name=$image_name.".".$ext;
+                        $upload_path='assessmentLogo/';
+                        $image_url=$upload_path.$image_full_name;
+                        $success=$image->move($upload_path,$image_full_name);
+                        if($success){
+                            $bia->image=$image_url;
+                        }
+
                     }
 
-                }
-
-        if($bia->save()){
-            return redirect()->route('bia.index');
-        }else{
-            return redirect()->back();
+            if($bia->save()){
+                $data['status'] = true;
+                $data['message'] = "Bia assessment saved successfully!";
+                return response()->json($data, 200);
+            }else{
+                $data['status'] = false;
+                $data['message'] = "Server error!";
+                $data['errors'] = "";
+                return response()->json($data, 500);
+            }
         }
 
     }
@@ -179,7 +208,7 @@ class BiaController extends Controller
         $bia = Bia::where('id',$id)->first();
         if($bia){
             $data['bia'] = $bia;
-            $data['companies'] = Company::all();
+            $data['companies'] = Company::where('status',1)->get();
             return view('pages.assessment.bia.edit', $data);
         }else{
             return redirect()->back();
@@ -210,6 +239,8 @@ class BiaController extends Controller
             $bia->slug = Str::slug($request->input('name'), "-");
             $bia->description = $request->description;
             $bia->company_id = $request->company_id;
+            $bia->status = $request->status;
+
             $bia->updated_by= Auth::id();
 
 
@@ -237,21 +268,20 @@ class BiaController extends Controller
             if($bia->save()){
 
                 $data['status'] =true;
-                $data['message'] = "Update Successfully!";
+                $data['message'] = "Assessment updated successfully!";
                 return response()->json($data, 200);
-                // return redirect()->route('bia.index');
             }else{
                 $data['status'] =false;
                 $data['message'] = "Server Error!";
+                $data['errors'] = '';
                 return response()->json($data, 500);
-                // return redirect()->back();
             }
 
         }else{
             $data['status'] =false;
             $data['message'] = "Data not found!";
+            $data['errors'] = '';
             return response()->json($data, 404);
-            // return redirect()->back();
         }
 
 
@@ -391,15 +421,36 @@ class BiaController extends Controller
     }
 
 
-    public function destroy($bia)
+    public function destroy($id)
     {
-        $bia = Bia::find($bia);
+        $bia = Bia::find($id);
         if($bia){
-            $bia->delete();
-            return redirect()->back();
+           if( $bia->delete()){
+
+            BiaDepartment::where('bia_id', $id)->delete();
+            BiaDepartmentResult::where('bia_id', $id)->delete();
+
+            BiaService::where('bia_id', $id)->delete();
+            BiaServiceResult::where('bia_id', $id)->delete();
+
+            $data['status'] = false;
+            $data['message'] = "Assessment deleted successfully!";
+            return response()->json($data, 200);
+
+           }else{
+
+            $data['status'] = false;
+            $data['message'] = "Server error!";
+            $data['errors'] = "";
+            return response()->json($data, 500);
+
+           }
 
         }else{
-            return redirect()->back();
+            $data['status'] = false;
+            $data['message'] = "Not found!";
+            $data['errors'] = "";
+            return response()->json($data, 404);
         }
     }
 }

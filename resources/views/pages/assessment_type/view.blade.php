@@ -90,8 +90,12 @@
 
         $('#assessmentTypeList').DataTable();
 
-        $('.deleteAssessmentTypeForm').on('submit', function(e){
-            e.preventDefault();
+      })
+
+
+      $(document).on('submit', '.deleteAssessmentTypeForm', function(e){
+
+        e.preventDefault();
             var id = $(this).find('.deleteId').val();
             var formData = $(this).serialize();
 
@@ -137,10 +141,6 @@
                   
               }
           });
-
-
-        })
-
 
       })
     </script>

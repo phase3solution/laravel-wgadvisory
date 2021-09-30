@@ -41,7 +41,7 @@ class SfiaController extends Controller
   
     public function create()
     {
-        $data['companies'] = Company::all();
+        $data['companies'] = Company::where('status',1)->get();
 
         return view('pages.assessment.sfias.create', $data);
 
@@ -90,7 +90,7 @@ class SfiaController extends Controller
 
     public function edit( $id)
     {
-        $data['companies'] = Company::all();
+        $data['companies'] = Company::where('status',1)->get();
         $data['sfia'] = Sfia::find($id);
         return view('pages.assessment.sfias.edit', $data);
     }

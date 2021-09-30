@@ -117,8 +117,13 @@
 
         $('#userList').DataTable();
 
-        $('.deleteUserForm').on('submit', function(e){
-            e.preventDefault();
+      })
+
+
+
+      $(document).on('submit', '.deleteUserForm',function(e){
+        
+        e.preventDefault();
             var id = $(this).find('.deleteId').val();
             var formData = $(this).serialize();
 
@@ -166,19 +171,8 @@
           });
 
 
+      });
 
-
-           
-
-        
-            
-
-         
-
-
-        })
-
-
-      })
+      
     </script>
 @endpush

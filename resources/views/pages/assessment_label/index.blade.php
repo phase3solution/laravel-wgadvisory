@@ -94,8 +94,11 @@
       $(document).ready(function(){
         $('#labelTable').DataTable();
 
-        $('.deleteAssessmentLabelForm').on('submit', function(e){
-            e.preventDefault();
+      })
+
+      $(document).on('submit', '.deleteAssessmentLabelForm', function(e){
+
+        e.preventDefault();
             var id = $(this).find('.deleteId').val();
             var formData = $(this).serialize();
 
@@ -141,10 +144,6 @@
                   
               }
           });
-
-
-        })
-
 
       })
     </script>
