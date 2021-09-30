@@ -120,6 +120,7 @@
       })
 
 
+
       $(document).on('submit', '.deleteUserForm',function(e){
         
         e.preventDefault();
