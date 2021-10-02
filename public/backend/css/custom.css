@@ -28,12 +28,12 @@ a {
     box-shadow: none;
 }
 
-.btn.btn-primary:hover {
+.btn.btn-primary:hover,
+.btn.btn-primary:focus {
     background-color: #466d2d;
     border-color: #466d2d;
     box-shadow: none;
 }
-
 
 .table>thead>tr>th, 
 .table>tbody>tr>th, 
@@ -42,6 +42,31 @@ a {
 .table>tbody>tr>td, 
 .table>tfoot>tr>td {
     padding: 6px 5px;
+}
+
+.custom_table_row_color thead {
+    border-bottom: 2px solid #dddddd;
+}
+
+.custom_table_row_color tr:nth-child(even) {
+    background: #f5f5f5;
+}
+
+.custom_table_row_color tr:last-child {
+    border-bottom: 1px solid #dddddd;
+}
+
+.assessment_wrap_item {
+    padding:  10px;
+    border: 1px solid red;
+}
+
+.table_action {
+    width: 200px;
+}
+
+.form_inline_block {
+    display: inline-block;
 }
 
 .card .card-category {
@@ -95,7 +120,8 @@ thead.text-primary th {
     font-weight: 600 !important;
 }
 
-.dataTable img {
+.dataTable img,
+.table .thum {
     height: 30px;
     width: 30px;
 }

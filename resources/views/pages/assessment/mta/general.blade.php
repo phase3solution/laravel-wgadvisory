@@ -16,24 +16,27 @@
                 <input type="hidden" name="assessment_label_id" value="{{$assessment->assessment_label_id}}">
                 <input type="hidden" name="id" value="{{$assessment->id}}">
 
-                <div class="row">
-                    <label class="col-sm-2 col-form-label">{{ __('Name') }}</label>
-                    <div class="col-sm-7">
-                    <div class="form-group">
-                        <input class="form-control" name="name" id="input-name"  type="text" placeholder="{{ __('Name') }}" value="{{$assessment->name}}" required="true" aria-required="true"/>
-                    </div>
+                <div class="assessment_wrap_item">
+                    <div class="row">
+                        <label class="col-sm-2 col-form-label">{{ __('Name ') }}</label>
+                        <div class="col-sm-10">
+                        <div class="form-group">
+                            <input class="form-control" name="name" id="input-name"  type="text" placeholder="{{ __('Name') }}" value="{{$assessment->name}}" required="true" aria-required="true"/>
+                        </div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="row">
-                    <label class="col-sm-2 col-form-label">{{ __('Description') }}</label>
-                    <div class="col-sm-7">
-                    <div class="form-group">
-                        <textarea class="form-control" name="description" id="" cols="60" rows="5" placeholder="Description">{{$assessment->description}}</textarea>
-                    </div>
+                <div class="assessment_wrap_item">
+                    <div class="row">
+                        <label class="col-sm-2 col-form-label">{{ __('Description') }}</label>
+                        <div class="col-sm-10">
+                        <div class="form-group">
+                            <textarea class="form-control" name="description" id="" cols="60" rows="5" placeholder="Description">{{$assessment->description}}</textarea>
+                        </div>
+                        </div>
                     </div>
                 </div>
-                
             
             </div>
         </div>

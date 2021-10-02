@@ -25,7 +25,7 @@
                                 <input class="form-control" required name="name[{{$area->id}}]" id="input-name"  type="text" placeholder="{{ __('Name') }}" value="{{$area->name}}" required="true" aria-required="true"/>
                             </div>
                         </div>
-                        <div class="sol-sm-3">
+                        <div class="col-sm-3">
                             <button type="button" class="btn btn-danger" onclick="deleteThisItem({{$area->id}})">Remove</button>
                         </div>
                     </div>
