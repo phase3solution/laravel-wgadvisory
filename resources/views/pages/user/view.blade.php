@@ -35,7 +35,7 @@
                   <th>Action</th>
                 </thead>
                 <tbody>
-
+ 
                     @if ($users)
 
                         @foreach ($users as $key=>$user)

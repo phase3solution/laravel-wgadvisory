@@ -7,26 +7,26 @@
       <div class="col-md-12">
         <div class="card">
           <div class="card-header card-header-primary">
-              <div class="row">
+              <div class="row align-items-center">
                   <div class="col-md-6">
                     <h4 class="card-title ">Assessment List of {{$assessmentType->name}}</h4>
                     <p class="card-category">All assessment</p>
                   </div>
                   <div class="col-md-6 text-right">
-                    <a class="btn btn-info btn-sm" rel="tooltip" title="Add New" href="{{url('add-new-assessment-type', $assessmentType->id)}}"><i class="material-icons">add</i></a>
+                    <a class="btn btn-info btn-md" href="{{url('add-new-assessment-type', $assessmentType->id)}}"><i class="material-icons">add</i> Add New</a>
                   </div>
               </div>
 
           </div>
           <div class="card-body">
             <div class="table-responsive">
-              <table class="table">
+              <table class="table custom_table_row_color">
                 <thead class=" text-primary">
                   <th>ID</th>
                   <th>Name</th>
                   <th>Logo</th>
                   <th>Status</th>
-                  <th>Action</th>
+                  <th class="table_action">Action</th>
                 </thead>
                 <tbody>
 
@@ -36,13 +36,13 @@
                             <tr>
                                 <td>{{++$key}}</td>
                                 <td>{{$assessment->name}}</td>
-                                <td class="bg-light text-center"> 
+                                <td class=""> 
 
                                   @if ($assessment->image)
-                                    <img  height="60" width="60" src="{{asset($assessment->image)}}" alt="Image"> 
+                                    <img  class="thum" src="{{asset($assessment->image)}}" alt="Image"> 
 
                                   @else 
-                                    <img  height="60" width="60" src="{{asset('no-image-found.jpeg')}}" alt=""> 
+                                    <img  class="thum" src="{{asset('no-image-found.jpeg')}}" alt=""> 
 
                                   @endif
                                 </td>
@@ -64,16 +64,16 @@
                                     
                                 </td>
                                 <td>
-                                    <a class="btn btn-info btn-link btn-sm"  rel="tooltip" title="Add"  href="{{url('edit-assessment', $assessment->id)}}"><i class="material-icons">playlist_add</i></a>
-                                    <a class="btn btn-primary btn-link btn-sm"  rel="tooltip" title="Edit" href="{{url('assessment-parent-edit', $assessment->id)}}"> <i class="material-icons">edit</i></a> 
+                                    <a class="btn btn-info btn-sm" title="Add" href="{{url('edit-assessment', $assessment->id)}}"><i class="material-icons">playlist_add</i></a>
+                                    <a class="btn btn-primary btn-sm" title="Edit" href="{{url('assessment-parent-edit', $assessment->id)}}"> <i class="material-icons">edit</i></a> 
                                    
-                                    {{-- <a class="btn btn-danger btn-link btn-sm"  rel="tooltip" title="Delete"  href="{{route('deleteParent',$assessment->id)}}" ><i class="material-icons">close</i></a> --}}
+                                    {{-- <a class="btn btn-danger btn-sm" title="Delete" href="{{route('deleteParent',$assessment->id)}}" ><i class="material-icons">close</i></a> --}}
 
-                                    <form class="deleteAssessmentForm" method="post">
+                                    <form class="deleteAssessmentForm form_inline_block" method="post">
                                       @csrf
                                       <input type="hidden" class="deleteId" name="id" value="{{$assessment->id}}">
 
-                                      <button class="btn btn-danger btn-link btn-sm" rel="tooltip" title="Delete" type="submit"><i class="material-icons">close</i></button>
+                                      <button class="btn btn-danger btn-sm" type="submit" title="Delete"><i class="material-icons">close</i></button>
 
                                     </form>
 

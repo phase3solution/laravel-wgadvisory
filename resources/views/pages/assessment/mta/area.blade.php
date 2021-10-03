@@ -18,41 +18,50 @@
               
                 @if (count($assessments) > 0)
                     @foreach ($assessments as $key=>$area)
-                    <div class="row">
-                        <label class="col-sm-2 col-form-label">{{ __('Name') }}</label>
-                        <div class="col-sm-7">
-                            <div class="form-group">
-                                <input class="form-control" required name="name[{{$area->id}}]" id="input-name"  type="text" placeholder="{{ __('Name') }}" value="{{$area->name}}" required="true" aria-required="true"/>
+                        <div class="assessment_wrap_item">
+                            <div class="row">
+                                <label class="col-sm-2 col-form-label">{{ __('Name') }}</label>
+                                <div class="col-sm-10">
+                                    <div class="form-group">
+                                        <input class="form-control" required name="name[{{$area->id}}]" id="input-name"  type="text" placeholder="{{ __('Name') }}" value="{{$area->name}}" required="true" aria-required="true"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-2 col-form-label">{{ __('Description') }}</label>
+                                <div class="col-sm-10">
+                                <div class="form-group">
+                                    <textarea class="form-control" name="description[{{$area->id}}]" id="" cols="60" rows="5" placeholder="Description">{{$area->description}}</textarea>
+                                </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-2">&nbsp;</div>
+                                <div class="col-sm-10">
+                                    <div class="text-right">
+                                        <button type="button" class="btn btn-danger btn-sm" onclick="deleteThisItem({{$area->id}})">Remove</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="sol-sm-3">
-                            <button type="button" class="btn btn-danger" onclick="deleteThisItem({{$area->id}})">Remove</button>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <label class="col-sm-2 col-form-label">{{ __('Description') }}</label>
-                        <div class="col-sm-7">
-                        <div class="form-group">
-                            <textarea class="form-control" name="description[{{$area->id}}]" id="" cols="60" rows="5" placeholder="Description">{{$area->description}}</textarea>
-                        </div>
-                        </div>
-                    </div>
                     @endforeach
                 @else 
-                    <div class="row">
-                        <label class="col-sm-2 col-form-label">{{ __('Name') }}</label>
-                        <div class="col-sm-7">
-                        <div class="form-group">
-                            <input class="form-control" name="nameInput[]" id="input-name"  type="text" placeholder="{{ __('Name') }}" required="true" aria-required="true"/>
+                    <div class="assessment_wrap_item">
+                        <div class="row">
+                            <label class="col-sm-2 col-form-label">{{ __('Name') }}</label>
+                            <div class="col-sm-10">
+                            <div class="form-group">
+                                <input class="form-control" name="nameInput[]" id="input-name"  type="text" placeholder="{{ __('Name') }}" required="true" aria-required="true"/>
+                            </div>
+                            </div>
                         </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <label class="col-sm-2 col-form-label">{{ __('Description') }}</label>
-                        <div class="col-sm-7">
-                        <div class="form-group">
-                            <textarea class="form-control" name="descriptionInput[]" id="" cols="60" rows="5" placeholder="Description"></textarea>
-                        </div>
+                        <div class="row">
+                            <label class="col-sm-2 col-form-label">{{ __('Description') }}</label>
+                            <div class="col-sm-10">
+                            <div class="form-group">
+                                <textarea class="form-control" name="descriptionInput[]" id="" cols="60" rows="5" placeholder="Description"></textarea>
+                            </div>
+                            </div>
                         </div>
                     </div>
                 @endif
@@ -63,8 +72,8 @@
             <div class="card-footer">
                 <div class="row ">
                     <div class="col-md-12 ">
+                        <button type="button" onclick="addNewBtn(0)" class="btn btn-warning">{{ __('Add More') }}</button>
                         <button type="submit" class="btn btn-primary">{{ __('Update') }}</button>
-                        <button type="button" onclick="addNewBtn(0)" class="btn btn-info">{{ __('Add More') }}</button>
                     </div>
                 </div>
             </div>
