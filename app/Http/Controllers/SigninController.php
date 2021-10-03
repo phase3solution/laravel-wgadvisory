@@ -19,7 +19,7 @@ class SigninController extends Controller
 
         $validate      =  Validator::make($request->all(),[
             'email'    => 'required|max:190|email',
-            'password' => 'required|min:8',
+            'password' => 'required|min:6',
             'g-recaptcha-response' => 'required|captcha'
         ]);
 
