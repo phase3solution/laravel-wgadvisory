@@ -93,12 +93,23 @@
 							<input class="form-control" required  name="password" type="password" placeholder="Password">
 						</div>
 
-                     
-						<div class="form-group fv-plugins-icon-container has-success">
-							<label class="checkbox mb-0">
-							<input type="checkbox" name="remember_me" value="" class="is-valid">
-							<span></span> &nbsp;&nbsp;<div class="text-normal">Stay Signed in</div>
+                     <div class="row">
+						<div class="col-md-6">
+
+							<div class="form-group fv-plugins-icon-container has-success">
+								<label class="checkbox mb-0">
+								<input type="checkbox" name="remember_me" value="" class="is-valid">
+								<span></span> &nbsp;&nbsp;<div class="text-normal">Stay Signed in</div>
+							</div>
+
 						</div>
+
+						<div class="col-md-6">
+							<a class="text-primary" href="{{route('forgetPasswordPage')}}">Forget password?</a>
+						</div>
+
+					 </div>
+						
 					
 
 						<div class="form-group ">

@@ -52,7 +52,8 @@ Route::get('/', function () {
 });
 
 
-
+Route::get('/forget-password', [SigninController::class, 'forgetPasswordPage'])->name('forgetPasswordPage');
+Route::post('/password-forget', [SigninController::class, 'passwordForget'])->name('passwordForget');
 Route::get('/signin', [SigninController::class, 'signPage'])->name('signin');
 Route::post('/signout', [SigninController::class, 'signOut'])->name('signout');
 Route::post('/signin-check', [SigninController::class, 'signinCheck'])->name('signinCheck');

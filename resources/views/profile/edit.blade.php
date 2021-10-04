@@ -33,9 +33,7 @@
                   <div class="col-sm-7">
                     <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
                       <input class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" id="input-name" type="text" placeholder="{{ __('Name') }}" value="{{ old('name', auth()->user()->name) }}" required="true" aria-required="true"/>
-                      @if ($errors->has('name'))
-                        <span id="name-error" class="error text-danger" for="input-name">{{ $errors->first('name') }}</span>
-                      @endif
+                     
                     </div>
                   </div>
                 </div>
@@ -44,9 +42,7 @@
                   <div class="col-sm-7">
                     <div class="form-group{{ $errors->has('email') ? ' has-danger' : '' }}">
                       <input class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" id="input-email" type="email" placeholder="{{ __('Email') }}" value="{{ old('email', auth()->user()->email) }}" required />
-                      @if ($errors->has('email'))
-                        <span id="email-error" class="error text-danger" for="input-email">{{ $errors->first('email') }}</span>
-                      @endif
+
                     </div>
                   </div>
                 </div>
@@ -133,10 +129,66 @@
 <script>
   $(document).ready(function(){
 
+    // $("#signinForm").validate({ // initialize the plugin
+		// 			rules: {
+		// 				email: {
+		// 					required: true,
+		// 					email: true
+		// 				},
+		// 				name: {
+		// 					required: true,
+		// 					minlength: 3
+		// 				}
+		// 			},
+
+		// 			messages: {
+		// 				password: {
+		// 				minlength: jQuery.validator.format("Weak password!")
+		// 				}
+		// 			},
+		// 			success: function(label) {
+		// 				// label.addClass("valid").text("Ok!")
+		// 			},
+
+		// 			submitHandler: function(form) {
+		// 				// do other things for a valid form
+
+		// 			  var formData = form.serialize();
+
+    //         $.ajax({
+    //           type:"post",
+    //           url:"{{route('profile.update')}}",
+    //           data: formData,
+    //           success:function(response){
+
+    //             if(response.status){
+    //               Toast.fire({
+    //                   type: 'success',
+    //                   title: response.message
+    //               })
+    //             }
+
+    //           },
+    //           error:function(err){
+
+    //             Toast.fire({
+    //                 type: 'error',
+    //                 title: "Server Error !"
+    //             })
+
+    //           }
+    //         })
+
+		// 			}
+
+		// });
+
+      
+
       $("#profileUpdateForm").on('submit', function(e){
         e.preventDefault();
 
-        var formData = $(this).serialize();
+          var formData = $(this).serialize();
 
           $.ajax({
             type:"post",
@@ -145,38 +197,23 @@
             success:function(response){
 
               if(response.status){
-                const Toast = Swal.mixin({
-                            toast: true,
-                            position: 'top-end',
-                            showConfirmButton: false,
-                            timer: 3000
-                        });
-
-                        Toast.fire({
-                            type: 'success',
-                            title: response.message
-                        })
+                Toast.fire({
+                    type: 'success',
+                    title: response.message
+                })
               }
 
             },
             error:function(err){
-              console.log(err);
 
-              const Toast = Swal.mixin({
-                            toast: true,
-                            position: 'top-end',
-                            showConfirmButton: false,
-                            timer: 3000
-                        });
-
-                        Toast.fire({
-                            type: 'error',
-                            title: "Server Error !"
-                        })
-
+              Toast.fire({
+                  type: 'error',
+                  title: "Server Error !"
+              })
 
             }
           })
+
       })
 
       $("#passwordUpdateForm").on('submit', function(e){
@@ -194,67 +231,34 @@
             success:function(response){
 
               if(response.status){
-                const Toast = Swal.mixin({
-                            toast: true,
-                            position: 'top-end',
-                            showConfirmButton: false,
-                            timer: 3000
-                        });
-
-                        Toast.fire({
-                            type: 'success',
-                            title: response.message
-                        })
+                Toast.fire({
+                    type: 'success',
+                    title: response.message
+                })
               }else{
-
-                const Toast = Swal.mixin({
-                            toast: true,
-                            position: 'top-end',
-                            showConfirmButton: false,
-                            timer: 3000
-                        });
-
-                        Toast.fire({
-                            type: 'error',
-                            title: response.message
-                        })
+                Toast.fire({
+                    type: 'error',
+                    title: response.message
+                })
 
               }
 
             },
             error:function(err){
-              console.log(err);
-
-              const Toast = Swal.mixin({
-                            toast: true,
-                            position: 'top-end',
-                            showConfirmButton: false,
-                            timer: 3000
-                        });
-
-                        Toast.fire({
-                            type: 'error',
-                            title: "Server Error !"
-                        })
-
-
+              Toast.fire({
+                  type: 'error',
+                  title: "Server Error !"
+              })
             }
           })
 
 
         }else{
 
-          const Toast = Swal.mixin({
-                            toast: true,
-                            position: 'top-end',
-                            showConfirmButton: false,
-                            timer: 3000
-                        });
-
-                        Toast.fire({
-                            type: 'error',
-                            title: "New and confirm password does not match !"
-                        })
+          Toast.fire({
+              type: 'error',
+              title: "New and confirm password does not match !"
+          })
 
         }
 
