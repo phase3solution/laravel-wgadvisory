@@ -25,6 +25,7 @@
 
     @yield('style')
 
+    @stack('css')
 
 
     
@@ -125,7 +126,9 @@
         <!-- Plugin for Fileupload, full documentation here: http://www.jasny.net/bootstrap/javascript/#fileinput -->
         <script src="{{ asset('material') }}/js/plugins/jasny-bootstrap.min.js"></script>
         <!--  Full Calendar Plugin, full documentation here: https://github.com/fullcalendar/fullcalendar    -->
-        <script src="{{ asset('material') }}/js/plugins/fullcalendar.min.js"></script>
+        {{-- <script src="{{ asset('material') }}/js/plugins/fullcalendar.min.js"></script> --}}
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.min.js'></script>
+
         <!-- Vector Map plugin, full documentation here: http://jvectormap.com/documentation/ -->
         <script src="{{ asset('material') }}/js/plugins/jquery-jvectormap.js"></script>
         <!--  Plugin for the Sliders, full documentation here: http://refreshless.com/nouislider/ -->

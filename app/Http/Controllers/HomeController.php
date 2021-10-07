@@ -22,8 +22,33 @@ class HomeController extends Controller
     {
         $data['roles'] = Role::where('status',1)->get();
         $data['users'] = User::where('status',1)->get();
+
+        $data['userList'] = User::with(array('userRole'=>function($q1){
+            $q1->with('role')->get();
+        }))
+        ->with(array('userCompany'=>function($q2){
+            $q2->with('company')->get();
+        }))
+        ->orderBy('id', 'desc')
+        ->limit(10)
+        ->get();
+
         $data['assessments'] = AssessmentType::where('status', 1)->get();
+
+        $data['assessmentList'] = Assessment::with('company', 'assessmentType')->where('status', 1)->where('parent_id', 0)->get();
+
+
         $data['companies'] = Company::where('status',1)->get();
+        $data['companyList'] = Company::with(array('companyAsessmentType'=>function($q1){
+            $q1->with('assessment', 'assessmentType')->get();
+        }))
+        ->with(array('userCompany'=>function($q2){
+            $q2->with('user')->get();
+        }))
+        ->orderBy('id', 'desc')
+        ->limit(10)
+        ->get();
+
         return view('dashboard', $data);
     }
 }
