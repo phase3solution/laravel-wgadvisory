@@ -167,15 +167,14 @@
 						},
 						password: {
 							required: true,
-							minlength: 8
 						}
 					},
 
-					messages: {
-						password: {
-						minlength: jQuery.validator.format("Weak password!")
-						}
-					},
+					// messages: {
+					// 	password: {
+					// 	minlength: jQuery.validator.format("Weak password!")
+					// 	}
+					// },
 					success: function(label) {
 						// label.addClass("valid").text("Ok!")
 					},

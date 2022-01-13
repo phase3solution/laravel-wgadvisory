@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\ForgetOtpMail;
+use App\Models\LoginActivity;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -24,7 +25,7 @@ class SigninController extends Controller
 
         $validate      =  Validator::make($request->all(),[
             'email'    => 'required|max:190|email',
-            'password' => 'required|min:6',
+            'password' => 'required',
             'g-recaptcha-response' => 'required|captcha'
         ]);
 
@@ -38,10 +39,22 @@ class SigninController extends Controller
         }else{
 
             if(Auth::attempt($request->only('email', 'password'), $remember_me)){
+
+                $loginActivity = new LoginActivity();
+                $loginActivity->user_id = Auth::id();
+                $loginActivity->ip_address = Auth::id();
+                // $loginActivity->
+
+
+
                 $data['status'] = true;
                 $data['message'] = "Login successfully!";
                 return response()->json($data, 200);
             }else{
+
+
+
+
                 $data['status'] = false;
                 $data['message'] = "Login failed!";
                 $data['messageShow'] = "Email or password does not match!";
