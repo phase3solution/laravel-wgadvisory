@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Assessment;
 use App\Models\AssessmentType;
 use App\Models\Company;
+use App\Models\LoginActivity;
 
 
 
@@ -46,6 +47,8 @@ class HomeController extends Controller
         ->orderBy('id', 'desc')
         ->limit(10)
         ->get();
+
+        $data['logs'] = LoginActivity::with('user')->orderBy('updated_at', 'desc')->paginate(10);
 
         return view('dashboard', $data);
     }

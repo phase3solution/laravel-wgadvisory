@@ -7,10 +7,12 @@ use App\Http\Requests\ProfileRequest;
 use App\Http\Requests\PasswordRequest;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+
 use Illuminate\Support\Str;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+
 
 class ProfileController extends Controller
 {
@@ -26,91 +28,122 @@ class ProfileController extends Controller
     }
 
  
-    public function update(ProfileRequest $request)
+    public function update(Request $request)
     {
-        // auth()->user()->update($request->all());
+        $user_id = Auth::id();
+        $validate      =  Validator::make($request->all(),[
+            'email'     => 'required|max:190|email|unique:users,email,'.$user_id,
+            'name'      => 'required|max:190|',
+        ]);
 
-        $user = User::find(Auth::id());
-        if($user){
+        if($validate->fails()){
+            $data['status'] = false;
+            $data['message'] = "Please enter all valid input.";
+            $data['errors'] = $validate->errors();
+            return response()->json($data, 400);
+        }else{ 
 
-            $user->name = $request->name;
-            $user->email = $request->email;
+            $user = User::find($user_id);
+            if($user){
 
-            if($user->save()){
+                $user->name = $request->name;
+                $user->email = $request->email;
 
-                $data['status'] = true;
-                $data['message'] = 'Profile successfully updated.';
+                if($user->save()){
+
+                    $data['status'] = true;
+                    $data['message'] = 'Profile successfully updated.';
                     return response()->json($data,200);
+
+                }else{
+
+                    $data['status'] = false;
+                    $data['message'] = 'Profile update failed. Please try again.';
+                    return response()->json($data,500);
+
+                }
+
 
             }else{
 
                 $data['status'] = false;
-                $data['message'] = 'Server Error';
-                return response()->json($data,500);
+                $data['message'] = 'You are not authorized.';
+                return response()->json($data,404);
 
             }
 
-
-        }else{
-
-        $data['status'] = true;
-        $data['message'] = 'You are not authorized.';
-        return response()->json($data,404);
-
         }
 
-        
 
-                // return back()->withStatus(__('Profile successfully updated.'));
 
     }
 
   
     public function password(Request $request)
     {
-        // auth()->user()->update(['password' => Hash::make($request->get('password'))]);
 
+        $user_id = Auth::id();
 
-        $user = User::find(Auth::id());
-        if($user){
+        $validate      =  Validator::make($request->all(),[
+            'password'    => 'required|max:20|min:8',
+            'password_confirmation'    => 'required_with:password|same:password',
+        ]);
 
-            if(Hash::check($request->old_password, $user->password)){
+        if($validate->fails()){
+            $data['status'] = false;
+            $data['message'] = "Please enter all valid input.";
+            $data['errors'] = $validate->errors();
+            return response()->json($data, 400);
+        }else{ 
 
-                $user->password = Hash::make($request->password);
-                if($user->save()){
-
-                    $data['status'] = true;
-                    $data['message'] = 'Password successfully updated.';
-                    return response()->json($data,200);
-
+            $user = User::find($user_id);
+            if($user){
+    
+                if(Hash::check($request->old_password, $user->password)){
+    
+                    $user->password = Hash::make($request->password);
+                    if($user->save()){
+    
+                        $data['status'] = true;
+                        $data['message'] = 'Password successfully updated.';
+                        return response()->json($data,200);
+    
+                    }else{
+    
+                        $data['status'] = false;
+                        $data['message'] = 'Password updated failed. Please try again.';
+                        return response()->json($data,500);
+    
+                    }
+    
                 }else{
-
+                    $err = array();
+                    $err['old_password'] = ["Current password does not match"];
+    
                     $data['status'] = false;
-                    $data['message'] = 'Server Error';
-                    return response()->json($data,500);
-
+                    $data['message'] = 'Current password does not match.';
+                    $data['errors']= $err;
+                    return response()->json($data,400);
+    
                 }
-
+    
+                
+    
+    
             }else{
-
+    
                 $data['status'] = false;
-                $data['message'] = 'Current password does not match.';
-                return response()->json($data,200);
-
+                $data['message'] = 'You are not authorized.';
+                return response()->json($data,404);
+    
             }
 
-            
-
-
-        }else{
-
-        $data['status'] = true;
-        $data['message'] = 'You are not authorized.';
-        return response()->json($data,404);
 
         }
 
-        // return back()->withStatusPassword(__('Password successfully updated.'));
+
+       
+
     }
 
     public function profile($id){
@@ -131,14 +164,16 @@ class ProfileController extends Controller
 
         $validate=  Validator::make($request->all(),[
             'email'=>'required|email|unique:users,email,'.$id,
-            'name'=> 'required'
+            'name'=> 'required',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+
         ]);
 
         if($validate->fails()){
             $data['status'] = false;
-            $data['message'] = "This email already used.";
-            // return response()->json($data, 200);
-            return redirect()->back();
+            $data['message'] = "Please enter all valid input.";
+            $data['errors'] = $validate->errors();
+            return response()->json($data, 400);
         }else{
             $user = User::find($id);
             if($user){
@@ -168,14 +203,12 @@ class ProfileController extends Controller
     
                     $data['status'] = true;
                     $data['message'] = "User updated successfuly";
-                    // return response()->json($data, 200);
-                    return redirect()->back();
+                    return response()->json($data, 200);
     
                 }else{
                     $data['status'] = false;
-                    $data['message'] = "Server Error";
-                    // return response()->json($data, 200);
-                    return redirect()->back();
+                    $data['message'] = "Failed to update user. Please try again.";
+                    return response()->json($data, 200);
 
                 }
     
@@ -183,8 +216,7 @@ class ProfileController extends Controller
     
                 $data['status'] = false;
                 $data['message'] = "User not found";
-                // return response()->json($data, 200);
-                return redirect()->back();
+                return response()->json($data, 404);
     
             }
         }

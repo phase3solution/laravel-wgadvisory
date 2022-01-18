@@ -9,9 +9,10 @@
 
       <div class="row">
         <div class="col-md-12">
-          {{-- action="{{ route('user.store') }}" --}}
+
           <form method="post" id="createUserForm" autocomplete="off" class="form-horizontal">
             @csrf
+
             <div class="card ">
               <div class="card-header card-header-primary">
                 <div class="row align-items-center">
@@ -29,7 +30,7 @@
               <div class="card-body ">
 
                 
-                <div style="display: none" class="alert alert-success">
+                <div  class="alert">
                   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <i class="material-icons">close</i>
                   </button>
@@ -45,6 +46,8 @@
                       <div class="col-sm-10">
                         <div class="form-group">
                           <input class="form-control" name="name" id="input-name" type="text" placeholder="{{ __('Name') }}" value="" required="true" aria-required="true"/>
+                          <small class="error name-error text-danger "></small>
+
                         </div>
                       </div>
                     </div>
@@ -54,6 +57,9 @@
                       <div class="col-sm-10">
                         <div class="form-group">
                             <input class="form-control" name="email" id="input-name" type="email" placeholder="{{ __('Email') }}" value="" required="true" aria-required="true"/>
+                            <small class="error email-error text-danger "></small>
+
+                            
     
                         </div>
                       </div>
@@ -64,6 +70,8 @@
                         <div class="col-sm-10">
                           <div class="form-group">
                               <input class="form-control" name="password" id="input-name" type="password" placeholder="{{ __('*******') }}" value="" required="true" aria-required="true"/>
+                             <small class="error password-error text-danger "></small>
+
       
                           </div>
                         </div>
@@ -75,6 +83,9 @@
                         <div class="col-sm-10">
                           <div class="form-group">
                               <input class="form-control" name="confirm_password" id="input-name" type="password" placeholder="{{ __('*******') }}" value="" required="true" aria-required="true"/>
+                              <small class="error confirm_password-error text-danger "></small>
+
+                              
                           </div>
                         </div>
                     </div>
@@ -103,6 +114,7 @@
                                             <option value="{{$role->id}}">{{$role->name}}</option>
                                         @endforeach
                                     </select>
+                                     <small class="error role_id-error text-danger "></small>
                                 </div>
                             </div>
                         </div>
@@ -129,6 +141,7 @@
                         <label class="col-sm-2 col-form-label">{{ __('Profile Picture') }}</label>
                         <div class="col-sm-10">
                          <input type="file" class="input-image" name="image">
+                          <small class="error image-error text-danger "></small>
                         </div>
                     </div>
 
@@ -146,11 +159,13 @@
 
               </div>
               <div class="card-footer ">
-                <button type="submit" class="btn btn-primary save-btn">{{ __('Save') }}</button>
+                <button type="submit" class="btn btn-primary  save-btn">{{ __('Save') }}</button>
                 <a class="btn btn-success create-btn" style="display: none" href="">Create New</a>
               </div>
             </div>
           </form>
+
+
         </div>
       </div>
 
@@ -180,23 +195,41 @@
                     title: response.message
                 })
 
-                $('.alert-success').show();
-                $('.alert-message').html(response.message);
+                $("#createUserForm").find(".alert").removeClass("alert-danger");
+								$("#createUserForm").find(".alert").addClass("alert-success");
+								$("#createUserForm").find(".alert-message").html(response.message);
+                $("#createUserForm").find(".error").html("");
+
                 $('.save-btn').hide();
                 $('.create-btn').show();
 
             },
-            error:function(error){
-                console.log(error);
+            error:function(xhr, status, error){
             
-                Toast.fire({
-                    type: 'error',
-                    title: 'Server error!'
-                })
+          
 
-                $('.alert-success').hide();
                 $('.save-btn').show();
                 $('.create-btn').hide();
+
+
+
+              var	responseText = jQuery.parseJSON(xhr.responseText);
+
+								Toast.fire({
+									type: 'error',
+									title: responseText.message
+								})
+                
+								$("#createUserForm").find(".alert").removeClass("alert-success");
+								$("#createUserForm").find(".alert").addClass("alert-danger");
+								$("#createUserForm").find(".alert-message").html(responseText.message);
+
+								$.each(responseText.errors, function (key, val) {
+									$("." + key + "-error").text(val[0]);
+								});
+
+
+
             }
         })
           

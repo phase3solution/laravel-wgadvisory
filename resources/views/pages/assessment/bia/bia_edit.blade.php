@@ -495,7 +495,6 @@
                                                                                     <div class="row">
                                                                                         <div class="col-sm-2">
                                                                                             <label class=" col-form-label">{{ __('Financial (per day)') }}</label> <br>
-                                                                                            <button  type="button" class="btn btn-info btn-link btn-sm" rel="tooltip" title="Add More"><i class="material-icons">add</i></button>
                                                                                         </div>
 
                                                                                         <div class="col-sm-10">
@@ -507,34 +506,23 @@
 
                                                                                                     @if ($financialAreas)
 
-                                                                                                        @foreach ($financialAreas as $financialArea)
-                                                                                                        <div class="row">
-                                                                                                            <div class="col-sm-10">
-                                                                                                                <div class="form-group">
-                                                                                                                    <input name="financialU[{{$biaService->id}}][]" class="form-control" type="text" value="{{$financialArea}}">
-                                                                                                                 </div>
-                                                                                                            </div>
-            
-                                                                                                            <div class="col-sm-2 text-right">
-                                                                                                                <button class="btn btn-danger btn-link btn-sm" rel="tooltip" title="Remove"><i class="material-icons">close</i></button>
-                                                                                                            </div>
-            
+                                                                                                    <div class="row">
+                                                                                                        <div class="col-sm-10">
+                                                                                                            <div class="form-group">
+                                                                                                                <textarea name="financialU[{{$biaService->id}}]" class="form-control"  rows="10">{{implode("\n", $financialAreas)}}</textarea>
+                                                                                                             </div>
                                                                                                         </div>
-                                                                                                        @endforeach
+                                                                                                    </div>
+
 
                                                                                                     @else 
 
                                                                                                     <div class="row">
                                                                                                         <div class="col-sm-10">
                                                                                                             <div class="form-group">
-                                                                                                                <input name="financialU[{{$biaService->id}}][]" class="form-control" type="text" value="">
+                                                                                                                <textarea name="financialU[{{$biaService->id}}]" class="form-control"  rows="10"></textarea>
                                                                                                              </div>
                                                                                                         </div>
-        
-                                                                                                        <div class="col-sm-2 text-right">
-                                                                                                            <button class="btn btn-danger btn-link btn-sm" rel="tooltip" title="Remove"><i class="material-icons">close</i></button>
-                                                                                                        </div>
-        
                                                                                                     </div>
 
                                                                                                         
@@ -553,7 +541,6 @@
                                                                                     <div class="row">
                                                                                         <div class="col-sm-2">
                                                                                             <label class=" col-form-label">{{ __('Impact') }}</label> <br>
-                                                                                            <button type="button" class="btn btn-info btn-link btn-sm" rel="tooltip" title="Add More"><i class="material-icons">add</i></button>
                                                                                         </div>
 
                                                                                         <div class="col-sm-10">
@@ -567,34 +554,23 @@
 
                                                                                                     @if ($impactUAreas)
 
-                                                                                                        @foreach ($impactUAreas as $impactUArea)
-                                                                                                        <div class="row">
-                                                                                                            <div class="col-sm-10">
-                                                                                                                <div class="form-group">
-                                                                                                                    <input name="impactU[{{$biaService->id}}][]" class="form-control" type="text" value="{{$impactUArea}}">
-                                                                                                                 </div>
-                                                                                                            </div>
-            
-                                                                                                            <div class="col-sm-2 text-right">
-                                                                                                                <button class="btn btn-danger btn-link btn-sm" rel="tooltip" title="Remove"><i class="material-icons">close</i></button>
-                                                                                                            </div>
-            
+                                                                                                    <div class="row">
+                                                                                                        <div class="col-sm-10">
+                                                                                                            <div class="form-group">
+                                                                                                                <textarea name="impactU[{{$biaService->id}}]" class="form-control"  rows="10">{{implode("\n", $impactUAreas)}}</textarea>
+                                                                                                             </div>
                                                                                                         </div>
-                                                                                                        @endforeach
+                                                                                                    </div>
+                                                                                                       
 
                                                                                                     @else
 
                                                                                                     <div class="row">
                                                                                                         <div class="col-sm-10">
                                                                                                             <div class="form-group">
-                                                                                                                <input name="impactU[{{$biaService->id}}][]" class="form-control" type="text" value="">
+                                                                                                                <textarea name="impactU[{{$biaService->id}}]" class="form-control"  rows="10"></textarea>
                                                                                                              </div>
-                                                                                                        </div>
-        
-                                                                                                        <div class="col-sm-2 text-right">
-                                                                                                            <button class="btn btn-danger btn-link btn-sm" rel="tooltip" title="Remove"><i class="material-icons">close</i></button>
-                                                                                                        </div>
-        
+                                                                                                        </div> 
                                                                                                     </div>
 
                                                                                                         
@@ -613,7 +589,6 @@
                                                                                     <div class="row">
                                                                                         <div class="col-sm-2">
                                                                                             <label class=" col-form-label">{{ __('Criteria Weights') }}</label> <br>
-                                                                                            <button type="button" class="btn btn-info btn-link btn-sm" rel="tooltip" title="Add More"><i class="material-icons">add</i></button>
                                                                                         </div>
 
                                                                                         <div class="col-sm-10">
@@ -626,21 +601,16 @@
 
                                                                                                     @if ($criteriaWeightUAreas)
 
-                                                                                                        @foreach ($criteriaWeightUAreas as $criteriaWeightUArea)
-                                                                                                        <div class="row">
+                                                                                                    <div class="row">
 
-                                                                                                            <div class="col-sm-10">
-                                                                                                                <div class="form-group">
-                                                                                                                    <input name="criteria_weightU[{{$biaService->id}}][]" class="form-control" type="text" value="{{$criteriaWeightUArea}}">
-                                                                                                                 </div>
+                                                                                                        <div class="col-sm-10">
+                                                                                                            <div class="form-group">
+                                                                                                                <textarea name="criteria_weightU[{{$biaService->id}}]" class="form-control"  rows="10">{{implode("\n", $criteriaWeightUAreas)}}</textarea>
                                                                                                             </div>
-            
-                                                                                                            <div class="col-sm-2 text-right">
-                                                                                                                <button class="btn btn-danger btn-link btn-sm" rel="tooltip" title="Remove"><i class="material-icons">close</i></button>
-                                                                                                            </div>
-            
                                                                                                         </div>
-                                                                                                        @endforeach
+        
+                                                                                                    </div>
+
 
                                                                                                         @else 
 
@@ -648,13 +618,11 @@
 
                                                                                                             <div class="col-sm-10">
                                                                                                                 <div class="form-group">
-                                                                                                                    <input name="criteria_weightU[{{$biaService->id}}][]" class="form-control" type="text" value="">
+                                                                                                                    <textarea name="criteria_weightU[{{$biaService->id}}]" class="form-control"  rows="10"></textarea>
                                                                                                                  </div>
                                                                                                             </div>
             
-                                                                                                            <div class="col-sm-2 text-right">
-                                                                                                                <button class="btn btn-danger btn-link btn-sm" rel="tooltip" title="Remove"><i class="material-icons">close</i></button>
-                                                                                                            </div>
+                                                                                                           
             
                                                                                                         </div>
 

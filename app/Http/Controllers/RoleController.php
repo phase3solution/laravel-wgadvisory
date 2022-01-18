@@ -32,7 +32,7 @@ class RoleController extends Controller
     public function store(Request $request)
     {
         $validate=  Validator::make($request->all(),[
-            'name'=>'required',
+            'name'=>'required|unique:roles',
             'description'=> 'nullable',
             'status'=> 'nullable'
         ]);
@@ -40,8 +40,8 @@ class RoleController extends Controller
         if($validate->fails()){
 
             $data['status'] = false;
-            $data['message'] = "Validation error!";
-            $data['errors'] = "";
+            $data['message'] = "Please enter all valid input.";
+            $data['errors'] = $validate->errors();
             return response()->json($data, 400);
 
 
@@ -63,8 +63,7 @@ class RoleController extends Controller
            }else{
 
             $data['status'] = false;
-            $data['message'] = "Server error!";
-            $data['errors'] = "";
+            $data['message'] = "Failed to create role. Please try again.";
             return response()->json($data, 500);
 
            }
@@ -96,15 +95,15 @@ class RoleController extends Controller
     {
         $validate=  Validator::make($request->all(),[
 
-            'name'=>'required',
+            'name'=>'required|unique:roles,name,'.$id,
             'description'=> 'nullable',
             'status'=> 'required'
         ]);
 
         if($validate->fails()){
             $data['status'] = false;
-            $data['message'] = "Validation error!";
-            $data['errors'] = "";
+            $data['message'] = "Please enter all valid input";
+            $data['errors'] = $validate->errors();
             return response()->json($data, 400);
         }else{
             $role = Role::find($id);
@@ -118,20 +117,17 @@ class RoleController extends Controller
                if( $role->save()){
                     $data['status'] = true;
                     $data['message'] = "User role updated successfully!";
-                    $data['errors'] = "";
                     return response()->json($data, 200);
                }else{
-                $data['status'] = false;
-                $data['message'] = "Server error!";
-                $data['errors'] = "";
-                return response()->json($data, 500);
+                    $data['status'] = false;
+                    $data['message'] = "Failed to update role. Please try again.";
+                    return response()->json($data, 500);
                }
 
             }else{
                 $data['status'] = false;
                 $data['message'] = "User role not found!";
-                $data['errors'] = "";
-                return response()->json($data, 409);
+                return response()->json($data, 404);
             }
 
 

@@ -7,7 +7,7 @@
 
       <div class="row">
         <div class="col-md-12">
-          {{-- action="{{ route('company.update',$company->id) }}" --}}
+
           <form method="post" id="companyUpdateForm"  enctype="multipart/form-data" autocomplete="off" class="form-horizontal">
             @csrf
             @method('PUT')
@@ -32,7 +32,7 @@
               <div class="card-body ">
 
                
-                <div style="display: none" class="alert alert-success">
+                <div  class="alert ">
                   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <i class="material-icons">close</i>
                   </button>
@@ -48,6 +48,7 @@
                       <div class="col-sm-10">
                         <div class="form-group">
                           <input class="form-control" name="name" id="input-name" type="text" placeholder="{{ __('Name') }}" value="{{$company->name}}" required="true" aria-required="true"/>
+                          <small class="error name-error text-danger "></small>
                         </div>
                       </div>
                     </div>
@@ -78,6 +79,7 @@
 
                             <input type="radio" name="status" value="0" @if ($company->status == 0) checked @endif id="inactive-status">
                             <label for="inactive-status">Inactive</label>
+                            <small class="error status-error text-danger "></small>
                           </div>
                         </div>
                     </div>
@@ -93,6 +95,7 @@
                             <option value="3" @if ($company->dashboard_type == 3) selected @endif>DASHBOARD C</option>
                             <option value="4" @if ($company->dashboard_type == 4) selected @endif>DASHBOARD D</option>
                           </select>
+                          <small class="error dashboard_type-error text-danger "></small>
                         </div>
                       </div>
                     </div>
@@ -106,6 +109,7 @@
                         <label class="col-sm-2 col-form-label">{{ __('Profile Picture') }}</label>
                         <div class="col-sm-10">
                          <input type="file" class="input-image" name="image">
+                         <small class="error image-error text-danger "></small>
                         </div>
                     </div>
 
@@ -158,26 +162,45 @@
             contentType: false,
             type: 'POST',
             success:function(response){
-                console.log(response);
+
+
+              if(response.status){
+
                 Toast.fire({
                     type: 'success',
                     title: response.message
                 })
 
-                $('.alert-success').show();
-                $('.alert-message').html(response.message);
+                $("#companyUpdateForm").find(".alert").removeClass("alert-danger");
+								$("#companyUpdateForm").find(".alert").addClass("alert-success");
+								$("#companyUpdateForm").find(".alert-message").html(response.message);
+                $("#companyUpdateForm").find(".error").html("");
+
+
+
+              }
+
            
 
             },
-            error:function(error){
-                console.log(error);
+            error:function(xhr, status, error){
             
-                Toast.fire({
-                    type: 'error',
-                    title: 'Server error!'
-                })
+                 var	responseText = jQuery.parseJSON(xhr.responseText);
 
-                $('.alert-success').hide();
+              Toast.fire({
+									type: 'error',
+									title: responseText.message
+								})
+                
+								$("#companyUpdateForm").find(".alert").removeClass("alert-success");
+								$("#companyUpdateForm").find(".alert").addClass("alert-danger");
+								$("#companyUpdateForm").find(".alert-message").html(responseText.message);
+
+                if(responseText.errors){
+                  $.each(responseText.errors, function (key, val) {
+                    $("." + key + "-error").text(val[0]);
+                  });
+                }
              
             }
         })

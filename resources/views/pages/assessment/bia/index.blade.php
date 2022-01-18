@@ -1,6 +1,7 @@
 @extends('layouts.app', ['activePage' => 'assessment', 'titlePage' =>'Assessments'])
 
 @section('content')
+
 <div class="content">
   <div class="container-fluid">
     <div class="row">
@@ -20,14 +21,14 @@
           </div>
           <div class="card-body">
             <div class="table-responsive">
-              <table class="table">
+              <table class="table custom_table_row_color">
                 <thead class=" text-primary">
                   <th>ID</th>
                   <th>Company</th>
                   <th>Name</th>
                   <th>Logo</th>
                   <th>Status</th>
-                  <th>Action</th>
+                  <th class="table_action">Action</th>
                 </thead>
                 <tbody>
 
@@ -38,13 +39,13 @@
                                 <td>{{++$key}}</td>
                                 <td>{{$bia->company->name}}</td>
                                 <td>{{$bia->name}}</td>
-                                <td class="bg-light text-center"> 
+                                <td> 
                                   
                                   @if ($bia->image)
-                                  <img  height="60" width="60" src="{{asset($bia->image)}}" alt=""> </td>
+                                  <img class="thum"  src="{{asset($bia->image)}}" alt=""> </td>
 
                                   @else
-                                  <img  height="60" width="60" src="{{asset('no-image-found.jpeg')}}" alt=""> </td>
+                                  <img  class="thum" src="{{asset('no-image-found.jpeg')}}" alt=""> </td>
 
                                   @endif
                                   
@@ -67,14 +68,14 @@
                                     
                                 </td>
                                 <td>
-                                    <a class="btn btn-info btn-link btn-sm"  rel="tooltip" title="Add"  href="{{url('edit-bia', $bia->id)}}"><i class="material-icons">playlist_add</i></a>
-                                    <a class="btn btn-primary btn-link btn-sm"  rel="tooltip" title="Edit" href="{{route('bia.edit', $bia->id)}}"> <i class="material-icons">edit</i></a> 
-                                    <form  method="POST" class="deleteBiaForm">
+                                    <a class="btn btn-info  btn-sm"  rel="tooltip" title="Add"  href="{{url('edit-bia', $bia->id)}}"><i class="material-icons">playlist_add</i></a>
+                                    <a class="btn btn-primary  btn-sm"  rel="tooltip" title="Edit" href="{{route('bia.edit', $bia->id)}}"> <i class="material-icons">edit</i></a> 
+                                    <form style="display: inline-block" method="POST" class="deleteBiaForm">
                                         @csrf
                                         @method('delete')
                                         <input type="hidden" class="deleteId" name="id" value="{{$bia->id}}">
 
-                                        <button class="btn btn-danger btn-link btn-sm"  rel="tooltip" title="Delete"  type="submit" ><i class="material-icons">close</i></button>
+                                        <button class="btn btn-danger  btn-sm"  rel="tooltip" title="Delete"  type="submit" ><i class="material-icons">close</i></button>
                                     </form>
                                 </td>
                             </tr>

@@ -7,7 +7,6 @@
 
       <div class="row">
         <div class="col-md-12">
-          {{-- action="{{ route('assessmentType.store') }}" --}}
           <form method="post" id="assessmentTypeForm"  autocomplete="off" class="form-horizontal">
             @csrf
             <div class="card ">
@@ -26,7 +25,7 @@
               </div>
               <div class="card-body ">
 
-                <div style="display: none" class="alert alert-success">
+                <div  class="alert">
                   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <i class="material-icons">close</i>
                   </button>
@@ -38,6 +37,7 @@
                   <div class="col-sm-7">
                     <div class="form-group">
                       <input class="form-control" name="name" id="input-name" type="text" placeholder="{{ __('Name') }}" value="" required="true" aria-required="true"/>
+                      <small class="error name-error text-danger "></small>
                     </div>
                   </div>
                 </div>
@@ -60,6 +60,7 @@
 
                         <input type="radio" name="status" value="0" id="inactive-status">
                         <label for="inactive-status">Inactive</label>
+                        <small class="error status-error text-danger "></small>
                       </div>
                     </div>
                 </div>
@@ -96,27 +97,52 @@
             contentType: false,
             type: 'POST',
             success:function(response){
-                console.log(response);
+
+              
+
+              if(response.status){
+
+                $('.save-btn').hide();
+                $('.create-btn').show();
+
                 Toast.fire({
                     type: 'success',
                     title: response.message
                 })
 
-                $('.alert-success').show();
-                $('.alert-message').html(response.message);
-                $('.save-btn').hide();
-                $('.create-btn').show();
+                $("#assessmentTypeForm").find(".alert").removeClass("alert-danger");
+								$("#assessmentTypeForm").find(".alert").addClass("alert-success");
+								$("#assessmentTypeForm").find(".alert-message").html(response.message);
+                $("#assessmentTypeForm").find(".error").html("");
+
+
+
+              }
+
+
+
 
             },
-            error:function(error){
-                console.log(error);
-            
-                Toast.fire({
-                    type: 'error',
-                    title: 'Server error!'
-                })
+            error:function(xhr, status, error){
+                
 
-                $('.alert-success').hide();
+              var	responseText = jQuery.parseJSON(xhr.responseText);
+
+              Toast.fire({
+									type: 'error',
+									title: responseText.message
+								})
+                
+								$("#assessmentTypeForm").find(".alert").removeClass("alert-success");
+								$("#assessmentTypeForm").find(".alert").addClass("alert-danger");
+								$("#assessmentTypeForm").find(".alert-message").html(responseText.message);
+
+                if(responseText.errors){
+                  $.each(responseText.errors, function (key, val) {
+                    $("." + key + "-error").text(val[0]);
+                  });
+                }
+
                 $('.save-btn').show();
                 $('.create-btn').hide();
             }

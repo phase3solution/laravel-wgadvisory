@@ -30,7 +30,6 @@
     <div class="row">
         <div class="col-sm-2">
             <label class=" col-form-label">{{ __('Financial (per day)') }}</label> <br>
-            <button class="btn btn-info btn-link btn-sm" rel="tooltip" title="Add More"><i class="material-icons">add</i></button>
         </div>
 
         <div class="col-sm-10">
@@ -42,67 +41,12 @@
                 <div class="row">
                     <div class="col-sm-10">
                         <div class="form-group">
-                            <input name="financial[{{$serviceRow}}][]" class="form-control" type="text" value="">
+                            <textarea name="financial[{{$serviceRow}}]" class="form-control"  rows="10"></textarea>
                         </div>
                     </div>
-
-                    <div class="col-sm-2 text-right">
-                        <button class="btn btn-danger btn-link btn-sm" rel="tooltip" title="Remove"><i class="material-icons">close</i></button>
-                    </div>
-
                 </div>
 
-                <div class="row">
-                    <div class="col-sm-10">
-                        <div class="form-group">
-                            <input name="financial[{{$serviceRow}}][]" class="form-control" type="text" value="">
-                        </div>
-                    </div>
-
-                    <div class="col-sm-2 text-right">
-                        <button class="btn btn-danger btn-link btn-sm" rel="tooltip" title="Remove"><i class="material-icons">close</i></button>
-                    </div>
-
-                </div>
-
-                <div class="row">
-                    <div class="col-sm-10">
-                        <div class="form-group">
-                            <input name="financial[{{$serviceRow}}][]" class="form-control" type="text" value="">
-                        </div>
-                    </div>
-
-                    <div class="col-sm-2 text-right">
-                        <button class="btn btn-danger btn-link btn-sm" rel="tooltip" title="Remove"><i class="material-icons">close</i></button>
-                    </div>
-
-                </div>
-
-                <div class="row">
-                    <div class="col-sm-10">
-                        <div class="form-group">
-                            <input name="financial[{{$serviceRow}}][]" class="form-control" type="text" value="">
-                        </div>
-                    </div>
-
-                    <div class="col-sm-2 text-right">
-                        <button class="btn btn-danger btn-link btn-sm" rel="tooltip" title="Remove"><i class="material-icons">close</i></button>
-                    </div>
-
-                </div>
-
-                <div class="row">
-                    <div class="col-sm-10">
-                        <div class="form-group">
-                            <input name="financial[{{$serviceRow}}][]" class="form-control" type="text" value="">
-                        </div>
-                    </div>
-
-                    <div class="col-sm-2 text-right">
-                        <button class="btn btn-danger btn-link btn-sm" rel="tooltip" title="Remove"><i class="material-icons">close</i></button>
-                    </div>
-
-                </div>
+             
 
             </div>
 
@@ -113,7 +57,6 @@
     <div class="row">
         <div class="col-sm-2">
             <label class=" col-form-label">{{ __('Impact') }}</label> <br>
-            <button class="btn btn-info btn-link btn-sm" rel="tooltip" title="Add More"><i class="material-icons">add</i></button>
         </div>
 
         <div class="col-sm-10">
@@ -122,57 +65,12 @@
                 <div class="row">
                     <div class="col-sm-10">
                         <div class="form-group">
-                            <input name="impact[{{$serviceRow}}][]" class="form-control" type="text" value="">
+                            <textarea name="impact[{{$serviceRow}}]" class="form-control"  rows="10"></textarea>
                         </div>
                     </div>
-
-                    <div class="col-sm-2 text-right">
-                        <button class="btn btn-danger btn-link btn-sm" rel="tooltip" title="Remove"><i class="material-icons">close</i></button>
-                    </div>
-
-                </div>
-
-                <div class="row">
-                    <div class="col-sm-10">
-                        <div class="form-group">
-                            <input name="impact[{{$serviceRow}}][]" class="form-control" type="text" value="">
-                        </div>
-                    </div>
-
-                    <div class="col-sm-2 text-right">
-                        <button class="btn btn-danger btn-link btn-sm" rel="tooltip" title="Remove"><i class="material-icons">close</i></button>
-                    </div>
-
-                </div>
-
-                <div class="row">
-                    <div class="col-sm-10">
-                        <div class="form-group">
-                            <input name="impact[{{$serviceRow}}][]" class="form-control" type="text" value="">
-                        </div>
-                    </div>
-
-                    <div class="col-sm-2 text-right">
-                        <button class="btn btn-danger btn-link btn-sm" rel="tooltip" title="Remove"><i class="material-icons">close</i></button>
-                    </div>
-
-                </div>
-
-                <div class="row">
-                    <div class="col-sm-10">
-                        <div class="form-group">
-                            <input name="impact[{{$serviceRow}}][]" class="form-control" type="text" value="">
-                        </div>
-                    </div>
-
-                    <div class="col-sm-2 text-right">
-                        <button class="btn btn-danger btn-link btn-sm" rel="tooltip" title="Remove"><i class="material-icons">close</i></button>
-                    </div>
-
                 </div>
 
             </div>
-
         </div>
 
     </div>
@@ -180,7 +78,6 @@
     <div class="row">
         <div class="col-sm-2">
             <label class=" col-form-label">{{ __('Criteria Weights') }}</label> <br>
-            <button class="btn btn-info btn-link btn-sm" rel="tooltip" title="Add More"><i class="material-icons">add</i></button>
         </div>
 
         <div class="col-sm-10">
@@ -192,42 +89,12 @@
                 <div class="row">
                     <div class="col-sm-10">
                         <div class="form-group">
-                            <input name="criteria_weight[{{$serviceRow}}][]" class="form-control" type="text" value="">
+                            <textarea name="criteria_weight[{{$serviceRow}}]" class="form-control"  rows="10"></textarea>
                         </div>
                     </div>
-
-                    <div class="col-sm-2 text-right">
-                        <button class="btn btn-danger btn-link btn-sm" rel="tooltip" title="Remove"><i class="material-icons">close</i></button>
-                    </div>
-
                 </div>
 
-                <div class="row">
-                    <div class="col-sm-10">
-                        <div class="form-group">
-                            <input name="criteria_weight[{{$serviceRow}}][]" class="form-control" type="text" value="">
-                        </div>
-                    </div>
-
-                    <div class="col-sm-2 text-right">
-                        <button class="btn btn-danger btn-link btn-sm" rel="tooltip" title="Remove"><i class="material-icons">close</i></button>
-                    </div>
-
-                </div>
-
-
-                <div class="row">
-                    <div class="col-sm-10">
-                        <div class="form-group">
-                            <input name="criteria_weight[{{$serviceRow}}][]" class="form-control" type="text" value="">
-                        </div>
-                    </div>
-
-                    <div class="col-sm-2 text-right">
-                        <button class="btn btn-danger btn-link btn-sm" rel="tooltip" title="Remove"><i class="material-icons">close</i></button>
-                    </div>
-
-                </div>
+               
 
             </div>
 

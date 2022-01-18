@@ -21,13 +21,13 @@
           </div>
           <div class="card-body">
             <div class="table-responsive">
-              <table class="table">
+              <table class="table table-striped">
                 <thead class=" text-primary">
                   <th>ID</th>
                   <th>Name</th>
                   <th>Descritpion</th>
                   <th>Status</th>
-                  <th>Action</th>
+                  <th class="table_action">Action</th>
                 </thead>
                 <tbody>
 
@@ -53,15 +53,15 @@
                                    
                                 </td>
                                 <td>
-                                    <a class="btn btn-primary btn-link btn-sm" rel="tooltip" title="Edit" href="{{route('role.edit', $role->id)}}"><i class="material-icons">edit</i></a>
+                                    <a class="btn btn-primary  btn-sm" rel="tooltip" title="Edit" href="{{route('role.edit', $role->id)}}"><i class="material-icons">edit</i></a>
                                     {{-- <a class="btn btn-danger btn-link btn-sm" rel="tooltip" title="Delete" href="" ><i class="material-icons">close</i></a> --}}
 
-                                    <form class="deleteRoleForm" method="post">
+                                    <form style="display: inline-block" class="deleteRoleForm" method="post">
                                       @csrf
                                       @method('delete')
                                       <input type="hidden" class="deleteId" name="id" value="{{$role->id}}">
 
-                                      <button class="btn btn-danger btn-link btn-sm" rel="tooltip" title="Delete" type="submit"><i class="material-icons">close</i></button>
+                                      <button class="btn btn-danger  btn-sm" rel="tooltip" title="Delete" type="submit"><i class="material-icons">close</i></button>
 
                                     </form>
                                 

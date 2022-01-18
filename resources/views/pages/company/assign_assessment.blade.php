@@ -21,14 +21,14 @@
           </div>
           <div class="card-body">
             <div class="table-responsive">
-              <table class="table">
+              <table class="table table-striped">
                 <thead class=" text-primary">
                   <th>ID</th>
                   <th>Company Name</th>
                   <th>Assessment Type</th>
                   <th>Assessment Name</th>
                   <th>Status</th>
-                  <th>Action</th>
+                  <th class="table_action" >Action</th>
                 </thead>
                 <tbody>
 
@@ -51,16 +51,16 @@
                                 <td>
                                     
                                     @if(isset($assign_assessment->assessmentType->id) && isset($assign_assessment->assessment->id))
-                                     <button type="button" class="btn btn-primary editBtn btn-link btn-sm" data-toggle="modal" data-type_id="{{$assign_assessment->assessmentType->id}}" data-assessment_id="{{$assign_assessment->assessment->id}}" data-company="{{$assign_assessment->company->id}}" data-stauts_val="{{$assign_assessment->status}}" data-target="#createModal" rel="tooltip" title="Edit">
+                                     <button type="button" class="btn btn-primary editBtn  btn-sm" data-toggle="modal" data-type_id="{{$assign_assessment->assessmentType->id}}" data-assessment_id="{{$assign_assessment->assessment->id}}" data-company="{{$assign_assessment->company->id}}" data-stauts_val="{{$assign_assessment->status}}" data-target="#createModal" rel="tooltip" title="Edit">
                                         <i class="material-icons">edit</i>
                                     </button>
                                     @endif
 
-                                    <form class="deleteAssignAssessmentForm" method="post">
+                                    <form style="display: inline-block" class="deleteAssignAssessmentForm" method="post">
                                         @csrf
   
                                         <input type="hidden" class="deleteId" name="id" value="{{$assign_assessment->id}}">
-                                        <button class="btn btn-danger btn-link btn-sm" rel="tooltip" title="Delete" type="submit"><i class="material-icons">close</i></button>
+                                        <button class="btn btn-danger  btn-sm" rel="tooltip" title="Delete" type="submit"><i class="material-icons">close</i></button>
   
                                     </form>
                                     
@@ -189,7 +189,12 @@
 
 @push('js')
     <script>
+      $(document).ready(function(){
+        $('table').DataTable();
+
+      })
         $(document).ready(function(){
+
             $('.select2').select2();
 
 

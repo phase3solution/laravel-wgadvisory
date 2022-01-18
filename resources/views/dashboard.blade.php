@@ -17,9 +17,9 @@
             <div class="card card-stats">
               <div class="card-header card-header-warning card-header-icon">
                 <div class="card-icon">
-                  <i class="material-icons">content_copy</i>
+                  <i class="material-icons">people</i>
                 </div>
-                <p class="card-category">Total Users</p>
+                <p class="card-category">Users</p>
                 <h3 class="card-title">{{count($users)}}
                 </h3>
               </div>
@@ -45,7 +45,7 @@
                 <div class="card-icon">
                   <i class="material-icons">store</i>
                 </div>
-                <p class="card-category">Total Company</p>
+                <p class="card-category">Companies</p>
                 <h3 class="card-title">{{count($companies)}}</h3> 
               </div>
 
@@ -66,7 +66,7 @@
             <div class="card card-stats">
               <div class="card-header card-header-danger card-header-icon">
                 <div class="card-icon">
-                  <i class="material-icons">info_outline</i>
+                  <i class="material-icons">settings_suggest</i>
                 </div>
                 <p class="card-category">Assessment Types</p>
                 <h3 class="card-title">{{count($assessments)}}</h3>
@@ -90,9 +90,11 @@
             <div class="card card-stats">
               <div class="card-header card-header-info card-header-icon">
                 <div class="card-icon">
-                  <i class="fa fa-twitter"></i>
+                  {{-- <i class="fa fa-twitter"></i> --}}
+                  <i class="material-icons">verified_user</i>
+                  {{-- Verified User --}}
                 </div>
-                <p class="card-category">Roles</p>
+                <p class="card-category">User Roles</p>
                 <h3 class="card-title">{{count($roles)}}</h3>
               </div>
 
@@ -170,14 +172,24 @@
             <div class="card-header card-header-tabs card-header-primary">
               <div class="nav-tabs-navigation">
                 <div class="nav-tabs-wrapper">
-                  <span class="nav-tabs-title">Short Info:</span>
+                  <span class="nav-tabs-title">Latest:</span>
                   <ul class="nav nav-tabs" data-tabs="tabs">
+
+                     <li class="nav-item">
+                      <a class="nav-link active" href="#loginActivity" data-toggle="tab">
+                        <i class="fa fa-user"></i> Login Activity
+                        <div class="ripple-container"></div>
+                      </a>
+                    </li>
+
                     <li class="nav-item">
-                      <a class="nav-link active" href="#users" data-toggle="tab">
+                      <a class="nav-link" href="#users" data-toggle="tab">
                         <i class="fa fa-users"></i> Users
                         <div class="ripple-container"></div>
                       </a>
                     </li>
+
+
                     <li class="nav-item">
                       <a class="nav-link" href="#companies" data-toggle="tab">
                         <i class="fa fa-suitcase"></i> Companies
@@ -198,7 +210,60 @@
               <div class="tab-content">
 
 
-                <div class="tab-pane active" id="users">
+                <div class="tab-pane active" id="loginActivity">
+                  <div class="table-responsive">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>Image</th>
+                          <th>Name</th>
+                          <th>IP Address</th>
+                          <th>Activity</th>
+                          <th>Datetime</th>
+                          <th>Device</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+  
+  
+                        @if ($logs)
+                          @foreach ($logs as $key=>$log)
+                            <tr>
+                              <td> 
+                                @if ($log->user->image)
+
+                                <img src="{{asset($log->user->image)}}" class="rounded-circle" style="max-height:40px; max-width:40px" alt="">
+                                    
+                                @else
+                                  <img src="{{asset('no-image-found.jpeg')}}" class="rounded-circle" style="max-height:40px; max-width:40px"  alt="">
+
+                                @endif
+                              </td>
+                              <td>
+                                {{$log->user->name}}<br>
+                                <a href="mailto:{{$log->user->email}}">{{$log->user->email}}</a>
+                              </td>
+                              <td>{{$log->ip_address}}</td>
+                              <td>{{$log->event_type}}</td>
+                              <td>{{date('M d, Y h:i a', strtotime($log->updated_at))}}</td>
+                              <td>{{$log->user_agent}}</td>
+                              
+                              
+                      
+                            </tr>
+                          @endforeach
+                            
+                        @endif
+                    
+              
+  
+  
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <div class="tab-pane" id="users">
                   <div class="table-responsive">
                     <table class="table">
                       <thead>

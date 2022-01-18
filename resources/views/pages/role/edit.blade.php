@@ -7,7 +7,7 @@
 
       <div class="row">
         <div class="col-md-12">
-          {{-- action="{{ route('role.update', $role->id) }}" --}}
+
           <form method="post" id="roleUpdateForm" autocomplete="off" class="form-horizontal">
             @csrf
             @method('PUT')
@@ -29,7 +29,7 @@
 
               <div class="card-body ">
 
-                <div style="display: none" class="alert alert-success">
+                <div  class="alert">
                   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <i class="material-icons">close</i>
                   </button>
@@ -42,6 +42,7 @@
                   <div class="col-sm-7">
                     <div class="form-group">
                       <input class="form-control" name="name" id="input-name" type="text" placeholder="{{ __('Name') }}" value="{{$role->name}}" required="true" aria-required="true"/>
+                      <small class="error name-error text-danger "></small>
                     </div>
                   </div>
                 </div>
@@ -106,26 +107,42 @@
             contentType: false,
             type: 'POST',
             success:function(response){
-                console.log(response);
+
+
+              if(response.status){
                 Toast.fire({
                     type: 'success',
                     title: response.message
                 })
 
-                $('.alert-success').show();
-                $('.alert-message').html(response.message);
+                $("#roleUpdateForm").find(".alert").removeClass("alert-danger");
+								$("#roleUpdateForm").find(".alert").addClass("alert-success");
+								$("#roleUpdateForm").find(".alert-message").html(response.message);
+                $("#roleUpdateForm").find(".error").html("");
+
+              }
+                
            
 
             },
-            error:function(error){
-                console.log(error);
+            error:function(xhr, status, error){
             
-                Toast.fire({
-                    type: 'error',
-                    title: 'Server error!'
-                })
+                var	responseText = jQuery.parseJSON(xhr.responseText);
 
-                $('.alert-success').hide();
+								Toast.fire({
+									type: 'error',
+									title: responseText.message
+								})
+                
+								$("#roleUpdateForm").find(".alert").removeClass("alert-success");
+								$("#roleUpdateForm").find(".alert").addClass("alert-danger");
+								$("#roleUpdateForm").find(".alert-message").html(responseText.message);
+
+              if(responseText.errors){
+                $.each(responseText.errors, function (key, val) {
+                  $("." + key + "-error").text(val[0]);
+                });
+              }
              
             }
         })

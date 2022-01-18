@@ -175,10 +175,12 @@
 
                         {{-- action="{{url('/user/profile-update')}}"  --}}
                         {{-- id="profileForm" --}}
-                        <form method="POST" action="{{url('/user/profile-update')}}"   enctype="multipart/form-data">
+
+                        <form method="POST" id="profileForm"  enctype="multipart/form-data">
                             @csrf
                             <input type="hidden" name="id" value="{{Auth::id()}}">
                             <div class="card-header py-3">
+
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="align-items-start flex-column">
@@ -189,11 +191,22 @@
                                     <div class="col-md-6 text-right">
                                         <div class="card-toolbar">
                                             <button type="submit" class="btn btn-success mr-2">Save Changes</button>
-                                            <button type="button" class="btn btn-secondary" onclick="hideDiv()">Cancel</button>
+                                            {{-- <button type="button" class="btn btn-secondary" onclick="hideDiv()">Cancel</button> --}}
                                     
                                         </div>
                                     </div>
 
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                      <div class="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                          <span class="text-light" ><i  style="color:#FFF" class="fa fa-times"></i> </span> 
+                                        </button>
+                                        <span class="alert-message"></span>
+                                      </div>
+                                    </div>
                                 </div>
                          
                              
@@ -229,7 +242,8 @@
                                                 </div>
 
                                             </div>
-                                            <span class="form-text text-muted">Allowed file types: png, jpg, jpeg.</span>
+                                            
+                                            <span class="form-text text-muted mt-5">Allowed file types: png, jpg, jpeg.</span>
                                         </div>
                                     </div> 
                                     
@@ -240,13 +254,17 @@
                                         <label class="col-xl-3 col-lg-3 col-form-label">Change Avatar</label>
                                         <div class="col-lg-9 col-xl-6">
                                             <input type="file" id="imgInput" name="image">
+                                            <small class="error image-error text-danger "></small>
                                         </div>
                                     </div> 
                                
 
                                     <div class="form-group row">
                                         <label class="col-xl-3 col-lg-3 col-form-label">Name</label>
-                                        <div class="col-lg-9 col-xl-6"><input type="text" placeholder="Name" class="form-control form-control-lg form-control-solid " name="name" value="{{Auth::user()->name}}" required></div>
+                                        <div class="col-lg-9 col-xl-6">
+                                            <input type="text" placeholder="Name" class="form-control form-control-lg form-control-solid " name="name" value="{{Auth::user()->name}}" required>
+                                            <small class="error name-error text-danger "></small>
+                                        </div>
                                     </div>
                             
 
@@ -256,6 +274,7 @@
                                             <div class="input-group input-group-lg input-group-solid">
                                                 <input type="email" placeholder="Email" class="form-control form-control-lg form-control-solid" name="email" value="{{Auth::user()->email}}" required>
                                             </div>
+                                            <small class="error email-error text-danger "></small>
                                         </div>
                                     </div>
 
@@ -270,7 +289,7 @@
                             </div>
                         </form>
 
-                        <form id="passwordForm" method="post">
+                        <form id="passwordUpdateForm" method="post">
                             @csrf
                             <input type="hidden" name="id" value="{{Auth::id()}}">
                   
@@ -293,6 +312,20 @@
                                             </div>
 
                                         </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                              <div class="alert">
+                                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                  <span class="text-light" ><i  style="color:#FFF" class="fa fa-times"></i> </span> 
+                                                </button>
+                                                <span class="alert-message"></span>
+                                              </div>
+                                            </div>
+                                        </div>
+                                        
+
+
                                     </div>
                                         
 
@@ -300,20 +333,23 @@
                                         <div class="form-group row">
                                             <label class="col-xl-3 col-lg-3 col-form-label text-alert">Current Password</label>
                                             <div class="col-lg-9 col-xl-6">
-                                                <input type="password" placeholder="Current Password" class="form-control form-control-lg form-control-solid mb-2 " name="current_password" value="" required>
-                                                <a href="#" class="text-sm font-weight-bold">Forgot password ?</a>
+                                                <input type="password" placeholder="Current Password" class="form-control form-control-lg form-control-solid mb-2 " name="old_password" value="" required>
+                                                <small class="error old_password-error text-danger "></small>
+                                                <a href="{{route('forgetPasswordPage')}}" target="_blank" class="text-sm font-weight-bold">Forgot password ?</a>
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <label class="col-xl-3 col-lg-3 col-form-label text-alert">New Password</label>
                                             <div class="col-lg-9 col-xl-6">
                                                 <input type="password" placeholder="New Password" class="form-control form-control-lg form-control-solid password" name="password" value="" required>
+                                                <small class="error password-error text-danger "></small>
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <label class="col-xl-3 col-lg-3 col-form-label text-alert">Confirm Password</label>
                                             <div class="col-lg-9 col-xl-6">
-                                                <input type="password" placeholder="Confirm Password" class="form-control form-control-lg form-control-solid confirm_password" name="cPassword" value="" required>
+                                                <input type="password" placeholder="Confirm Password" class="form-control form-control-lg form-control-solid confirm_password" name="password_confirmation" value="" required>
+                                                <small class="error password_confirmation-error text-danger "></small>
                                             </div>
                                         </div>
                                 
@@ -362,9 +398,11 @@
 
     $(document).ready(function(){
 
+        const Toast = Swal.mixin({toast: true, position: 'top-end', showConfirmButton: false,timer: 3000 });
+
         $("#profileForm").on('submit', function(e){
             e.preventDefault();
-         
+            $("#profileForm").find(".error").html("");
             var formData = $(this).serialize();
            
        
@@ -372,56 +410,52 @@
             $.ajax({
                     type: "POST",
                     url: "{{ url('/user/profile-update') }}",
-                    data: formData,
+                    data: new FormData(this),
+                    processData: false,
+                    contentType: false,
                     success: function(response) {
                         if (response.status) {
-
-                            const Toast = Swal.mixin({
-                                toast: true,
-                                position: 'top-end',
-                                showConfirmButton: false,
-                                timer: 3000
-                            });
-
                             Toast.fire({
                                 type: 'success',
                                 title: response.message
                             })
-
-                            location.reload();
+                            $("#profileForm").find(".alert").removeClass("alert-danger");
+                            $("#profileForm").find(".alert").addClass("alert-success");
+                            $("#profileForm").find(".alert-message").html(response.message);
 
                         } else {
-
-
-                            const Toast = Swal.mixin({
-                                toast: true,
-                                position: 'top-end',
-                                showConfirmButton: false,
-                                timer: 3000
-                            });
 
                             Toast.fire({
                                 type: 'error',
                                 title: response.message
                             })
 
+                            $("#profileForm").find(".alert").removeClass("alert-success");
+                            $("#profileForm").find(".alert").addClass("alert-danger");
+                            $("#profileForm").find(".alert-message").html(response.message);
+
                         }
                     },
-                    error: function(err) {
+                    error:function(xhr, status, error){
+                                    
+                            var	responseText = jQuery.parseJSON(xhr.responseText);
+                
+                            Toast.fire({
+                                type: 'error',
+                                title: responseText.message
+                            })
+            
+                            $("#profileForm").find(".alert").removeClass("alert-success");
+                            $("#profileForm").find(".alert").addClass("alert-danger");
+                            $("#profileForm").find(".alert-message").html(responseText.message);
 
-
-                        const Toast = Swal.mixin({
-                            toast: true,
-                            position: 'top-end',
-                            showConfirmButton: false,
-                            timer: 3000
-                        });
-
-                        Toast.fire({
-                            type: 'error',
-                            title: 'Server Error !'
-                        })
-
+                            if(responseText.errors){
+                                $.each(responseText.errors, function (key, val) {
+                                    $("." + key + "-error").text(val[0]);
+                                });
+                            }  
+                                                    
+                                                        
                     }
             })
 
@@ -429,92 +463,87 @@
         })
 
 
-        $("#passwordForm").on('submit', function(e){
+
+
+        $("#passwordUpdateForm").on('submit', function(e){
             e.preventDefault();
-         
+            var newPassword = $(".password").val();
+            var confirmPassword = $(".confirm_password").val();
+            $("#passwordUpdateForm").find(".error").html("");
+
+            if(newPassword == confirmPassword){
+
             var formData = $(this).serialize();
-           
-            var pass = $('.password').val();
-            var c_pass = $('.confirm_password').val();
+            $.ajax({
+                type:"post",
+                url:"{{route('update.password')}}",
+                data: formData,
+                success:function(response){
 
-            if(pass == c_pass){
+                if(response.status){
+                    Toast.fire({
+                        type: 'success',
+                        title: response.message
+                    })
 
-                $.ajax({
-                    type: "POST",
-                    url: "{{ url('/user/profile-password-update') }}",
-                    data: formData,
-                    success: function(response) {
-                        if (response.status) {
+                    $("#passwordUpdateForm").find(".alert").removeClass("alert-danger");
+                    $("#passwordUpdateForm").find(".alert").addClass("alert-success");
+                    $("#passwordUpdateForm").find(".alert-message").html(response.message);
+                    $("#passwordUpdateForm").find(".error").html("");
 
-                            const Toast = Swal.mixin({
-                                toast: true,
-                                position: 'top-end',
-                                showConfirmButton: false,
-                                timer: 3000
-                            });
+                }else{
+                    Toast.fire({
+                        type: 'error',
+                        title: response.message
+                    })
 
-                            Toast.fire({
-                                type: 'success',
-                                title: response.message
-                            })
+                    $("#passwordUpdateForm").find(".alert").removeClass("alert-success");
+                    $("#passwordUpdateForm").find(".alert").addClass("alert-danger");
+                    $("#passwordUpdateForm").find(".alert-message").html(response.message);
 
-                            location.reload();
+                }
 
-                        } else {
+                },
+                error:function(xhr, status, error){
+                                    
+                    var	responseText = jQuery.parseJSON(xhr.responseText);
 
+                                    Toast.fire({
+                                        type: 'error',
+                                        title: responseText.message
+                                    })
+                    
+                                    $("#passwordUpdateForm").find(".alert").removeClass("alert-success");
+                                    $("#passwordUpdateForm").find(".alert").addClass("alert-danger");
+                                    $("#passwordUpdateForm").find(".alert-message").html(responseText.message);
 
-                            const Toast = Swal.mixin({
-                                toast: true,
-                                position: 'top-end',
-                                showConfirmButton: false,
-                                timer: 3000
-                            });
-
-                            Toast.fire({
-                                type: 'error',
-                                title: response.message
-                            })
-
-                        }
-                    },
-                    error: function(err) {
-
-
-                        const Toast = Swal.mixin({
-                            toast: true,
-                            position: 'top-end',
-                            showConfirmButton: false,
-                            timer: 3000
-                        });
-
-                        Toast.fire({
-                            type: 'error',
-                            title: 'Server Error !'
-                        })
-
-                    }
+                                  if(responseText.errors){
+                                    $.each(responseText.errors, function (key, val) {
+                                        $("." + key + "-error").text(val[0]);
+                                    });
+                                  }  
+                                    
+                                        
+                }
             })
 
 
             }else{
 
-                const Toast = Swal.mixin({
-                            toast: true,
-                            position: 'top-end',
-                            showConfirmButton: false,
-                            timer: 3000
-                        });
+            Toast.fire({
+                type: 'error',
+                title: "New and confirm password does not match !"
+            })
 
-                        Toast.fire({
-                            type: 'error',
-                            title: 'Confirm Password Does Not Match !'
-                        })
+                $("#passwordUpdateForm").find(".alert").removeClass("alert-success");
+                $("#passwordUpdateForm").find(".alert").addClass("alert-danger");
+                $("#passwordUpdateForm").find(".alert-message").html("New and confirm password does not match !");
 
             }
+      })
 
-            
 
-        })
+
 
     })
 

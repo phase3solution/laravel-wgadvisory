@@ -837,9 +837,9 @@ class BiaServiceController extends Controller
                 $biaService->description = $description[$key];
                 $biaService->impact_criteria_field = $impact_criteria_field[$key];
 
-                $biaService->financial = json_encode($financial[$key]);
-                $biaService->impact = json_encode($impact[$key]);
-                $biaService->criteria_weight = json_encode($criteria_weight[$key]);
+                $biaService->financial = json_encode(explode("\n", str_replace("\r", "", $financial[$key])));
+                $biaService->impact = json_encode(explode("\n", str_replace("\r", "", $impact[$key])));
+                $biaService->criteria_weight = json_encode(explode("\n", str_replace("\r", "", $criteria_weight[$key])));
 
 
                 $biaService->created_by= Auth::id();
@@ -848,7 +848,6 @@ class BiaServiceController extends Controller
                     $saveCheck = true;
                 }else{
                     $saveCheck = false;
-
                 }
 
             }
@@ -866,9 +865,9 @@ class BiaServiceController extends Controller
                 $biaServic->slug = Str::slug($na, "-");
                 $biaServic->description = $descriptionU[$index];
 
-                $biaServic->financial = json_encode($financialU[$index]) ;
-                $biaServic->impact = json_encode($impactU[$index]) ;
-                $biaServic->criteria_weight = json_encode($criteria_weightU[$index]) ;
+                $biaServic->financial = json_encode(explode("\n", str_replace("\r", "", $financialU[$index]))) ;
+                $biaServic->impact = json_encode(explode("\n", str_replace("\r", "", $impactU[$index]))) ;
+                $biaServic->criteria_weight = json_encode(explode("\n", str_replace("\r", "", $criteria_weightU[$index]))) ;
                 $biaServic->impact_criteria_field =$impact_criteria_fieldU[$index] ;
 
 

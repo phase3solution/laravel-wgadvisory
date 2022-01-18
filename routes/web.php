@@ -54,6 +54,14 @@ Route::get('/', function () {
 
 Route::get('/forget-password', [SigninController::class, 'forgetPasswordPage'])->name('forgetPasswordPage');
 Route::post('/password-forget', [SigninController::class, 'passwordForget'])->name('passwordForget');
+Route::get('/check-otp', [SigninController::class, 'checkOtp'])->name('checkOtp');
+Route::post('/otp-check', [SigninController::class, 'otpCheck'])->name('otpCheck');
+Route::get('/reset-password', [SigninController::class, 'resetPassword'])->name('resetPassword');
+Route::post('/password-reset', [SigninController::class, 'passwordReset'])->name('passwordReset');
+
+
+Route::get('/find-ip', [SigninController::class, 'ipCheck']);
+
 Route::get('/signin', [SigninController::class, 'signPage'])->name('signin');
 Route::post('/signout', [SigninController::class, 'signOut'])->name('signout');
 Route::post('/signin-check', [SigninController::class, 'signinCheck'])->name('signinCheck');

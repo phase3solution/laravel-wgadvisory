@@ -8,7 +8,6 @@
       <div class="row">
         <div class="col-md-12">
 
-            {{-- action="{{ route('company.store') }}" --}}
           <form method="post" id="companyCreateForm"  autocomplete="off" enctype="multipart/form-data"  class="form-horizontal">
             @csrf
             <div class="card ">
@@ -29,7 +28,7 @@
 
                 
 
-                <div style="display: none" class="alert alert-success">
+                <div  class="alert">
                   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <i class="material-icons">close</i>
                   </button>
@@ -45,6 +44,7 @@
                       <div class="col-sm-10">
                         <div class="form-group">
                           <input class="form-control" name="name" id="input-name" type="text" placeholder="{{ __('Name') }}" value="" required="true" aria-required="true"/>
+                          <small class="error name-error text-danger "></small>
                         </div>
                       </div>
                     </div>
@@ -59,12 +59,6 @@
                     </div>
 
                     
-    
-                
-                
-    
-                      
-                
 
                     <div class="row">
                         <label class="col-sm-2 col-form-label">{{ __('Status') }} <span class="text-danger">*</span></label>
@@ -75,6 +69,7 @@
 
                             <input type="radio" name="status" value="0" id="inactive-status">
                             <label for="inactive-status">Inactive</label>
+                             <small class="error status-error text-danger "></small>
                           </div>
                         </div>
                     </div>
@@ -90,6 +85,7 @@
                             <option value="3">DASHBOARD C</option>
                             <option value="4">DASHBOARD D</option>
                           </select>
+                          <small class="error dashboard_type-error text-danger "></small>
                         </div>
                       </div>
                     </div>
@@ -100,9 +96,10 @@
     
     
                     <div class="row">
-                        <label class="col-sm-2 col-form-label">{{ __('Profile Picture') }}</label>
+                        <label class="col-sm-2 col-form-label">{{ __('Image') }}</label>
                         <div class="col-sm-10">
                          <input type="file" class="input-image" name="image">
+                         <small class="error image-error text-danger "></small>
                         </div>
                     </div>
 
@@ -157,29 +154,48 @@
             contentType: false,
             type: 'POST',
             success:function(response){
-                console.log(response);
+
+
+              if(response.status){
+
                 Toast.fire({
                     type: 'success',
                     title: response.message
                 })
 
-                $('.alert-success').show();
-                $('.alert-message').html(response.message);
+                $("#companyCreateForm").find(".alert").removeClass("alert-danger");
+								$("#companyCreateForm").find(".alert").addClass("alert-success");
+								$("#companyCreateForm").find(".alert-message").html(response.message);
+                $("#companyCreateForm").find(".error").html("");
                 $('.save-btn').hide();
                 $('.create-btn').show();
+              }
+                
 
             },
-            error:function(error){
-                console.log(error);
-            
-                Toast.fire({
-                    type: 'error',
-                    title: 'Server error!'
-                })
+            error:function(xhr, status, error){
 
-                $('.alert-success').hide();
                 $('.save-btn').show();
                 $('.create-btn').hide();
+
+              var	responseText = jQuery.parseJSON(xhr.responseText);
+
+              Toast.fire({
+									type: 'error',
+									title: responseText.message
+								})
+                
+								$("#companyCreateForm").find(".alert").removeClass("alert-success");
+								$("#companyCreateForm").find(".alert").addClass("alert-danger");
+								$("#companyCreateForm").find(".alert-message").html(responseText.message);
+
+                if(responseText.errors){
+                  $.each(responseText.errors, function (key, val) {
+                    $("." + key + "-error").text(val[0]);
+                  });
+                }
+
+                
             }
         })
           

@@ -10,7 +10,6 @@
       <div class="row">
         <div class="col-md-12">
 
-          {{-- action="{{ route('user.update', $user->id) }}" --}}
           <form method="post" id="userUpdateForm" enctype="multipart/form-data" autocomplete="off" class="form-horizontal">
             @csrf
             @method('PUT')
@@ -34,7 +33,7 @@
               <div class="card-body ">
 
 
-                <div style="display: none" class="alert alert-success">
+                <div  class="alert">
                   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <i class="material-icons">close</i>
                   </button>
@@ -50,6 +49,8 @@
                       <div class="col-sm-10">
                         <div class="form-group">
                           <input class="form-control" name="name" id="input-name" type="text" placeholder="{{ __('Name') }}" value="{{$user->name}}" required="true" aria-required="true"/>
+                           <small class="error name-error text-danger "></small>
+
                         </div>
                       </div>
                     </div>
@@ -59,7 +60,8 @@
                       <div class="col-sm-10">
                         <div class="form-group">
                             <input class="form-control" name="email" id="input-name" type="email" placeholder="{{ __('Email') }}" value="{{$user->email}}" required="true" aria-required="true"/>
-    
+                            <small class="error email-error text-danger "></small>
+
                         </div>
                       </div>
                     </div>
@@ -94,6 +96,9 @@
                                               @endif  >{{$role->name}}</option>
                                         @endforeach
                                     </select>
+                                     <small class="error role_id-error text-danger "></small>
+
+                                    
                                 </div>
                             </div>
                         </div>
@@ -123,7 +128,9 @@
                     <div class="row">
                         <label class="col-sm-2 col-form-label">{{ __('Profile Picture') }}</label>
                         <div class="col-sm-10">
-                         <input type="file" class="input-image" name="image">
+                          <input type="file" class="input-image" name="image">
+                          <small class="error image-error text-danger "></small>
+
                         </div>
                     </div>
 
@@ -161,7 +168,6 @@
       <div class="row">
         <div class="col-md-12">
 
-          {{-- action="{{ route('update.password') }}" --}}
 
           <form method="post" id="updatePasswordForm"  class="form-horizontal">
             @csrf
@@ -175,12 +181,20 @@
               </div>
               <div class="card-body ">
 
+                  <div  class="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <i class="material-icons">close</i>
+                    </button>
+                    <span class="alert-message"></span>
+                  </div>
+
 
                 <div class="row">
                   <label class="col-sm-2 col-form-label" for="input-password">{{ __('New Password') }}</label>
                   <div class="col-sm-7">
                     <div class="form-group">
                       <input class="form-control" name="password" id="input-password" type="password" placeholder="{{ __('New Password') }}" value="" required />
+                      <small class="error password-error text-danger "></small>
                     </div>
                   </div>
                 </div>
@@ -190,6 +204,7 @@
                   <div class="col-sm-7">
                     <div class="form-group">
                       <input class="form-control" name="confirm_password" id="input-password-confirmation" type="password" placeholder="{{ __('Confirm New Password') }}" value="" required />
+                      <small class="error confirm_password-error text-danger "></small>
                     </div>
                   </div>
                 </div>
@@ -229,27 +244,42 @@
             contentType: false,
             type: 'POST',
             success:function(response){
-                console.log(response);
+
+
+              if(response.status){
+
                 Toast.fire({
                     type: 'success',
                     title: response.message
                 })
 
-                $('.alert-success').show();
-                $('.alert-message').html(response.message);
-           
+                $("#userUpdateForm").find(".alert").removeClass("alert-danger");
+								$("#userUpdateForm").find(".alert").addClass("alert-success");
+								$("#userUpdateForm").find(".alert-message").html(response.message);
+                $("#userUpdateForm").find(".error").html("");
+
+              }
 
             },
-            error:function(error){
-                console.log(error);
+            error:function(xhr, status, error){
             
-                Toast.fire({
-                    type: 'error',
-                    title: 'Server error!'
-                })
+              var	responseText = jQuery.parseJSON(xhr.responseText);
 
-                $('.alert-success').hide();
-             
+								Toast.fire({
+									type: 'error',
+									title: responseText.message
+								})
+                
+								$("#userUpdateForm").find(".alert").removeClass("alert-success");
+								$("#userUpdateForm").find(".alert").addClass("alert-danger");
+								$("#userUpdateForm").find(".alert-message").html(responseText.message);
+
+								$.each(responseText.errors, function (key, val) {
+									$("." + key + "-error").text(val[0]);
+								});
+
+
+
             }
         })
           
@@ -271,29 +301,53 @@
             contentType: false,
             type: 'POST',
             success:function(response){
-                console.log(response);
+
+
+              if(response.status){
+
                 Toast.fire({
                     type: 'success',
                     title: response.message
                 })
 
-             setTimeout(function(){
+                $("#updatePasswordForm").find(".alert").removeClass("alert-danger");
+								$("#updatePasswordForm").find(".alert").addClass("alert-success");
+								$("#updatePasswordForm").find(".alert-message").html(response.message);
+                $("#updatePasswordForm").find(".error").html("");
 
-              location.reload();
+              }
+                
 
-             },3000)
+            //  setTimeout(function(){
+
+            //   location.reload();
+
+            //  },3000)
            
 
             },
-            error:function(error){
-                console.log(error);
+            error:function(xhr, status, error){
             
-                Toast.fire({
-                    type: 'error',
-                    title: 'Server error!'
-                })
+              var	responseText = jQuery.parseJSON(xhr.responseText);
 
-             
+								Toast.fire({
+									type: 'error',
+									title: responseText.message
+								})
+                
+								$("#updatePasswordForm").find(".alert").removeClass("alert-success");
+								$("#updatePasswordForm").find(".alert").addClass("alert-danger");
+								$("#updatePasswordForm").find(".alert-message").html(responseText.message);
+
+                if(responseText.errors){
+                  $.each(responseText.errors, function (key, val) {
+                    $("." + key + "-error").text(val[0]);
+                  });
+                }
+								
+
+
+
             }
         })
 
@@ -303,6 +357,10 @@
                     type: 'error',
                     title: 'Password and confirm password does not match!'
                 })
+
+                $("#updatePasswordForm").find(".alert").removeClass("alert-success");
+								$("#updatePasswordForm").find(".alert").addClass("alert-danger");
+								$("#updatePasswordForm").find(".alert-message").html("Password and confirm password does not match!");
 
         }
 

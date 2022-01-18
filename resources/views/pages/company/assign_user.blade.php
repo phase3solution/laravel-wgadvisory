@@ -21,14 +21,14 @@
           </div>
           <div class="card-body">
             <div class="table-responsive">
-              <table class="table">
+              <table class="table table-striped">
                 <thead class=" text-primary">
                   <th>ID</th>
                   <th>Company Name</th>
                   <th>User Name</th>
                   <th>User Email</th>
                   <th>Status</th>
-                  <th>Action</th>
+                  <th class="table_action" >Action</th>
                 </thead>
                 <tbody>
 
@@ -51,18 +51,18 @@
                                 </td>
                                 <td>
 
-                                    <button type="button" class="btn btn-primary editBtn btn-link btn-sm" data-toggle="modal" rel="tooltip" title="Edit" data-user="{{$assign_user->user->id}}" data-company="{{$assign_user->company->id}}" data-status="{{$assign_user->status}}" data-target="#createModal">
+                                    <button type="button" class="btn btn-primary editBtn  btn-sm" data-toggle="modal" rel="tooltip" title="Edit" data-user="{{$assign_user->user->id}}" data-company="{{$assign_user->company->id}}" data-status="{{$assign_user->status}}" data-target="#createModal">
                                         <i class="material-icons">edit</i>
                                     </button>
 
 
                                     {{-- <a class="btn btn-danger btn-link btn-sm" rel="tooltip" title="Delete" onclick="return confirm('Are you sure?')" href="{{route('company-user-delete', $assign_user->id)}}" ><i class="material-icons">close</i></a> --}}
                                     
-                                    <form class="deleteAssignUserForm" method="post">
+                                    <form style="display: inline-block" class="deleteAssignUserForm" method="post">
                                       @csrf
 
                                       <input type="hidden" class="deleteId" name="id" value="{{$assign_user->id}}">
-                                      <button class="btn btn-danger btn-link btn-sm" rel="tooltip" title="Delete" type="submit"><i class="material-icons">close</i></button>
+                                      <button class="btn btn-danger  btn-sm" rel="tooltip" title="Delete" type="submit"><i class="material-icons">close</i></button>
 
                                     </form>
                                 
@@ -179,6 +179,10 @@
 
 @push('js')
     <script>
+       $(document).ready(function(){
+        $('table').DataTable();
+
+      })
         $(document).ready(function(){
 
           $('.select2').select2();

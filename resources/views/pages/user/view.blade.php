@@ -23,7 +23,7 @@
 
           <div class="card-body">
             <div class="table-responsive">
-              <table class="table" id="userList">
+              <table class="table table-striped" id="userList">
                 <thead class=" text-primary">
                   <th>ID</th>
                   <th>Image</th>
@@ -32,7 +32,7 @@
                   <th>Role</th>
                   <th>Company</th>
                   <th>Status</th>
-                  <th>Action</th>
+                  <th class="table_action">Action</th>
                 </thead>
                 <tbody>
  
@@ -70,25 +70,25 @@
                                 </td>
                                 <td>
                                   @if ($user->status)
-                                  <span class="badge badge-success">Active</span>
+                                  <span class="btn btn-sm btn-success">Active</span>
                                   @else 
-                                  <span class="badge badge-danger">Inactive</span>
+                                  <span class="btn btn-sm btn-danger">Inactive</span>
                                   @endif
                                     
                                 </td>
 
                                 <td>
                                  
-                                    <a class="btn btn-primary btn-link btn-sm" rel="tooltip" @if ($userCheck->role_id != 1 && $user->userRole->role->id ==1 )
+                                    <a class="btn btn-primary  btn-sm" rel="tooltip" @if ($userCheck->role_id != 1 && $user->userRole->role->id ==1 )
                                       style="display: none"
                                     @endif  title="Edit" href="{{route('user.edit', $user->id)}}"><i class="material-icons">edit</i></a>
 
-                                    <form class="deleteUserForm" method="post">
+                                    <form style="display: inline-block" class="deleteUserForm" method="post">
                                       @csrf
                                       @method('delete')
                                       <input type="hidden" class="deleteId" name="id" value="{{$user->id}}">
 
-                                      <button class="btn btn-danger btn-link btn-sm" rel="tooltip" title="Delete" type="submit"><i class="material-icons">close</i></button>
+                                      <button class="btn btn-danger  btn-sm" rel="tooltip" title="Delete" type="submit"><i class="material-icons">close</i></button>
 
                                     </form>
 

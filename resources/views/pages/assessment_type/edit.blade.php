@@ -7,7 +7,6 @@
 
       <div class="row">
         <div class="col-md-12">
-          {{-- action="{{ route('assessmentType.update', $assessmentType->id) }}" --}}
           <form method="post" id="assessmentTypeUpdateForm"  autocomplete="off" class="form-horizontal">
             @csrf
             @method('PUT')
@@ -34,7 +33,7 @@
               </div>
               <div class="card-body ">
 
-                <div style="display: none" class="alert alert-success">
+                <div class="alert">
                   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <i class="material-icons">close</i>
                   </button>
@@ -46,6 +45,7 @@
                   <div class="col-sm-7">
                     <div class="form-group">
                       <input class="form-control" name="name" id="input-name" type="text" placeholder="{{ __('Name') }}" value="{{$assessmentType->name}}" required="true" aria-required="true"/>
+                      <small class="error name-error text-danger "></small>
                     </div>
                   </div>
                 </div>
@@ -68,6 +68,7 @@
 
                         <input type="radio" name="status" value="0" @if ($assessmentType->status == 0) checked @endif id="inactive-status">
                         <label for="inactive-status">Inactive</label>
+                        <small class="error status-error text-danger "></small>
                       </div>
                     </div>
                 </div>
@@ -104,26 +105,44 @@
             contentType: false,
             type: 'POST',
             success:function(response){
-                console.log(response);
-                Toast.fire({
+
+
+              if(response.status){
+
+                 Toast.fire({
                     type: 'success',
                     title: response.message
                 })
 
-                $('.alert-success').show();
-                $('.alert-message').html(response.message);
-           
+                $("#assessmentTypeUpdateForm").find(".alert").removeClass("alert-danger");
+								$("#assessmentTypeUpdateForm").find(".alert").addClass("alert-success");
+								$("#assessmentTypeUpdateForm").find(".alert-message").html(response.message);
+                $("#assessmentTypeUpdateForm").find(".error").html("");
+              }
+
 
             },
-            error:function(error){
-                console.log(error);
-            
-                Toast.fire({
-                    type: 'error',
-                    title: 'Server error!'
-                })
+            error:function(xhr, status, error){
+                
+              var	responseText = jQuery.parseJSON(xhr.responseText);
 
-                $('.alert-success').hide();
+              Toast.fire({
+									type: 'error',
+									title: responseText.message
+								})
+                
+								$("#assessmentTypeUpdateForm").find(".alert").removeClass("alert-success");
+								$("#assessmentTypeUpdateForm").find(".alert").addClass("alert-danger");
+								$("#assessmentTypeUpdateForm").find(".alert-message").html(responseText.message);
+
+                if(responseText.errors){
+                  $.each(responseText.errors, function (key, val) {
+                    $("." + key + "-error").text(val[0]);
+                  });
+                }
+
+                $('.save-btn').show();
+                $('.create-btn').hide();
              
             }
         })

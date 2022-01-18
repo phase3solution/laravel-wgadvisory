@@ -94,16 +94,17 @@ class UserController extends Controller
     {
         $validate=  Validator::make($request->all(),[
             'name'=>'required',
-            'email'=> 'required',
+            'email'=> 'required|unique:users|email',
             'password'=> 'required',
             'confirm_password'=> 'required_with:password|same:password',
-            'role_id'=>'required'
+            'role_id'=>'required',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ]);
 
         if($validate->fails()){
             $data['status'] = false;
-            $data['message'] = "Validation error!";
-            $data['errors'] = "";
+            $data['message'] = "Please enter all valid input";
+            $data['errors'] = $validate->errors();
             return response()->json($data, 400);
         }else{
 
@@ -155,7 +156,7 @@ class UserController extends Controller
            }else{
 
                 $data['status'] = false;
-                $data['message'] = "Server error!";
+                $data['message'] = "User create failed. Please try again";
                 $data['errors'] = '';
                 return response()->json($data, 500);
            }
@@ -196,16 +197,20 @@ class UserController extends Controller
         }
     }
 
-    public function update(Request $request,$id)
+    public function update(Request $request, $id)
     {
         $validate=  Validator::make($request->all(),[
             'name'=>'required',
+            'email'=> 'required|email|unique:users,email,'.$id,
+            'role_id'=>'required',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+
         ]);
 
         if($validate->fails()){
             $data['status'] = false;
-            $data['message'] = "Validation error!";
-            $data['errors'] = "";
+            $data['message'] = "Please enter all valid input.";
+            $data['errors'] = $validate->errors();
             return response()->json($data, 400);
         }else{
             $user = User::find($id);
@@ -278,26 +283,20 @@ class UserController extends Controller
                     }
 
 
-                    $data['status'] = false;
+                    $data['status'] = true;
                     $data['message'] = "User updated successfully!";
-                    $data['errors'] = "";
                     return response()->json($data, 200);
                }else{
                     $data['status'] = false;
-                    $data['message'] = "Server error!";
-                    $data['errors'] = "";
+                    $data['message'] = "Failed to update user. Please try again.";
                     return response()->json($data, 500);
                }
 
             }else{
                 $data['status'] = false;
                 $data['message'] = "User not found!";
-                $data['errors'] = "";
                 return response()->json($data, 404);
             }
-
-
-
         }
     }
 
@@ -306,15 +305,15 @@ class UserController extends Controller
         
         $validate=  Validator::make($request->all(),[
             'id' => 'required',
-            'password'=> 'required',
+            'password'=> 'required|min:8|max:20',
             'confirm_password'=> 'required_with:password|same:password',
         ]);
 
         if($validate->fails()){
 
             $data['status'] = false;
-            $data['message'] = "Validation error!";
-            $data['errors'] = "";
+            $data['message'] = "Please enter all valid input.";
+            $data['errors'] = $validate->errors();
             return response()->json($data, 400);
         }else{
 
@@ -328,8 +327,7 @@ class UserController extends Controller
                 return response()->json($data, 200);
            }else{
                 $data['status'] = false;
-                $data['message'] = "Server error!";
-                $data['errors'] = "";
+                $data['message'] = "Failed to updated password. Please try again.";
                 return response()->json($data, 500);
            }
 

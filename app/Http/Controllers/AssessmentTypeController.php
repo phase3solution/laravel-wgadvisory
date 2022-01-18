@@ -35,16 +35,16 @@ class AssessmentTypeController extends Controller
     public function store(Request $request)
     {
         $validate=  Validator::make($request->all(),[
-            'name'=>'required',
+            'name'=>'required|unique:assessment_types',
             'description'=> 'nullable',
-            'status'=> 'nullable'
+            'status'=> 'required'
         ]);
 
         if($validate->fails()){
 
             $data['status'] = false;
-            $data['message'] = "Validation error!";
-            $data['errors'] = "";
+            $data['message'] = "Please enter all valid input.";
+            $data['errors'] = $validate->errors();
             return response()->json($data, 400);
 
         }else{
@@ -57,13 +57,12 @@ class AssessmentTypeController extends Controller
             $assessmentType->created_by = Auth::id();
 
            if( $assessmentType->save()){
-                $data['status'] = false;
+                $data['status'] = true;
                 $data['message'] = "Assessment type created successfully!";
                 return response()->json($data, 200);
            }else{
                 $data['status'] = false;
-                $data['message'] = "Server error!";
-                $data['errors'] = "";
+                $data['message'] = "Failed to create assessment type. Please try again.";
                 return response()->json($data, 500);
            }
 
@@ -94,15 +93,15 @@ class AssessmentTypeController extends Controller
     {
 
         $validate=  Validator::make($request->all(),[
-            'name'=>'required',
+            'name'=>'required|unique:assessment_types,name,'.$assessmentTypeId,
             'description'=> 'nullable',
             'status'=> 'required'
         ]);
 
         if($validate->fails()){
             $data['status'] = false;
-            $data['message'] = "Validation error!";
-            $data['errors'] = "";
+            $data['message'] = "Please enter all valid input.";
+            $data['errors'] = $validate->errors();
             return response()->json($data, 400);
         }else{
 
@@ -115,20 +114,18 @@ class AssessmentTypeController extends Controller
                 $assessmentType->updated_by = Auth::id();
 
                if( $assessmentType->save()){
-                    $data['status'] = false;
+                    $data['status'] = true;
                     $data['message'] = "Assessment type updated successfully!";
                     return response()->json($data, 200);
                }else{
                     $data['status'] = false;
-                    $data['message'] = "Server error!";
-                    $data['errors'] = "";
+                    $data['message'] = "Failed to update assessment type. Please try again.";
                     return response()->json($data, 500);
                }
 
             }else{
                 $data['status'] = false;
                 $data['message'] = "Assessment type not found!";
-                $data['errors'] = "";
                 return response()->json($data, 404);
             }
 

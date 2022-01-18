@@ -218,16 +218,17 @@ class CompanyController extends Controller
     public function store(Request $request)
     {
         $validate=  Validator::make($request->all(),[
-            'name'=>'required',
+            'name'=>'required|unique:companies',
             'description'=> 'nullable',
-            'status'=> 'required'
+            'status'=> 'required',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ]);
 
         if($validate->fails()){
 
             $data['status'] = false;
-            $data['message'] = "Validation error!";
-            $data['errors'] = "";
+            $data['message'] = "Please enter all valid input.";
+            $data['errors'] = $validate->errors();
             return response()->json($data, 400);
 
         }else{
@@ -263,10 +264,9 @@ class CompanyController extends Controller
 
            }else{
 
-            $data['status'] = false;
-            $data['message'] = "Server error!";
-            $data['errors'] = "";
-            return response()->json($data, 500);
+                $data['status'] = false;
+                $data['message'] = "Failed to create company. Please try again.";
+                return response()->json($data, 500);
 
            }
 
@@ -294,17 +294,18 @@ class CompanyController extends Controller
     public function update(Request $request, $companyId)
     {
         $validate=  Validator::make($request->all(),[
-            'name'=>'required',
+            'name'=>'required|unique:companies,name,'.$companyId,
             'description'=> 'nullable',
-            'status'=> 'required'
+            'status'=> 'required',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ]);
 
         if($validate->fails()){
 
 
             $data['status'] = false;
-            $data['message'] = "Validation error!";
-            $data['errors'] = "";
+            $data['message'] = "Please enter all valid input.";
+            $data['errors'] = $validate->errors();
             return response()->json($data, 400);
 
 
@@ -345,8 +346,7 @@ class CompanyController extends Controller
                }else{
 
                     $data['status'] = false;
-                    $data['message'] = "Server error!";
-                    $data['errors'] = "";
+                    $data['message'] = "Failed to update company. Please try again.";
                     return response()->json($data, 500);
 
                }
@@ -354,7 +354,6 @@ class CompanyController extends Controller
             }else{
                 $data['status'] = false;
                 $data['message'] = "Company not found!";
-                $data['errors'] = "";
                 return response()->json($data, 404);
             }
 
