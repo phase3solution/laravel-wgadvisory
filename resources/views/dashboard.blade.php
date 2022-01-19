@@ -8,6 +8,7 @@
 
 
 @section('content')
+
   <div class="content">
     <div class="container-fluid">
       <div class="row">
@@ -521,8 +522,11 @@
   </script>
 
 
+
 <script>
+
   $(document).ready(function() {
+
       // page is now ready, initialize the calendar...
       $('#calendar').fullCalendar({
           // put your options and callbacks here

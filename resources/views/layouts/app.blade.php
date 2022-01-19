@@ -22,37 +22,13 @@
     <link href="{{ asset('material') }}/demo/demo.css" rel="stylesheet" />
     <link href="{{ asset('backend') }}/css/style.css" rel="stylesheet" />
     <link href="{{ asset('backend') }}/css/custom.css" rel="stylesheet" />
+    <link href="{{ asset('backend') }}/css/loader.css" rel="stylesheet" />
 
     @yield('style')
 
     @stack('css')
 
-      <style>
-          .ph3-loader {
-            border: 4px  solid #f3f3f3;
-            border-radius: 50%;
-            border-top: 4px  solid #007bff;
-            border-right: 4px  solid #007bff;
-            border-bottom: 4px  solid #007bff;
-            width: 30px;
-            height: 30px;
-            -webkit-animation: spin 2s linear infinite; /* Safari */
-            animation: spin 0.6s linear infinite;
-          }
-
-          /* Safari */
-          @-webkit-keyframes spin {
-            0% { -webkit-transform: rotate(0deg); }
-            100% { -webkit-transform: rotate(360deg); }
-          }
-
-          @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-          }
-      </style>
-    
-
+  
     </head>
     <body class="{{ $class ?? '' }}">
 
@@ -175,10 +151,16 @@
         <!-- Material Dashboard DEMO methods, don't include it in your project! -->
         <script src="{{ asset('material') }}/demo/demo.js"></script>
         <script src="{{ asset('material') }}/js/settings.js"></script>
+        <script src="{{asset('backend/js/loader.js')}}"></script>
+
+
+        
         @stack('js')
         @yield('script')
 
         <script src="{{ asset('backend/js/ajax_script.js')}}"></script>
+
+
 
     </body>
 </html>
