@@ -30,6 +30,9 @@ class Assessment extends Model
     public function company(){
         return $this->hasOne(CompanyAssessmentType::class, "assessment_id", "id");
     }
+    public function assignCompany(){
+        return $this->hasOne(CompanyAssessmentType::class, "assessment_id", "id");
+    }
 
 
     public function bcpResult(){

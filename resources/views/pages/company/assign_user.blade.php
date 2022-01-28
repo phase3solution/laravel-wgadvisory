@@ -165,7 +165,7 @@
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary submitBtn">Save</button>
+                <button type="submit" class="btn btn-primary submitBtn">Save <span class="ph3-loading-button"><i class="fa fa-spinner fa-spin"></i></span> </button>
             </div>
         </form>
 
@@ -197,7 +197,7 @@
                 $('#company_id').val(company_id);
                 $('#user_id').val(user_id);
                 $("input[name=status][value='"+status_id+"']").prop("checked",true);
-                $('.submitBtn').html("Save changes");
+                $('.submitBtn').html('Save changes <span class="ph3-loading-button"><i class="fa fa-spinner fa-spin"></i></span>');
 
                 $('.select2').select2().trigger('change');
 
@@ -211,8 +211,11 @@
                 type: "POST",
                 url: "{{route('company-user-insert')}}",
                 data:formData,
+                beforeSend: function() {
+									$("#companyUserInsertForm").find(".ph3-loading-button").show();
+						    },
                 success:function(response){
-
+                  $("#companyUserInsertForm").find(".ph3-loading-button").hide();
                   console.log(response);
                   Toast.fire({
                       type: 'success',
@@ -226,10 +229,11 @@
 
                 },
                 error:function(error){
+                  $("#companyUserInsertForm").find(".ph3-loading-button").hide();
                   console.log(error);
                   Toast.fire({
                       type: 'error',
-                      title: 'Server error!'
+                      title: 'Something went wrong. Please try again!'
                   })
                 }
               })

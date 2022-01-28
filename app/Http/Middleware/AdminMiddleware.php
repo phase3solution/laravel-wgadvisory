@@ -15,10 +15,11 @@ class AdminMiddleware
         if(Auth::check()){
             $userCheck = \App\Models\UserRole::where('user_id',Auth::id() )->first();
             
-            if($userCheck->role_id == 3){
-                return redirect()->route('dashboard');
-            }else{
+            if($userCheck->role_id == 1 || $userCheck->role_id == 2){
                 return $next($request); 
+            }else{
+                return redirect()->route('home');
+               
             }
 
         }else{

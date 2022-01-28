@@ -71,7 +71,7 @@ class SigninController extends Controller
     
     
                     $data['status'] = true;
-                    $data['message'] = "Login successfully.";
+                    $data['message'] = "Sign in successfully.";
                     return response()->json($data, 200);
                 }else{
     

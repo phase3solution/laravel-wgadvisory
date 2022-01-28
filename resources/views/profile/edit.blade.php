@@ -47,7 +47,7 @@
                 </div>
               </div>
               <div class="card-footer">
-                <button type="submit" class="btn btn-success">{{ __('Update Profile') }}</button>
+                <button type="submit" class="btn btn-success">{{ __('Update Profile') }} <span class="ph3-loading-button"><i class="fa fa-spinner fa-spin"></i></span> </button>
               </div>
             </div>
           </form>
@@ -115,7 +115,7 @@
                 </div>
               </div>
               <div class="card-footer">
-                <button type="submit" class="btn btn-success">{{ __('Change password') }}</button>
+                <button type="submit" class="btn btn-success">{{ __('Change password') }} <span class="ph3-loading-button"><i class="fa fa-spinner fa-spin"></i></span></button>
               </div>
             </div>
           </form>
@@ -142,8 +142,11 @@
             type:"post",
             url:"{{route('profile.update')}}",
             data: formData,
+            beforeSend: function() {
+									$("#profileUpdateForm").find(".ph3-loading-button").show();
+						},
             success:function(response){
-
+              $("#profileUpdateForm").find(".ph3-loading-button").hide();
               if(response.status){
                 Toast.fire({
                     type: 'success',
@@ -160,7 +163,7 @@
 
             },
             error:function(xhr, status, error){
-								
+              $("#profileUpdateForm").find(".ph3-loading-button").hide();
                 var	responseText = jQuery.parseJSON(xhr.responseText);
 
 								Toast.fire({
@@ -194,8 +197,11 @@
             type:"post",
             url:"{{route('update.password')}}",
             data: formData,
+            beforeSend: function() {
+									$("#passwordUpdateForm").find(".ph3-loading-button").show();
+						},
             success:function(response){
-
+              $("#passwordUpdateForm").find(".ph3-loading-button").hide();
               if(response.status){
                 Toast.fire({
                     type: 'success',
@@ -221,7 +227,7 @@
 
             },
             error:function(xhr, status, error){
-								
+              $("#passwordUpdateForm").find(".ph3-loading-button").hide();
                 var	responseText = jQuery.parseJSON(xhr.responseText);
 
 								Toast.fire({

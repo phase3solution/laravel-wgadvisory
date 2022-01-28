@@ -40,12 +40,15 @@
     				<small id="checkme" class="error"></small>
     			</div>
     			<div class="form-field">
-    				<button type="submit" class="btn btn-login">Sign In</button>
+    				<button type="submit" class="btn btn-login">Sign In  <span class="ph3-loading-button"><i class="fa fa-spinner fa-spin"></i></span>  </button>
     			</div>
     		</form>
     		<div class="terms">
-    			By accessing this portal, you are agreeing to these <a href="#">Terms of Use</a>.
+    			By accessing this portal, you are agreeing to these <a href="javascript:void(0)" id="myModalBtn" >Terms of Use</a>.
     		</div>
+
+			
+
 	    </div>
 		
 		<div class="form-footer">
@@ -53,7 +56,11 @@
 				<img src="{{asset('login/media/login-logo.png')}}" alt="encaselogo">
 			</div>
 		</div>
+
+		
 	</div>
+
+	
 @endsection
 	
 	@section('authScript')
@@ -81,8 +88,11 @@
 								type:"POST",
 								url: "{{route('signinCheck')}}",
 								data: $("#signinForm").serialize(),
+								beforeSend: function() {
+									$("#signinForm").find(".ph3-loading-button").show();
+								},
 								success:function(response){
-
+									$("#signinForm").find(".ph3-loading-button").hide();
 									Toast.fire({
 										type: 'success',
 										title: response.message
@@ -94,13 +104,14 @@
 									$(".alert").show();
 
 									setTimeout(function(){
-										window.location.href = "{{route('dashboard')}}";
+										window.location.href = "{{route('home')}}";
 
 									},200)
 
 
 								},
 								error:function(xhr, status, error){
+									$("#signinForm").find(".ph3-loading-button").hide();
 									var	responseText = jQuery.parseJSON(xhr.responseText);
 
 									Toast.fire({

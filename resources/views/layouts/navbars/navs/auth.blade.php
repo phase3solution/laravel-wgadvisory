@@ -16,8 +16,8 @@
 
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link" href="{{ route('home') }}">
-            <i class="material-icons">dashboard</i>
+          <a class="nav-link" target="_blank" href="{{ route('home') }}">
+            <i class="material-icons">home</i>
             <p class="d-lg-none d-md-block">
               {{ __('Stats') }}
             </p>
@@ -61,7 +61,7 @@
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="{{ route('profile.edit') }}">{{ __('Profile') }}</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">{{ __('Log out') }}</a>
+            <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">{{ __('Sign out') }}</a>
           </div>
         </li>
       </ul>

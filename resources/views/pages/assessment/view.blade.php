@@ -64,7 +64,7 @@
                                     
                                 </td>
                                 <td>
-                                    <a class="btn btn-info btn-sm" title="Add" href="{{url('edit-assessment', $assessment->id)}}"><i class="material-icons">playlist_add</i></a>
+                                    <a class="btn btn-info btn-sm" title="Details" href="{{url('edit-assessment', $assessment->id)}}"><i class="material-icons">playlist_add</i></a>
                                     <a class="btn btn-primary btn-sm" title="Edit" href="{{url('assessment-parent-edit', $assessment->id)}}"> <i class="material-icons">edit</i></a> 
                                    
                                     {{-- <a class="btn btn-danger btn-sm" title="Delete" href="{{route('deleteParent',$assessment->id)}}" ><i class="material-icons">close</i></a> --}}

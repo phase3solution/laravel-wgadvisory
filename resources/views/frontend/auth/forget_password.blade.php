@@ -24,11 +24,11 @@
     		</div>
     
     		<div class="form-field ">
-    			<button type="submit" class="btn btn-login">Submit</button>
+    			<button type="submit" class="btn btn-login">Submit <span class="ph3-loading-button"><i class="fa fa-spinner fa-spin"></i></span></button>
     		</div>
     	</form>
     	<div class="terms">
-    		By accessing this portal, you are agreeing to these <a href="#">Terms of Use</a>.
+			By accessing this portal, you are agreeing to these <a href="javascript:void(0)" id="myModalBtn" >Terms of Use</a>.
     	</div>
 	</div>
 	
@@ -69,8 +69,11 @@
 							type:"POST",
 							url: "{{route('passwordForget')}}",
 							data: $('#foregtPasswordForm').serialize(),
+							beforeSend: function() {
+								$("#foregtPasswordForm").find(".ph3-loading-button").show();
+							},
 							success:function(response){
-
+								$("#foregtPasswordForm").find(".ph3-loading-button").hide();
 								if(response.status == true){
 
 									$(".alert").removeClass("danger");
@@ -108,6 +111,7 @@
 
 							},
 							error:function(xhr, status, error){
+								$("#foregtPasswordForm").find(".ph3-loading-button").hide();
 								var	responseText = jQuery.parseJSON(xhr.responseText);
 
 								Toast.fire({

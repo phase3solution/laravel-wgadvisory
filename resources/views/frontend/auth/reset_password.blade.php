@@ -32,11 +32,11 @@
             </div>
       
             <div class="form-field">
-                <button type="submit" class="btn btn-login">Sign In</button>
+                <button type="submit" class="btn btn-login">Submit <span class="ph3-loading-button"><i class="fa fa-spinner fa-spin"></i></span></button>
             </div>
         </form>
         <div class="terms">
-            By accessing this portal, you are agreeing to these <a href="#">Terms of Use</a>.
+			By accessing this portal, you are agreeing to these <a href="javascript:void(0)" id="myModalBtn" >Terms of Use</a>.
         </div>
     </div>
     
@@ -49,46 +49,7 @@
 
 
 @endsection
-		{{-- <div class="item right">
-			<div class="login-form">
-
-                <form class="form" method="POST" id="resetPasswordForm" >
-                    @csrf
-
-                    <h3 class="title">
-						<i class="fa fa-lg fa-fw fa-user"></i>Reset Password
-					</h3>
-					
-					<div class="inner-wrap">
-
-							<div class="form-group">
-								<label>New Password <span class="text-danger">*</span> </label>
-								<input class="form-control" required type="password" name="password" placeholder="*******">
-								<label class="password-error error"></label>
-
-							</div>
-
-							<div class="form-group">
-								<label>Confirm Password <span class="text-danger">*</span> </label>
-								<input class="form-control" required type="password" name="password_confirmation" placeholder="*******">
-								<label class="password_confirmation-error error"></label>
-							</div>
-
-
-
-						<label id="checkme"> <a href="{{route('signin')}}">Signin ?</a> </label>
-					
-						<button type="submit" id="kt_login_signup_submit" class="btn btn-primary font-weight-bold btn-block">Submit</button>
-						<p>By accessing this portal, you are agreeing to these <a href="#">Terms of Use</a>.</p>
-					</div>
-					<div class="footer-logo">
-						<img src="{{asset('frontend')}}/assets/img/loginLogo.png" alt="">
-					</div>
-				</form>
-
-
-			</div>
-		</div> --}}
+	
 	
 
 @section('authScript')
@@ -126,7 +87,11 @@
 							type:"POST",
 							url: "{{route('passwordReset')}}",
 							data: $('#resetPasswordForm').serialize(),
+							beforeSend: function() {
+								$("#resetPasswordForm").find(".ph3-loading-button").show();
+							},
 							success:function(response){
+								$("#resetPasswordForm").find(".ph3-loading-button").hide();
 
 								if(response.status == true){
 
@@ -163,6 +128,7 @@
 
 							},
 							error:function(xhr, status, error){
+								$("#resetPasswordForm").find(".ph3-loading-button").hide();
 								var	responseText = jQuery.parseJSON(xhr.responseText);
 
 								Toast.fire({

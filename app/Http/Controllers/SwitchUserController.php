@@ -16,13 +16,13 @@ class SwitchUserController extends Controller
 		$new_user = User::find( $id );
 		if ( empty($old_user) ) Session::put('old_user', Auth::id());
 		Auth::login( $new_user );
-		return Redirect::route('dashboard');
+		return Redirect::route('home');
     }
     public function switchToAdmin() {
 		$id = Session::get('old_user');
 		$old_user = User::find( $id );
 		Session::remove('old_user');
 		Auth::login( $old_user );
-		return Redirect::route('dashboard');
+		return Redirect::route('home');
     }
 }

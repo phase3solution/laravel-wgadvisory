@@ -62,6 +62,7 @@
                 "_token": "{{ csrf_token() }}",
                 "assessmentId" : assessmentId,
               },
+              
               success:function(response){
                 $('.assessmentRow').append(response);
 

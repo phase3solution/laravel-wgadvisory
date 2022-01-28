@@ -185,6 +185,7 @@ class CybersecurityMaturityResultController extends Controller
         if($assessment){
 
             $assessment->status = 5;
+            $assessment->published_at = date("Y-m-d H:s:i");
             
             if($assessment->save()){
                 $data['status'] = true;

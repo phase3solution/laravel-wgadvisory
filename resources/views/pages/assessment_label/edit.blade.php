@@ -94,7 +94,7 @@
 
               </div>
               <div class="card-footer">
-                <button type="submit" class="btn btn-primary">{{ __('Update') }}</button>
+                <button type="submit" class="btn btn-primary">{{ __('Update') }} <span class="ph3-loading-button"><i class="fa fa-spinner fa-spin"></i></span></button>
               </div>
             </div>
           </form>
@@ -126,8 +126,11 @@
             processData: false,
             contentType: false,
             type: 'POST',
+            beforeSend: function() {
+									$("#assessmentLabelUpdateForm").find(".ph3-loading-button").show();
+						},
             success:function(response){
-                console.log(response);
+              $("#assessmentLabelUpdateForm").find(".ph3-loading-button").hide();
                 Toast.fire({
                     type: 'success',
                     title: response.message
@@ -139,6 +142,7 @@
 
             },
             error:function(error){
+              $("#assessmentLabelUpdateForm").find(".ph3-loading-button").hide();
                 console.log(error);
             
                 Toast.fire({

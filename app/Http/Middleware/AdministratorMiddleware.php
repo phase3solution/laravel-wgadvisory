@@ -14,7 +14,7 @@ class AdministratorMiddleware
         if(Auth::check()){
             $userCheck = \App\Models\UserRole::where('user_id',Auth::id() )->first();
             
-            if($userCheck->role_id == 1){
+            if($userCheck->role_id == 1){ //Advisor Role = 1
                 return $next($request); 
             }else{
                 return redirect()->back();

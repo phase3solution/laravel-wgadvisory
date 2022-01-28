@@ -21,7 +21,7 @@
   <div class="sidebar-wrapper">
     <ul class="nav">
       <li class="nav-item dashboard {{ $activePage == 'dashboard' ? ' active' : '' }}">
-        <a class="nav-link" href="{{ route('home') }}">
+        <a class="nav-link" href="{{ route('dashboard') }}">
           <i class="material-icons"><img src="{{asset('backend')}}/img/sidebar-menu-icons/dashboard.png"></i>
             <p>{{ __('Dashboard') }}</p>
         </a>

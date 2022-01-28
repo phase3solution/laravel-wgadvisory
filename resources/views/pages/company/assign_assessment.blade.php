@@ -175,7 +175,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary submitBtn">Save</button>
+                <button type="submit" class="btn btn-primary submitBtn">Save <span class="ph3-loading-button"><i class="fa fa-spinner fa-spin"></i></span></button>
             </div>
         </form>
 
@@ -212,7 +212,7 @@
                 $('#assessment_id  option[value="' +assessment_id+ '"]').prop('selected', true);
                 $("input[name=status][value='"+statusValue+"']").prop("checked",true);
 
-                $('.submitBtn').html("Save changes");
+                $('.submitBtn').html('Save changes <span class="ph3-loading-button"><i class="fa fa-spinner fa-spin"></i></span>');
 
                 $('.select2').select2().trigger('change');
 
@@ -253,8 +253,11 @@
                 type: "POST",
                 url: "{{route('company-assessment-insert')}}",
                 data:formData,
+                beforeSend: function() {
+									$("#companyAssessmentInsertForm").find(".ph3-loading-button").show();
+						    },
                 success:function(response){
-
+                  $("#companyAssessmentInsertForm").find(".ph3-loading-button").hide();
                   console.log(response);
                   Toast.fire({
                       type: 'success',
@@ -268,10 +271,11 @@
 
                 },
                 error:function(error){
+                  $("#companyAssessmentInsertForm").find(".ph3-loading-button").hide();
                   console.log(error);
                   Toast.fire({
                       type: 'error',
-                      title: 'Server error!'
+                      title: 'Someting went wrong. Please try again!'
                   })
                 }
               })

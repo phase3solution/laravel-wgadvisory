@@ -111,6 +111,7 @@ class RoleController extends Controller
             if($role){
 
                 $role->name = $request->name;
+                $role->slug = Str::slug($request->input('name'), "-");
                 $role->description = $request->description;
                 $role->status = $request->status;
 

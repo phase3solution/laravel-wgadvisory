@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 class BcpAssessmentResultController extends Controller
 {
+
+    
     
     public function index()
     {
@@ -151,6 +153,7 @@ class BcpAssessmentResultController extends Controller
         if($assessment){
 
             $assessment->status = 5;
+            $assessment->published_at = date("Y-m-d H:s:i");
             
             if($assessment->save()){
                 $data['status'] = true;

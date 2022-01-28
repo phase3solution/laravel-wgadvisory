@@ -122,3 +122,10 @@
       transform: rotate(360deg);
     }
   }
+
+
+  /* Loading Button */
+
+  .ph3-loading-button {
+    display: none;
+  }

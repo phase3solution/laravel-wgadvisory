@@ -74,7 +74,7 @@
 
 
               <div class="card-footer">
-                <button type="submit" class="btn btn-primary save-btn">{{ __('Save') }}</button>
+                <button type="submit" class="btn btn-primary save-btn">{{ __('Save') }} <span class="ph3-loading-button"><i class="fa fa-spinner fa-spin"></i></span></button>
                 <a class="btn btn-success create-btn" style="display: none" href="">Create New</a>
 
 
@@ -103,8 +103,11 @@
             processData: false,
             contentType: false,
             type: 'POST',
+            beforeSend: function() {
+									$("#roleCreateForm").find(".ph3-loading-button").show();
+						},
             success:function(response){
-
+              $("#roleCreateForm").find(".ph3-loading-button").hide();
               if(response.status){
 
                 Toast.fire({
@@ -127,6 +130,8 @@
 
             },
             error:function(xhr, status, error){
+
+              $("#roleCreateForm").find(".ph3-loading-button").hide();
 
                 $('.save-btn').show();
                 $('.create-btn').hide();

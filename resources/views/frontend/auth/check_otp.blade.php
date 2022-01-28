@@ -26,11 +26,11 @@
                 </div>
     
                 <div class="form-field">
-                    <button type="submit" class="btn btn-login">Submit OTP</button>
+                    <button type="submit" class="btn btn-login">Submit OTP <span class="ph3-loading-button"><i class="fa fa-spinner fa-spin"></i></span></button>
                 </div>
             </form>
             <div class="terms">
-                By accessing this portal, you are agreeing to these <a href="#">Terms of Use</a>.
+    			By accessing this portal, you are agreeing to these <a href="javascript:void(0)" id="myModalBtn" >Terms of Use</a>.
             </div>
         </div>
         
@@ -74,8 +74,11 @@
 							type:"POST",
 							url: "{{route('otpCheck')}}",
 							data: $('#otpCheckForm').serialize(),
+							beforeSend: function() {
+								$("#otpCheckForm").find(".ph3-loading-button").show();
+							},
 							success:function(response){
-
+								$("#otpCheckForm").find(".ph3-loading-button").hide();
 								if(response.status == true){
 
 									$(".alert").removeClass("danger");
@@ -113,7 +116,7 @@
 
 							},
 							error:function(xhr, status, error){
-
+								$("#otpCheckForm").find(".ph3-loading-button").hide();
 								var	responseText = jQuery.parseJSON(xhr.responseText);
 								Toast.fire({
 									type: 'error',

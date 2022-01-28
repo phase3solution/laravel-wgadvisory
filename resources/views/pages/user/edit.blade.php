@@ -153,7 +153,7 @@
 
               </div>
               <div class="card-footer">
-                <button type="submit" class="btn btn-primary">{{ __('Update') }}</button>
+                <button type="submit" class="btn btn-primary">{{ __('Update') }} <span class="ph3-loading-button"><i class="fa fa-spinner fa-spin"></i></span></button>
               </div>
             </div>
           </form>
@@ -211,7 +211,7 @@
 
               </div>
               <div class="card-footer">
-                <button type="submit" class="btn btn-primary">{{ __('Change password') }}</button>
+                <button type="submit" class="btn btn-primary">{{ __('Change password') }} <span class="ph3-loading-button"><i class="fa fa-spinner fa-spin"></i></span></button>
               </div>
             </div>
 
@@ -243,8 +243,11 @@
             processData: false,
             contentType: false,
             type: 'POST',
+            beforeSend: function() {
+									$("#userUpdateForm").find(".ph3-loading-button").show();
+						},
             success:function(response){
-
+                $("#userUpdateForm").find(".ph3-loading-button").hide();
 
               if(response.status){
 
@@ -262,7 +265,7 @@
 
             },
             error:function(xhr, status, error){
-            
+              $("#userUpdateForm").find(".ph3-loading-button").hide();
               var	responseText = jQuery.parseJSON(xhr.responseText);
 
 								Toast.fire({
@@ -300,9 +303,12 @@
             processData: false,
             contentType: false,
             type: 'POST',
+            beforeSend: function() {
+									$("#updatePasswordForm").find(".ph3-loading-button").show();
+						},
             success:function(response){
 
-
+              $("#updatePasswordForm").find(".ph3-loading-button").hide();
               if(response.status){
 
                 Toast.fire({
@@ -327,7 +333,7 @@
 
             },
             error:function(xhr, status, error){
-            
+              $("#updatePasswordForm").find(".ph3-loading-button").hide();
               var	responseText = jQuery.parseJSON(xhr.responseText);
 
 								Toast.fire({

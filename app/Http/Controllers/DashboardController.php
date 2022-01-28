@@ -2,39 +2,54 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\UserCompany;
-use App\Models\UserRole;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Role;
+use App\Models\User;
+use App\Models\Assessment;
+use App\Models\AssessmentType;
+use App\Models\Company;
+use App\Models\LoginActivity;
+
 
 class DashboardController extends Controller
 {
-    public function index(){
-        $id = Auth::id();
 
-        $userRole = UserRole::where('user_id', $id)->first();
+    public function __construct()
+    {
+        $this->middleware('admin');
+    }
 
-        if($userRole){
 
-            if($userRole  ){
-                if($userRole->role_id == 3){
-                    // Company Check
-                    $userCompany = UserCompany::where('user_id', $id)->where('status', 1)->first();
-                    if($userCompany){
-                        return view('frontend.dashboards.a');
-                    }else{
-                        return view('frontend.dashboards.guest');
-                    }
-                    
-                }else{
-                    return view('frontend.dashboards.admin');
-                }
-            }else{
-                return redirect()->route('signin');
-            }
+    public function index()
+    {
+        $data['roles'] = Role::where('status',1)->get();
+        $data['users'] = User::where('status',1)->get();
 
-        }else{
-            return redirect()->route('signin');
-        }
+        $data['userList'] = User::with(array('userRole'=>function($q1){
+            $q1->with('role')->get();
+        }))
+        ->with(array('userCompany'=>function($q2){
+            $q2->with('company')->get();
+        }))
+        ->orderBy('id', 'desc')
+        ->limit(10)
+        ->get();
+
+        $data['assessments'] = AssessmentType::where('status', 1)->get();
+
+        $data['assessmentList'] = Assessment::with('company', 'assessmentType')->where('status', 1)->where('parent_id', 0)->limit(10)->get();
+
+
+        $data['companies'] = Company::where('status',1)->get();
+
+        $data['companyList'] = Company::with(array('userCompany'=>function($q4){
+            $q4->with('user')->get();
+        }))
+        ->orderBy('id', 'desc')
+        ->limit(10)
+        ->get();
+
+        $data['logs'] = LoginActivity::with('user')->orderBy('updated_at', 'desc')->paginate(10);
+
+        return view('dashboard', $data);
     }
 }

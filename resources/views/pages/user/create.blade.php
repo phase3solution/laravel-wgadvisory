@@ -159,7 +159,7 @@
 
               </div>
               <div class="card-footer ">
-                <button type="submit" class="btn btn-primary  save-btn">{{ __('Save') }}</button>
+                <button type="submit" class="btn btn-primary  save-btn">{{ __('Save') }} <span class="ph3-loading-button"><i class="fa fa-spinner fa-spin"></i></span></button>
                 <a class="btn btn-success create-btn" style="display: none" href="">Create New</a>
               </div>
             </div>
@@ -188,8 +188,12 @@
             processData: false,
             contentType: false,
             type: 'POST',
+            beforeSend: function() {
+									$("#createUserForm").find(".ph3-loading-button").show();
+						},
             success:function(response){
-                console.log(response);
+              $("#createUserForm").find(".ph3-loading-button").hide();
+                // console.log(response);
                 Toast.fire({
                     type: 'success',
                     title: response.message
@@ -206,7 +210,7 @@
             },
             error:function(xhr, status, error){
             
-          
+              $("#createUserForm").find(".ph3-loading-button").hide();
 
                 $('.save-btn').show();
                 $('.create-btn').hide();

@@ -25,6 +25,7 @@ use App\Http\Controllers\ItManagementResultController;
 use App\Http\Controllers\CloudReadinessResultController;
 use App\Http\Controllers\CybersecurityMaturityResultController;
 use App\Http\Controllers\CybersecurityMaturityRegisterResultController;
+use App\Http\Controllers\HomePageController;
 use App\Http\Controllers\SfiaCategoryController;
 use App\Http\Controllers\SfiaController;
 use App\Http\Controllers\SfiaResultController;
@@ -44,12 +45,20 @@ use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
 	if(Auth::check()){
-		return redirect()->route('dashboard');
+		return redirect()->route('home');
 	}else{
 		return redirect()->route('signin');
 	}
     
 });
+
+
+Auth::routes([
+	'login' => false,
+	'register'=>false,
+	'reset' => false,
+	'verify' => false,
+ ]);
 
 
 Route::get('/forget-password', [SigninController::class, 'forgetPasswordPage'])->name('forgetPasswordPage');
@@ -61,11 +70,16 @@ Route::post('/password-reset', [SigninController::class, 'passwordReset'])->name
 
 
 Route::get('/find-ip', [SigninController::class, 'ipCheck']);
-
 Route::get('/signin', [SigninController::class, 'signPage'])->name('signin');
 Route::post('/signout', [SigninController::class, 'signOut'])->name('signout');
 Route::post('/signin-check', [SigninController::class, 'signinCheck'])->name('signinCheck');
-Route::get('/home', [DashboardController::class, 'index'])->name('dashboard');
+
+
+// Admin Dashboard
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware('admin');
+
+// User Dashboard or Homepage
+Route::get('/home', [HomePageController::class, 'index'])->name('home')->middleware('auth');
 
 // User Profile
 Route::get('/user/profile/{id}', [ProfileController::class, 'profile'])->name('userProfile');
@@ -227,13 +241,6 @@ Route::get('/user/switch/{id}', [SwitchUserController::class, 'switchToUser'])->
 
 
 
-// Dashboard
-
-Auth::routes();
-Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('admin');
-Auth::routes();
-
-Route::get('/dashboard', 'App\Http\Controllers\HomeController@index')->name('home')->middleware('auth');
 
 Route::resource('role', RoleController::class)->middleware('administrator');
 Route::resource('assessmentType', AssessmentTypeController::class)->middleware('administrator');
@@ -259,7 +266,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('/assignAssessmentInsert', [CompanyController::class, 'assignAssessmentInsert'])->name('company-assessment-insert');
 	Route::post('/company-assessment-delete/{id}', [CompanyController::class, 'assignAssessmentDelete'])->name('company-assessment-delete');
 
-	Route::resource('assessmentLabel', AssessmentLabelController::class);
+	Route::resource('assessmentLabel', AssessmentLabelController::class)->middleware('administrator');
 
 	Route::resource('assessment', AssessmentController::class);
 
@@ -300,7 +307,7 @@ Route::group(['middleware' => 'auth'], function () {
 
 });
 
-Route::group(['middleware' => 'auth'], function () {
+Route::group(['middleware' => 'admin'], function () {
 	// Route::resource('user', 'App\Http\Controllers\UserController', ['except' => ['show']]);
 	Route::get('profile', ['as' => 'profile.edit', 'uses' => 'App\Http\Controllers\ProfileController@edit']);
 	Route::put('profile', ['as' => 'profile.update', 'uses' => 'App\Http\Controllers\ProfileController@update']);

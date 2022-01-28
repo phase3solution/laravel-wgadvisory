@@ -26,6 +26,7 @@ class CreateAssessmentsTable extends Migration
             $table->boolean('status')->default(true);
             $table->bigInteger('created_by')->nullable();
             $table->bigInteger('updated_by')->nullable();
+            $table->string('published_at')->nullable();
             $table->timestamps();
         });
     }
